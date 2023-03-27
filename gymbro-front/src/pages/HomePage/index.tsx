@@ -8,7 +8,6 @@ const HomePage = () => {
         <>
             <p>Bem-Vindo ao GymBro</p>
             <button onClick={() => {
-                console.log("Foi")
                 logout()
                 history.push('/login')
             }}>Sair</button>

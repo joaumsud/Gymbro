@@ -1,8 +1,9 @@
 import React from 'react';
 import { Route, Redirect, RouteProps, Switch } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import LoginPage from '../pages/LoginPage';
+import LoginPage from '../pages/LoginAndRegisterPage';
 import HomePage from '../pages/HomePage';
+import SignUpForm from '../components/FormSignUp';
 
 interface PrivateRouteProps extends RouteProps {
     component: React.ComponentType<any>;
@@ -25,7 +26,9 @@ const Routes: React.FC = () => {
     return (
         <Switch>
             <Route exact path="/login" component={LoginPage} />
-            <PrivateRoute exact path="/home" component={HomePage} />
+            <PrivateRoute exact path="/" component={HomePage} />
+            {/* <PrivateRoute exact path="/friends" component={} />
+            <PrivateRoute exact path="/perfil" component={} /> */}
         </Switch>
     );
 };

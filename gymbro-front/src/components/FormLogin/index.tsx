@@ -1,8 +1,20 @@
 import Link from '@mui/material/Link';
 import { Caixa, Form } from './styles';
+import { useHistory } from 'react-router-dom';
+import { InputsLoginDTO } from '../../models/Login';
+import { FieldErrors, SubmitHandler, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 
-const FormLogin = ({ register, handleSubmit, errors, onSubmit }) => {
-    console.log("Errors: ", errors.password)
+export interface FormLoginDTO {
+    register: UseFormRegister<InputsLoginDTO>;
+    handleSubmit: UseFormHandleSubmit<InputsLoginDTO>;
+    errors: FieldErrors<InputsLoginDTO>;
+    onSubmit: SubmitHandler<InputsLoginDTO>;
+    handleOpen: () => void;
+}
+
+const FormLogin = ({ register, handleSubmit, errors, onSubmit, handleOpen }: FormLoginDTO) => {
+    const history = useHistory()
+
     return (
         <>
             <Caixa>
@@ -48,7 +60,8 @@ const FormLogin = ({ register, handleSubmit, errors, onSubmit }) => {
 
                     <Link style={{
                         display: "block"
-                    }}>
+                    }}
+                        onClick={handleOpen}>
                         Cadastrar
                     </Link>
                     <Link style={{
