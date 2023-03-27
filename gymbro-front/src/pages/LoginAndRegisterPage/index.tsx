@@ -28,6 +28,8 @@ const LoginPage = () => {
 
     return (
         <>
+        <div
+        style={{backgroundColor: "rgba(253, 253, 150, 0.8)", display: "flex", justifyContent: "center", alignItems: "center", height:"100vh"}}> 
             <FormLogin
                 register={register}
                 handleSubmit={handleSubmit}
@@ -39,6 +41,7 @@ const LoginPage = () => {
                 open={open}
                 handleClose={handleClose}
             />
+            </div>
         </>
     );
 }

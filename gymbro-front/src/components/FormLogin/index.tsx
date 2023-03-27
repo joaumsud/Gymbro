@@ -39,14 +39,15 @@ const FormLogin = ({ register, handleSubmit, errors, onSubmit, handleOpen }: For
                         marginBottom: "15px",
                         borderRadius: "10px",
                         border: "0.25px solid rgba(54, 56, 46, 0.25)",
-                        boxShadow: "10px 5px 5px rgba(54, 56, 46, 0.25)"
+                        boxShadow: "10px 5px 5px rgba(54, 56, 46, 0.25)",
+                        
                     }} />
                     {errors.password && errors.password.type === 'required' && <span>Este campo é obrigatório.</span>}
                     {errors.password && errors.password.type === 'minLength' && <span>A senha deve conter no mínimo<br></br>oito caracteres.</span>}
 
                     <button type="submit" style={{
                         borderRadius: "10px",
-                        backgroundColor: "#F06449",
+                        backgroundColor: "#FFB250",
                         border: "none",
                         display: "block",
                         margin: "20px auto",
@@ -59,13 +60,19 @@ const FormLogin = ({ register, handleSubmit, errors, onSubmit, handleOpen }: For
                     </button>
 
                     <Link style={{
-                        display: "block"
+                        display: "block",
+                        textAlign: "center",
+                        color: "white",
+                        cursor: "pointer"
                     }}
                         onClick={handleOpen}>
                         Cadastrar
                     </Link>
                     <Link style={{
-                        display: "block"
+                        display: "block",
+                        textAlign: "center",
+                        color: "white",
+                        cursor: "pointer"
                     }}>
                         Esqueci a senha
                     </Link>

@@ -16,7 +16,7 @@ export const styleBox = {
 
 export const styleBtnRegister = {
     borderRadius: "10px",
-    backgroundColor: "#F06449",
+    backgroundColor: "#FFB250",
     border: "none",
     display: "block",
     margin: "20px auto",
@@ -49,7 +49,7 @@ export const styleFormControl = {
 export const theme = createTheme({
     palette: {
         secondary: {
-            main: '#F06449',
+            main: '#FFB250'
         },
     },
 });

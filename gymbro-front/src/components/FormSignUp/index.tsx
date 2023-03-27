@@ -64,13 +64,13 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
     return (
         <>
             <ThemeProvider theme={theme}>
-                <Modal
+                <Modal 
                     open={open}
                     onClose={handleClose}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={styleBox}>
+                    <Box sx={styleBox} style= {{ backgroundImage: 'linear-gradient(to right top, #051937, #5f2d60, #b84160, #ed793e, #e6cb17)'}}>
                         <form style={styleFormControl} onSubmit={handleSubmit(onSubmit)}>
                             <input
                                 placeholder="Email"
