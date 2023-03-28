@@ -27,9 +27,9 @@ export const checkToken = async (refreshToken: string) => {
     return null
 }
 
-export const loginPost = async <AuthStateDTO>({email, password}: PostAuthStateDTO) => {
+export const loginPost = async ({email, password}: PostAuthStateDTO) => {
     try {
-        const response: AxiosResponse = await Api.post(`/auth/login`, { email, password })
+        const response = await Api.post(`/auth/login`, { email, password })
         if (response.status === 200) {
             const { acessToken, refreshToken } = response.data;
             Cookies.set('acessToken', acessToken);
@@ -39,7 +39,6 @@ export const loginPost = async <AuthStateDTO>({email, password}: PostAuthStateDT
     } catch (error) {
         console.log(error)
     }
-    return null;
 }
 
 export const getToken = (): string => Cookies.get('acessToken') || '';

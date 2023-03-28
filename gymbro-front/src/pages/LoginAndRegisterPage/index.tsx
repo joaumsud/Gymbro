@@ -17,9 +17,7 @@ const LoginPage = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const onSubmit: SubmitHandler<InputsLoginDTO> = async (data) => {
-        setEmail(watch("email"))
-        setPassword(watch("password"))
+    const onSubmit: SubmitHandler<InputsLoginDTO> = async ({email,password}) => {
         const authState = await loginPost({ email: email, password: password })
         if (authState) {
             history.push('/')
