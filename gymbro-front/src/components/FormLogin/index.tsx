@@ -3,6 +3,7 @@ import { Caixa, Form } from './styles';
 import { useHistory } from 'react-router-dom';
 import { InputsLoginDTO } from '../../models/Login';
 import { FieldErrors, SubmitHandler, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
+import { Button } from '@mui/material';
 
 export interface FormLoginDTO {
     register: UseFormRegister<InputsLoginDTO>;
@@ -45,7 +46,7 @@ const FormLogin = ({ register, handleSubmit, errors, onSubmit, handleOpen }: For
                     {errors.password && errors.password.type === 'required' && <span>Este campo é obrigatório.</span>}
                     {errors.password && errors.password.type === 'minLength' && <span>A senha deve conter no mínimo<br></br>oito caracteres.</span>}
 
-                    <button type="submit" style={{
+                    <Button type="submit" style={{
                         borderRadius: "10px",
                         backgroundColor: "#FFB250",
                         border: "none",
@@ -57,7 +58,7 @@ const FormLogin = ({ register, handleSubmit, errors, onSubmit, handleOpen }: For
                         color: "white",
                     }}>
                         Login
-                    </button>
+                    </Button>
 
                     <Link style={{
                         display: "block",
