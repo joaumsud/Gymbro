@@ -1,0 +1,7 @@
+.styleBoxLoginAndRegister {
+    background-color: rgba(253, 253, 150, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh
+}

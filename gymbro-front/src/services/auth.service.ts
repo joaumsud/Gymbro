@@ -24,7 +24,6 @@ export const checkToken = async (refreshToken: string) => {
     } catch (error) {
         console.log(error)
     }
-    return null
 }
 
 export const loginPost = async ({email, password}: PostAuthStateDTO) => {

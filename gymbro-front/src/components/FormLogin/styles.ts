@@ -15,3 +15,14 @@ export const Form = styled.form`
     left: 50%;
     transform: translate(-50%,-50%);
 `
+
+export const Input = styled.input`
+    display: block;
+    width: 250px;
+    height: 40px;
+    padding: 6px 6px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 0.25px solid rgba(54, 56, 46, 0.25);
+    box-shadow: 10px 5px 5px rgba(54, 56, 46, 0.25);
+`

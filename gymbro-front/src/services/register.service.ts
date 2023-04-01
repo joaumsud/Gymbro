@@ -19,7 +19,12 @@ export interface ResponseRegisterDTO {
     isAdmin: boolean
 }
 
-export const postRegister = async ({ email, password, firstName, lastName }: RegisterDTO) => {
+export const postRegister = async ({
+    email,
+    password,
+    firstName,
+    lastName
+}: RegisterDTO): Promise<AxiosResponse<ResponseRegisterDTO>> => {
     const response = await Api.post(`/auth/signup`, { email, password, firstName, lastName })
     return response;
 }

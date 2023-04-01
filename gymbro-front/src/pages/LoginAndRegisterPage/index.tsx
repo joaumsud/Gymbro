@@ -1,6 +1,8 @@
 import { useState } from "react";
 import FormLogin from "../../components/FormLogin";
 import SignUpForm from "../../components/FormSignUp";
+import { Box } from "@mui/material";
+import "./style.css";
 
 const LoginPage = () => {
     const [open, setOpen] = useState(false);
@@ -9,8 +11,7 @@ const LoginPage = () => {
 
     return (
         <>
-            <div
-                style={{ backgroundColor: "rgba(253, 253, 150, 0.8)", display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+            <Box className='styleBoxLoginAndRegister'>
                 <FormLogin
                     handleOpen={handleOpen}
                 />
@@ -18,7 +19,7 @@ const LoginPage = () => {
                     open={open}
                     handleClose={handleClose}
                 />
-            </div>
+            </Box>
         </>
     );
 }

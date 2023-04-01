@@ -1,5 +1,5 @@
 import Link from '@mui/material/Link';
-import { Caixa, Form } from './styles';
+import { Caixa, Form, Input } from './styles';
 import { useHistory } from 'react-router-dom';
 import { InputsLoginDTO } from '../../models/Login';
 import { SubmitHandler, useForm, } from 'react-hook-form';
@@ -25,29 +25,10 @@ const FormLogin = ({ handleOpen }: FormLoginDTO) => {
         <>
             <Caixa>
                 <Form onSubmit={handleSubmit(onSubmit)} >
-                    <input placeholder="E-mail" {...register("email", { required: true })} style={{
-                        display: "block",
-                        width: "250px",
-                        height: "40px",
-                        padding: "6px 6px",
-                        marginBottom: "15px",
-                        borderRadius: "10px",
-                        border: "0.25px solid rgba(54, 56, 46, 0.25)",
-                        boxShadow: "10px 5px 5px rgba(54, 56, 46, 0.25)"
-                    }} />
+                    <Input placeholder="E-mail" {...register("email", { required: true })} />
                     {errors.email && <span>Este campo é obrigatório</span>}
 
-                    <input placeholder="Senha" type="password" {...register("password", { required: true, minLength: 8 })} style={{
-                        display: "block",
-                        width: "250px",
-                        height: "40px",
-                        padding: "6px 6px",
-                        marginBottom: "15px",
-                        borderRadius: "10px",
-                        border: "0.25px solid rgba(54, 56, 46, 0.25)",
-                        boxShadow: "10px 5px 5px rgba(54, 56, 46, 0.25)",
-
-                    }} />
+                    <Input placeholder="Senha" type="password" {...register("password", { required: true, minLength: 8 })} />
                     {errors.password && errors.password.type === 'required' && <span>Este campo é obrigatório.</span>}
                     {errors.password && errors.password.type === 'minLength' && <span>A senha deve conter no mínimo<br></br>oito caracteres.</span>}
 
