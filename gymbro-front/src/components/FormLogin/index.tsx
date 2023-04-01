@@ -2,20 +2,25 @@ import Link from '@mui/material/Link';
 import { Caixa, Form } from './styles';
 import { useHistory } from 'react-router-dom';
 import { InputsLoginDTO } from '../../models/Login';
-import { FieldErrors, SubmitHandler, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
+import { SubmitHandler, useForm, } from 'react-hook-form';
 import { Button } from '@mui/material';
+import { loginPost } from '../../services/auth.service';
 
 export interface FormLoginDTO {
-    register: UseFormRegister<InputsLoginDTO>;
-    handleSubmit: UseFormHandleSubmit<InputsLoginDTO>;
-    errors: FieldErrors<InputsLoginDTO>;
-    onSubmit: SubmitHandler<InputsLoginDTO>;
     handleOpen: () => void;
 }
 
-const FormLogin = ({ register, handleSubmit, errors, onSubmit, handleOpen }: FormLoginDTO) => {
+const FormLogin = ({ handleOpen }: FormLoginDTO) => {
     const history = useHistory()
 
+    const { register, handleSubmit, formState: { errors } } = useForm<InputsLoginDTO>();
+
+    const onSubmit: SubmitHandler<InputsLoginDTO> = async ({ email, password }) => {
+        const authState = await loginPost({ email: email, password: password })
+        if (authState) {
+            history.push('/')
+        }
+    };
     return (
         <>
             <Caixa>
@@ -41,7 +46,7 @@ const FormLogin = ({ register, handleSubmit, errors, onSubmit, handleOpen }: For
                         borderRadius: "10px",
                         border: "0.25px solid rgba(54, 56, 46, 0.25)",
                         boxShadow: "10px 5px 5px rgba(54, 56, 46, 0.25)",
-                        
+
                     }} />
                     {errors.password && errors.password.type === 'required' && <span>Este campo é obrigatório.</span>}
                     {errors.password && errors.password.type === 'minLength' && <span>A senha deve conter no mínimo<br></br>oito caracteres.</span>}

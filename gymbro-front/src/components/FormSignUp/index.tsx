@@ -38,7 +38,6 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
             lastName: lastName
         })
             .then(res => {
-                console.log(res.data);
                 setAlertOpen(true)
                 setAlertType('success')
                 setAlertMessage('Usuário adicionado com sucesso!')
@@ -49,7 +48,6 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
                 }, 10000)
             })
             .catch(error => {
-                console.log(error.response.data.message);
                 setAlertOpen(true)
                 setAlertType('error')
                 setAlertMessage(error.response.data.message)
