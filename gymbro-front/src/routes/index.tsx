@@ -26,7 +26,7 @@ const Routes: React.FC = () => {
     return (
         <Switch>
             <Route exact path="/login" component={LoginPage} />
-            <PrivateRoute exact path="/" component={HomePage} />
+            <Route exact path="/" component={HomePage} />
             {/* <PrivateRoute exact path="/friends" component={} />
             <PrivateRoute exact path="/perfil" component={} /> */}
         </Switch>
