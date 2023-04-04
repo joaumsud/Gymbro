@@ -98,7 +98,10 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
                             </Button>
                         </form>
                         {alertOpen && (
-                            <Alert severity={alertType === 'success' ? "success" : 'error'} style={{marginBottom: 5}}>
+                            <Alert severity={alertType === 'success' ? "success" : 'error'} style={{position: 'absolute',
+                                top: '-50px',
+                                left: '0',
+                                width: '410px',}}>
                                 {alertMessage}
                             </Alert>
                         )}
