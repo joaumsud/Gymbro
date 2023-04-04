@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #007f56;
+  background-color: #19F8A6;
   height: 80px;
   padding: 0 20px;
 }
@@ -13,13 +13,17 @@
   color: #fff;
 }
 
-.button {
+.navbar .button {
   padding: 10px 20px;
   font-size: 1.2rem;
   font-weight: bold;
   color: #fff;
-  background-color: #38a169;
+  background-color: #1683D9;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.navbar .button:hover{
+  background-color: #5324F0;
 }

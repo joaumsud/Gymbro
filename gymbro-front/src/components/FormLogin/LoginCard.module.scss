@@ -1,8 +1,13 @@
 .card {
-    background-color: #f1f1f1;
+    background-color:rgba(255,255,255,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     padding: 20px;
+    width: 50%;
+    height: 300px;
   }
   
   h2 {
@@ -22,17 +27,23 @@
     padding: 10px;
     border-radius: 5px;
     border: none;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     margin-bottom: 20px;
+    width: 20vw;
   }
   
-  button {
+  .card  .btnLogin {
     padding: 10px;
     font-size: 1.2rem;
     font-weight: bold;
     color: #fff;
-    background-color: #007f56;
+    background-color: #1683D9;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+  }
+
+  .card .btnLogin:hover{
+    background-color: #5324F0;
   }
   

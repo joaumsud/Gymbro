@@ -13,7 +13,6 @@ const LoginPage = () => {
         <>
             <Box className='styleBoxLoginAndRegister'>
                 <FormLogin
-                    handleOpen={handleOpen}
                 />
                 <SignUpForm
                     open={open}

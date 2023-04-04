@@ -40,6 +40,7 @@ export const loginPost = async ({email, password}: PostAuthStateDTO) => {
     }
 }
 
+
 export const getToken = (): string => Cookies.get('acessToken') || '';
 
 export const getRefreshToken = (): string => Cookies.get('refreshToken') || '';

@@ -1,9 +1,8 @@
 import React from 'react';
 import { Route, Redirect, RouteProps, Switch } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import LoginPage from '../pages/LoginAndRegisterPage';
 import HomePage from '../pages/HomePage';
-import SignUpForm from '../components/FormSignUp';
+import Dash from '../pages/Dash';
 
 interface PrivateRouteProps extends RouteProps {
     component: React.ComponentType<any>;
@@ -18,15 +17,15 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
     return isAuthenticated ? (
         <Route path={path} component={Component} />
     ) : (
-        <Redirect to="/login" />
+        <Redirect to="/" />
     );
 };
 
 const Routes: React.FC = () => {
     return (
         <Switch>
-            <Route exact path="/login" component={LoginPage} />
             <Route exact path="/" component={HomePage} />
+            <PrivateRoute exact path="/dash" component={Dash} />
             {/* <PrivateRoute exact path="/friends" component={} />
             <PrivateRoute exact path="/perfil" component={} /> */}
         </Switch>
