@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Navbar.module.scss';
+import logoNav from '../../img/halter-sf.png';
 import { Button } from '@mui/material';
 import SignUpForm from '../FormSignUp';
 
@@ -10,7 +11,9 @@ const Navbar = () => {
   
   return (
     <nav className={styles.navbar}>
-      <div className={styles.logo}>Logo</div>
+      <div className={styles.logoNav}>
+        <img src={logoNav}  />
+      </div>
       <Button className={styles.button}
         onClick={()=>{
           setOpen(true)

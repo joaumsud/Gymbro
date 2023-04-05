@@ -10,9 +10,12 @@
     align-items: center;
     flex-grow: 1;
     padding: 50px;
+    img{
+      width: 50%;
+    }
   }
   
-  .logo {
+  .logoHome {
     font-size: 4rem;
     font-weight: bold;
   }

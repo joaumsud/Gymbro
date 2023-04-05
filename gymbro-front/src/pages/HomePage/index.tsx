@@ -3,6 +3,7 @@ import { Redirect, useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar/';
 import FormLogin from '../../components/FormLogin';
 import styles from './index.module.scss';
+import logoHome from '../../img/logoGymbro.png'
 import { Box, Grid, Typography } from '@mui/material';
 
 const HomePage = () => {
@@ -15,7 +16,7 @@ const HomePage = () => {
                     <Grid container>
                         <Grid item lg={6}>
                             <Box sx={{ display: 'flex', justifyContent: 'center',alignItems:'center' }}>
-                                <div className={styles.logo}>Logo</div>
+                                <img src={logoHome} />
                             </Box>
                         </Grid>
                         <Grid item lg={6} sm={12} xs={12}>
