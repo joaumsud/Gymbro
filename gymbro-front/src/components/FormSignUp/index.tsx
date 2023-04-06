@@ -59,54 +59,53 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
 
     return (
         <>
-                <Modal 
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box className={styles.cardSignUp}>
-                        <form  onSubmit={handleSubmit(onSubmit)}>
-                            <input
-                                placeholder="Email"
-                                {...register("email", { required: true })} />
-                            {errors.email && <span>Este campo é obrigatório.</span>}
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box className={styles.cardSignUp}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <input
+                            placeholder="Email"
+                            {...register("email", { required: true })} />
+                        {errors.email && <span>Este campo é obrigatório.</span>}
 
-                            <input
-                                placeholder="Password"
-                                type="password"
-                                autoComplete="current-password"
-                                
-                                {...register("password", { required: true, minLength: 8 })} />
-                            {errors.password && errors.password.type === 'required' && <span>Este campo é obrigatório.</span>}
-                            {errors.password && errors.password.type === 'minLength' && <span>A senha deve conter no mínimo 8 caracteres</span>}
+                        <input
+                            placeholder="Password"
+                            type="password"
+                            autoComplete="current-password"
+                            {...register("password", { required: true, minLength: 8 })} />
+                        {errors.password && errors.password.type === 'required' && <span>Este campo é obrigatório.</span>}
+                        {errors.password && errors.password.type === 'minLength' && <span>A senha deve conter no mínimo 8 caracteres</span>}
 
-                            <input
-                                placeholder="Nome"
-                                
-                                {...register("firstName", { required: true })} />
-                            {errors.firstName && <span>Este campo é obrigatório.</span>}
+                        <input
+                            placeholder="Nome"
+                            {...register("firstName", { required: true })} />
+                        {errors.firstName && <span>Este campo é obrigatório.</span>}
 
-                            <input
-                                placeholder="Sobrenome"
-                                
-                                {...register("lastName", { required: true })} />
-                            {errors.lastName && <span>Este campo é obrigatório.</span>}
+                        <input
+                            placeholder="Sobrenome"
+                            {...register("lastName", { required: true })} />
+                        {errors.lastName && <span>Este campo é obrigatório.</span>}
 
-                            <Button  className={styles.btnSignUp} type='submit'  variant='contained'>
-                                Cadastrar
-                            </Button>
-                        </form>
-                        {alertOpen && (
-                            <Alert severity={alertType === 'success' ? "success" : 'error'} style={{position: 'absolute',
-                                top: '-50px',
-                                left: '0',
-                                width: '410px',}}>
-                                {alertMessage}
-                            </Alert>
-                        )}
-                    </Box>
-                </Modal>
+                        <Button className={styles.btnSignUp} type='submit' variant='contained'>
+                            Cadastrar
+                        </Button>
+                    </form>
+                    {alertOpen && (
+                        <Alert severity={alertType === 'success' ? "success" : 'error'} style={{
+                            position: 'absolute',
+                            top: '-50px',
+                            left: '0',
+                            width: '410px',
+                        }}>
+                            {alertMessage}
+                        </Alert>
+                    )}
+                </Box>
+            </Modal>
         </>
     )
 }

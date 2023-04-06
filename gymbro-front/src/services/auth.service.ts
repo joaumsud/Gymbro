@@ -3,7 +3,7 @@ import { InputsLoginDTO } from '../models/Login/index'
 import { AxiosResponse } from "axios";
 import Cookies from 'js-cookie';
 
-export interface PostAuthStateDTO{
+export interface PostAuthStateDTO {
     email: string;
     password: string
 }
@@ -26,7 +26,7 @@ export const checkToken = async (refreshToken: string) => {
     }
 }
 
-export const loginPost = async ({email, password}: PostAuthStateDTO) => {
+export const loginPost = async ({ email, password }: PostAuthStateDTO) => {
     try {
         const response = await Api.post(`/auth/login`, { email, password })
         if (response.status === 200) {
@@ -36,7 +36,6 @@ export const loginPost = async ({email, password}: PostAuthStateDTO) => {
             return { acessToken, refreshToken }
         }
     } catch (error) {
-        console.log(error)
     }
 }
 
