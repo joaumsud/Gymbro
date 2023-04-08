@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
-import Navbar from '../../components/Navbar/';
+import Navbar from '../../components/NavbarHome';
 import FormLogin from '../../components/FormLogin';
 import styles from './index.module.scss';
 import logoHome from '../../img/logoGymbro.png'

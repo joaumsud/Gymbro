@@ -2,7 +2,9 @@ import React from 'react';
 import { Route, Redirect, RouteProps, Switch } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import HomePage from '../pages/HomePage';
-import Dash from '../pages/Dash';
+import HomeUseAuth from '../pages/HomeUseAuth';
+import Events from '../pages/Events';
+import NavBarUserAuth from '../components/NavBarUserAuth';
 
 interface PrivateRouteProps extends RouteProps {
     component: React.ComponentType<any>;
@@ -15,20 +17,34 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
     const isAuthenticated = Cookies.get('acessToken');
 
     return isAuthenticated ? (
-        <Route path={path} component={Component} />
+        <Route path={path} component={Component} >
+            <Layout>
+                <Component/>
+            </Layout>
+        </Route>
     ) : (
         <Redirect to="/" />
     );
 };
 
+const Layout:React.FC<React.PropsWithChildren<{}>> = ({children}) => {
+    return(
+        <>
+            <NavBarUserAuth />
+            {children}
+        </>
+    )
+}
+
 const Routes: React.FC = () => {
     return (
-        <Switch>
-            <Route exact path="/" component={HomePage} />
-            <PrivateRoute exact path="/dash" component={Dash} />
-            {/* <PrivateRoute exact path="/friends" component={} />
-            <PrivateRoute exact path="/perfil" component={} /> */}
-        </Switch>
+        <>
+            <Switch>
+                <Route exact path="/" component={HomePage} />
+                <PrivateRoute exact path="/dash" component={HomeUseAuth} />
+                <PrivateRoute exact path="/events" component={Events} />
+            </Switch>
+        </>
     );
 };
 

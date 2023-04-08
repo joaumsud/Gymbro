@@ -27,16 +27,18 @@ export const checkToken = async (refreshToken: string) => {
 }
 
 export const loginPost = async ({ email, password }: PostAuthStateDTO) => {
-    try {
-        const response = await Api.post(`/auth/login`, { email, password })
-        if (response.status === 200) {
-            const { acessToken, refreshToken } = response.data;
-            Cookies.set('acessToken', acessToken);
-            Cookies.set('refreshToken', refreshToken)
-            return { acessToken, refreshToken }
-        }
-    } catch (error) {
-    }
+    const response = await Api.post(`/auth/login`, { email, password })
+    return response;
+    // try {
+    //     const response = await Api.post(`/auth/login`, { email, password })
+    //     if (response.status === 200) {
+    //         const { acessToken, refreshToken } = response.data;
+    //         Cookies.set('acessToken', acessToken);
+    //         Cookies.set('refreshToken', refreshToken)
+    //         return { acessToken, refreshToken }
+    //     }
+    // } catch (error) {
+    // }
 }
 
 
