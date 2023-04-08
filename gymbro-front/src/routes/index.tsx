@@ -41,8 +41,8 @@ const Routes: React.FC = () => {
         <>
             <Switch>
                 <Route exact path="/" component={HomePage} />
-                <PrivateRoute exact path="/dash" component={HomeUseAuth} />
-                <PrivateRoute exact path="/events" component={Events} />
+                <PrivateRoute path="/dash" component={HomeUseAuth} />
+                <PrivateRoute path="/events" component={Events} />
             </Switch>
         </>
     );

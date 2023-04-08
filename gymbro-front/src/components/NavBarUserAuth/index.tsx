@@ -13,12 +13,17 @@ import {
 } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import MessageIcon from '@mui/icons-material/Message';
 import React from "react";
+import { useHistory } from "react-router-dom";
+import { logout } from "../../services/auth.service";
 
 const pages = ['Início', 'Eventos', 'Amigos'];
 const settings = ['Perfil', 'Sair'];
 
 const NavBarUserAuth = () => {
+    const history = useHistory()
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -91,11 +96,38 @@ const NavBarUserAuth = () => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem onClick={() => {
+                                handleCloseNavMenu()
+                                history.push('/dash')
+                                window.location.reload()
+                            }}>
+                                <Typography
+                                    textAlign="center"
+                                >
+                                    {pages[0]}
+                                </Typography>
+                            </MenuItem>
+
+                            <MenuItem onClick={() => {
+                                handleCloseNavMenu()
+                                history.push('/events')
+                                window.location.reload()
+                            }}>
+                                <Typography
+                                    textAlign="center"
+                                >
+                                    {pages[1]}
+                                </Typography>
+                            </MenuItem>
+
+                            <MenuItem onClick={() => {
+                                handleCloseNavMenu()
+                            }}>
+                                <Typography
+                                    textAlign="center">
+                                    {pages[2]}
+                                </Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                     <FitnessCenterIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -118,18 +150,34 @@ const NavBarUserAuth = () => {
                         GymBro
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'info.main', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
-                        ))}
-                    </Box>
 
+                        <Button
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: 'info.main', display: 'block' }}
+                            href="/dash"
+                        >
+                            {pages[0]}
+                        </Button>
+                        <Button
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: 'info.main', display: 'block' }}
+                            href="/events"
+                        >
+                            {pages[1]}
+                        </Button>
+                        <Button
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: 'info.main', display: 'block' }}
+                        >
+                            {pages[2]}
+                        </Button>
+                    </Box>
+                    <Box>
+                        <MessageIcon sx={{ marginRight: '13px', fontSize: '30px' }} />
+                        <NotificationsIcon sx={{ marginRight: '13px', fontSize: '30px' }} />
+                    </Box>
                     <Box sx={{ flexGrow: 0 }}>
+
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -151,11 +199,21 @@ const NavBarUserAuth = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
+
+                            <MenuItem onClick={handleCloseUserMenu}>
+                                <Typography textAlign="center">{settings[0]}</Typography>
+                            </MenuItem>
+
+                            <MenuItem onClick={() => {
+                                handleCloseUserMenu()
+                                logout()
+                                history.push('/')
+                                window.location.reload()
+                            }}>
+                                <Typography
+                                    textAlign="center"
+                                >{settings[1]}</Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>
