@@ -1,0 +1,28 @@
+.leaflet-container {
+    height: 60vh;
+    width: 60vw;
+    min-width: 400px;
+}
+
+.container-map {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.container-inputs{
+    margin-top: 30px;
+}
+
+.inputs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.text-inputs{
+    width: 400px;
+    min-width: 50px
+}
+
