@@ -9,5 +9,4 @@ export interface Events {
   isActive: boolean;
   adminId: number;
   geocode: [number, number];
-  popUp: string;
   }

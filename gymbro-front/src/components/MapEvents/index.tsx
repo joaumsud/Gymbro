@@ -5,6 +5,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 // import { Icon } from 'leaflet';
 import { Events } from '../../models/Events';
 import { useEffect, useState } from 'react';
+import { ModalCreateEvent } from '../ModalCreateEvent';
 
 
 const MapEvents = () => {
@@ -23,7 +24,6 @@ const MapEvents = () => {
                 isActive: true,
                 adminId: 11,
                 geocode: [48.86, 2.3522],
-                popUp: 'Hello, i am here 1'
             },
             {
                 id: 11,
@@ -36,7 +36,6 @@ const MapEvents = () => {
                 isActive: true,
                 adminId: 11,
                 geocode: [48.85, 2.3522],
-                popUp: 'Hello, i am here 2'
             },
             {
                 id: 12,
@@ -49,7 +48,6 @@ const MapEvents = () => {
                 isActive: true,
                 adminId: 11,
                 geocode: [48.855, 2.34],
-                popUp: 'Hello, i am here 3'
             }
         ])
     }, [])
@@ -63,12 +61,12 @@ const MapEvents = () => {
     return (
         <>
             <Grid container className='container-inputs'>
-                <Grid item xs={12} className='inputs'>
+                {/* <Grid item xs={12} className='inputs'>
                     <TextField className='text-inputs' type="text" placeholder="Localização" />
                 </Grid>
                 <Grid item xs={12} className='inputs'>
                     <TextField className='text-inputs' type="text" placeholder="Tipo de Evento" />
-                </Grid>
+                </Grid> */}
             </Grid>
             <Grid className='container-map'>
                 <MapContainer center={[-22.812028708655735, -45.19140005961926]} zoom={13}>
@@ -80,15 +78,13 @@ const MapEvents = () => {
                         markers!.map(marker => (
                             <Marker position={marker.geocode} key={marker.id}>
                                 <Popup>
-                                    <h2>{marker.popUp}</h2>
+                                    <h2>{marker.description}</h2>
                                 </Popup>
                             </Marker>
                         ))
                     }
                 </MapContainer>
-
             </Grid>
-
         </>
     );
 }
