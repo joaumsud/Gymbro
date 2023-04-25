@@ -15,58 +15,13 @@ const MapEvents = () => {
     const eventsList = useCallback(() => {
         getEvents()
             .then(res => {
-                // console.log(res.data.map((dados) => {
-                //     return{
-
-                //     }
-                // }))
+                setMarkers(res.data)
             })
             .catch(err => { })
     }, [])
 
     useEffect(() => {
         eventsList()
-    }, [])
-
-    useEffect(() => {
-        setMarkers([
-            {
-                id: 10,
-                title: "Evento 1",
-                description: "Some description",
-                eventDate: "2023-04-24T15:43:40.783Z",
-                isPublic: true,
-                hasLimit: true,
-                limitCount: 10,
-                isActive: true,
-                adminId: 11,
-                geocode: [48.86, 2.3522],
-            },
-            {
-                id: 11,
-                title: "Evento 2",
-                description: "Some description",
-                eventDate: "2023-04-26T15:43:40.783Z",
-                isPublic: true,
-                hasLimit: true,
-                limitCount: 10,
-                isActive: true,
-                adminId: 11,
-                geocode: [48.85, 2.3522],
-            },
-            {
-                id: 12,
-                title: "Evento 2",
-                description: "Some description",
-                eventDate: "2023-05-26T15:43:40.783Z",
-                isPublic: true,
-                hasLimit: true,
-                limitCount: 10,
-                isActive: true,
-                adminId: 11,
-                geocode: [48.855, 2.34],
-            }
-        ])
     }, [])
 
 
