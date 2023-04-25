@@ -1,11 +1,11 @@
 .btn-add {
-    width: 200px;
-    padding: 25px;
-    font-size: 18px;
-    background-color: #110FFA;
-    color: white;
+    width: 150px!important;
+    padding: 10px 20px!important;
+    font-size: 15px!important;
+    background-color: #110FFA!important;
+    color: white!important;
 }
 
 .btn-add:hover{
-    background-color: #110FFA;
+    background-color: #110FFA!important;
 }

@@ -1,0 +1,17 @@
+.div-style{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 10px;
+}
+
+.box-father-style{
+    margin-top: 40px;
+}
+
+.box-style{
+    
+    border: 1px solid black;
+    width: 80vw;
+    /* height: 80vh; */
+}

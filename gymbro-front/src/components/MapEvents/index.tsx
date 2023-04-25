@@ -4,12 +4,29 @@ import { Grid, TextField } from "@mui/material";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 // import { Icon } from 'leaflet';
 import { Events } from '../../models/Events';
-import { useEffect, useState } from 'react';
-import { ModalCreateEvent } from '../ModalCreateEvent';
+import { useCallback, useEffect, useState } from 'react';
+import { getEvents } from '../../services/events.service';
+import PopUpEvents from '../PopUpEvents';
 
 
 const MapEvents = () => {
     const [markers, setMarkers] = useState<Events[]>([])
+
+    const eventsList = useCallback(() => {
+        getEvents()
+            .then(res => {
+                // console.log(res.data.map((dados) => {
+                //     return{
+
+                //     }
+                // }))
+            })
+            .catch(err => { })
+    }, [])
+
+    useEffect(() => {
+        eventsList()
+    }, [])
 
     useEffect(() => {
         setMarkers([

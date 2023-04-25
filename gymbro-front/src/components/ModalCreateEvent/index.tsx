@@ -1,6 +1,8 @@
-import { Button, Modal, Box, Typography, Grid } from "@mui/material";
+import { Button, Modal, Box, Typography, Grid, TextField } from "@mui/material";
 import React, { useState } from "react";
 import './style.css'
+import { useForm, SubmitHandler } from "react-hook-form";
+
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -14,15 +16,16 @@ const style = {
 };
 
 
-export const ModalCreateEvent: React.FC = () => {
+const ModalCreateEvent: React.FC = () => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
     return (
         <>
             <div>
-                <Grid style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button onClick={handleOpen} className="btn-add">Criar Evento</Button>
+                <Grid>
+                    <Button onClick={handleOpen} className="btn-add" >Criar Evento</Button>
                 </Grid>
                 <Modal
                     open={open}
@@ -32,7 +35,7 @@ export const ModalCreateEvent: React.FC = () => {
                 >
                     <Box sx={style}>
                         <form>
-                            
+                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                         </form>
                     </Box>
                 </Modal>
@@ -40,3 +43,5 @@ export const ModalCreateEvent: React.FC = () => {
         </>
     )
 }
+
+export default ModalCreateEvent
