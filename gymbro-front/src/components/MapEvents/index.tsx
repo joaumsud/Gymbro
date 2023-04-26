@@ -50,7 +50,7 @@ const MapEvents = () => {
                         markers!.map(marker => (
                             <Marker position={marker.geocode} key={marker.id}>
                                 <Popup>
-                                    <h2>{marker.description}</h2>
+                                    <PopUpEvents title={marker.title} date={marker.eventDate} id={marker.id} />
                                 </Popup>
                             </Marker>
                         ))
