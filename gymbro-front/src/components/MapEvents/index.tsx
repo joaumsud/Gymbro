@@ -7,17 +7,23 @@ import { Events } from '../../models/Events';
 import { useCallback, useEffect, useState } from 'react';
 import { getEvents } from '../../services/events.service';
 import PopUpEvents from '../PopUpEvents';
-
+import { useBackdrop } from '../../hooks/backdrop';
 
 const MapEvents = () => {
     const [markers, setMarkers] = useState<Events[]>([])
+    const {handleBackdrop} = useBackdrop()
 
     const eventsList = useCallback(() => {
+        handleBackdrop(true)
         getEvents()
             .then(res => {
                 setMarkers(res.data)
+                handleBackdrop(false)
             })
-            .catch(err => { })
+            .catch(err => { 
+                console.log(err)
+                handleBackdrop(false)
+            })
     }, [])
 
     useEffect(() => {
@@ -33,7 +39,7 @@ const MapEvents = () => {
     return (
         <>
             <Grid container className='container-inputs'>
-                
+
                 {/* <Grid item xs={12} className='inputs'>
                     <TextField className='text-inputs' type="text" placeholder="Localização" />
                 </Grid>
@@ -41,7 +47,7 @@ const MapEvents = () => {
                     <TextField className='text-inputs' type="text" placeholder="Tipo de Evento" />
                 </Grid> */}
             </Grid>
-            <Typography variant='h4'  align="center">GymBroz</Typography>
+            <Typography variant='h4' align="center">GymBroz</Typography>
             <Grid className='container-map'>
                 <MapContainer center={[-22.812028708655735, -45.19140005961926]} zoom={13}>
                     <TileLayer

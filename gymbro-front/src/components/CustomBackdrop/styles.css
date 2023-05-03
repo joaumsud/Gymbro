@@ -1,26 +1,19 @@
-/* // import { Theme } from '@mui/material';
-// import { createStyles, makeStyles } from '@mui/styles';
+.paperBackDrop {
+  color: #07142B;
+  width: 490px;
+  height: 290px;
+}
 
-// const useStyles = makeStyles((theme: Theme) =>
-//   createStyles({
-//     paperBackDrop: {
-//       color: theme.palette.text.primary,
-//       width: '490px',
-//       height: '290px',
-//     },
-//     circularProgressBackDrop: {
-//       marginBottom: '20px',
-//       marginLeft: '10px',
-//     },
-//     typographyBackdrop: {
-//       color: theme.palette.text.primary,
-//     },
-//     backdrop: {
-//       zIndex: theme.zIndex.modal + 1,
-//       color: '#fff',
-//     },
-//   }),
-// );
+.circularProgressBackDrop {
+  margin-bottom: 20px;
+  margin-left: 10px;
+}
 
-// export default useStyles; */
+.typographyBackdrop {
+  color: #110FFA;
+}
 
+.backdrop {
+  z-index: 2000;
+  color: #fff,
+}

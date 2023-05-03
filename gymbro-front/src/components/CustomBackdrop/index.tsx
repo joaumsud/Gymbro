@@ -5,37 +5,37 @@ import {
     Grid,
     Paper,
     Typography,
-} from '@mui/material';
-import React from 'react';
-// import useStyles from './styles';
-
-interface CustomBackDropProps {
-    open: boolean;
+  } from '@mui/material';
+  import React from 'react';
+  import './styles.css'
+  
+  interface CustomBackDropProps extends BackdropProps {
     message?: string;
-}
-
-const CustomBackdrop = ({
+  }
+  
+  const CustomBackdrop: React.FC<CustomBackDropProps> = ({
     open,
     message,
-}: CustomBackDropProps) => {
-
+  }: CustomBackDropProps) => {
+  
     return (
-        <Backdrop open={open} >
-            <Paper >
-                <Grid
-                    container
-                    alignContent="center"
-                    direction="column"
-                    style={{ padding: '100px' }}
-                >
-                    <CircularProgress />
-                    <Typography >
-                        {message ?? 'Aguarde...'}
-                    </Typography>
-                </Grid>
-            </Paper>
-        </Backdrop>
-    )
-}
-
-export default CustomBackdrop
+      <Backdrop open={open} className='backdrop'>
+        <Paper className='paperBackDrop'>
+          <Grid
+            container
+            alignContent="center"
+            direction="column"
+            style={{ padding: '100px' }}
+          >
+            <CircularProgress className='circularProgressBackDrop'/>
+            <Typography className='typographyBackdrop'>
+              {message ?? 'Aguarde...'}
+            </Typography>
+          </Grid>
+        </Paper>
+      </Backdrop>
+    );
+  };
+  
+  export default CustomBackdrop;
+  

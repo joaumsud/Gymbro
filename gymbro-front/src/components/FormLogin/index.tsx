@@ -14,17 +14,29 @@ const FormLogin = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<InputsLoginDTO>();
     const [errorMessage, setErrorMessage] = useState('')
     const [alertOpen, setAlertOpen] = useState(false)
+    const { addUserAuth } = useUserAuth()
 
     const onSubmit: SubmitHandler<InputsLoginDTO> = ({ email, password }) => {
         loginPost({ email: email, password: password })
             .then((res) => {
-                const { acessToken, refreshToken } = res.data;
+                const { acessToken, refreshToken, user } = res.data;
+                addUserAuth(
+                    user.id,
+                    user.email,
+                    user.firstName,
+                    user.lastName,
+                    user.profilePictureUrl,
+                    user.profilePicturePath,
+                    user.isAdmin,
+                    user.isActive
+                )
                 Cookies.set('acessToken', acessToken);
                 Cookies.set('refreshToken', refreshToken)
                 history.push('/dash')
                 window.location.reload()
             })
             .catch((error) => {
+                console.log(error)
                 error.response.data.message
                     ? setErrorMessage(error.response.data.message)
                     : setErrorMessage('Credenciais Inválidas!')

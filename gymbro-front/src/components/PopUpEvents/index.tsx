@@ -57,7 +57,7 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id }) => {
     const handleClose = () => setOpen(false);
 
     const handleEventsId = () => {
-        // handleBackdrop(true)
+        handleBackdrop(true)
         getEventsById(id)
             .then(res => {
                 setEventById(res?.data!)

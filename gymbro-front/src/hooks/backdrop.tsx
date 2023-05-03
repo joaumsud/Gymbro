@@ -10,7 +10,11 @@ const BackdropContext = createContext<BackdropContextDTO>(
     {} as BackdropContextDTO,
 );
 
-const BackdropProvider: React.FC = ({ children }: any) => {
+export const useBackdrop = (): BackdropContextDTO => useContext(BackdropContext)
+
+
+export default function BackdropProvider({ children }: any) {
+
     const [openBackdrop, setOpenBackdrop] = useState(false)
     const [message, setMessage] = useState<string>()
 
@@ -22,14 +26,13 @@ const BackdropProvider: React.FC = ({ children }: any) => {
     return (
         <BackdropContext.Provider value={{ handleBackdrop }}>
             {children}
-            <CustomBackdrop open={openBackdrop} message={message}/>
+            <CustomBackdrop open={openBackdrop} message={message} />
         </BackdropContext.Provider>
     )
+
 }
 
 
-function useBackdrop(): BackdropContextDTO {
-    return useContext(BackdropContext)
-}
 
-export { BackdropProvider, useBackdrop }
+
+export { BackdropProvider }
