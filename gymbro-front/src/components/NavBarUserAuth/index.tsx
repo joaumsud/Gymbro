@@ -64,7 +64,7 @@ const NavBarUserAuth = () => {
                             textDecoration: 'none',
                         }}
                     >
-                        GymBro
+                        GymBroz
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -147,7 +147,7 @@ const NavBarUserAuth = () => {
                             textDecoration: 'none',
                         }}
                     >
-                        GymBro
+                        GymBroz
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 

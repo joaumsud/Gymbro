@@ -1,6 +1,6 @@
 import './style.css'
 import "leaflet/dist/leaflet.css";
-import { Grid, TextField } from "@mui/material";
+import { Divider, Grid, TextField, Typography } from "@mui/material";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 // import { Icon } from 'leaflet';
 import { Events } from '../../models/Events';
@@ -33,6 +33,7 @@ const MapEvents = () => {
     return (
         <>
             <Grid container className='container-inputs'>
+                
                 {/* <Grid item xs={12} className='inputs'>
                     <TextField className='text-inputs' type="text" placeholder="Localização" />
                 </Grid>
@@ -40,6 +41,7 @@ const MapEvents = () => {
                     <TextField className='text-inputs' type="text" placeholder="Tipo de Evento" />
                 </Grid> */}
             </Grid>
+            <Typography variant='h4'  align="center">GymBroz</Typography>
             <Grid className='container-map'>
                 <MapContainer center={[-22.812028708655735, -45.19140005961926]} zoom={13}>
                     <TileLayer

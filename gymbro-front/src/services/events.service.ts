@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { Events } from "../models/Events";
+import { EventByIdDTO, Events } from "../models/Events";
 import Api from "./providers";
 
 export const getEvents = async () => {
@@ -12,7 +12,7 @@ export const postEvents = async () => {
     return response
 }
 
-export const getEventsById = async (id: number): Promise<AxiosResponse<Events>> => {
+export const getEventsById = async (id: number): Promise<AxiosResponse<EventByIdDTO>> => {
     const response = await Api.get(`/events/${id}`)
     return response
 }

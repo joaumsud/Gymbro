@@ -7,6 +7,7 @@ import { loginPost } from '../../services/auth.service';
 import { Box } from '@mui/system';
 import { useState } from 'react'
 import Cookies from 'js-cookie';
+import { useUserAuth } from '../../hooks/userProvider';
 
 const FormLogin = () => {
     const history = useHistory()
@@ -56,7 +57,7 @@ const FormLogin = () => {
                     )}
 
                     <input placeholder="E-mail" {...register("email", { required: true })} />
-                    {errors.email && <span style={{marginBottom:'5px'}}>Campo e-mail é obrigatório</span>}
+                    {errors.email && <span style={{ marginBottom: '5px' }}>Campo e-mail é obrigatório</span>}
 
                     <input placeholder="Senha" type="password" {...register("password", { required: true, minLength: 8 })} />
                     {errors.password && errors.password.type === 'required' && <span>Campo senha é obrigatório.</span>}

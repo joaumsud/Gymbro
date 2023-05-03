@@ -1,12 +1,19 @@
 import { Box, Button, Modal, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 import { getEventsById } from "../../services/events.service";
+import { EventByIdDTO } from "../../models/Events";
+import PublicIcon from '@mui/icons-material/Public';
+import PublicOffIcon from '@mui/icons-material/PublicOff';
+import { useBackdrop } from "../../hooks/backdrop";
+
 
 export interface PopUpEventsDTO {
     title: string;
     date: string;
     id: number;
 }
+
+
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -22,10 +29,10 @@ const style = {
 
 const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id }) => {
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
+    const [eventById, setEventById] = useState<EventByIdDTO>()
     const [eventDate, setEventDate] = useState('')
+    const { handleBackdrop } = useBackdrop();
+
     const meses = [
         "Janeiro",
         "Fevereiro",
@@ -41,20 +48,26 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id }) => {
         "Dezembro"
     ];
 
-    const handleEventsId = () => {
-        getEventsById(id)
-        .then(res=>{
-            console.log(res.data)
-        })
-        .catch(err=>{
-
-        })
-    }
-
     const dateEvent = new Date(date)
     useEffect(() => {
         setEventDate(((dateEvent.getDate() + " " + meses[(dateEvent.getMonth())] + " " + dateEvent.getFullYear())))
     }, [])
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const handleEventsId = () => {
+        // handleBackdrop(true)
+        getEventsById(id)
+            .then(res => {
+                setEventById(res?.data!)
+                handleBackdrop(false)
+            })
+            .catch(err => {
+                console.log(err)
+                handleBackdrop(false)
+            })
+    }
 
     return (
         <>
@@ -92,12 +105,13 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id }) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Text in a modal
+                    <Typography variant="h4" gutterBottom>{eventById?.event.title}</Typography>
+                    <Typography variant="body1">{eventById?.event.description}</Typography>
+                    <Typography sx={{ mt: 2 }}>{eventDate}</Typography>
+                    <Typography sx={{ mt: 2 }}>
+                        {eventById?.event.isPublic ? <PublicIcon /> : <PublicOffIcon />}
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                    </Typography>
+                    <Typography sx={{ mt: 2 }}>Local:</Typography>
                 </Box>
             </Modal>
         </>
