@@ -8,6 +8,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { postRegister } from '../../services/register.service'
 import styles from './SignUp.module.scss'
 import { useState } from "react";
+import { useBackdrop } from "../../hooks/backdrop";
 
 export interface RegisterDTO {
     handleClose: () => void;
@@ -27,8 +28,10 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
     const [alertOpen, setAlertOpen] = useState(false)
     const [alertType, setAlertType] = useState('')
     const [alertMessage, setAlertMessage] = useState('')
+    const {handleBackdrop} = useBackdrop()
 
     const onSubmit: SubmitHandler<FieldValues> = ({ email, password, firstName, lastName }) => {
+        handleBackdrop(true)
         postRegister({
             email: email,
             password: password,
@@ -36,6 +39,7 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
             lastName: lastName
         })
             .then(res => {
+                handleBackdrop(false)
                 setAlertOpen(true)
                 setAlertType('success')
                 setAlertMessage('Usuário adicionado com sucesso!')
@@ -46,6 +50,7 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
                 }, 10000)
             })
             .catch(error => {
+                handleBackdrop(false)
                 setAlertOpen(true)
                 setAlertType('error')
                 setAlertMessage(error.response.data.message)

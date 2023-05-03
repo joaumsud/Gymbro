@@ -2,7 +2,7 @@ import './style.css'
 import "leaflet/dist/leaflet.css";
 import { Divider, Grid, TextField, Typography } from "@mui/material";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-// import { Icon } from 'leaflet';
+import { Icon } from 'leaflet';
 import { Events } from '../../models/Events';
 import { useCallback, useEffect, useState } from 'react';
 import { getEvents } from '../../services/events.service';
@@ -31,10 +31,10 @@ const MapEvents = () => {
     }, [])
 
 
-    // const customIcon = new Icon({
-    //     iconUrl: 'https://icons8.com.br/icon/YfjvHW1Tgpsh/gym',
-    //     iconSize: [38, 38]
-    // })
+    const customIcon = new Icon({
+        iconUrl: 'https:// cdn-icons-png.flaticon.com/512/5591/5591266.png',
+        iconSize: [38, 38]
+    })
 
     return (
         <>
@@ -56,7 +56,7 @@ const MapEvents = () => {
                     />
                     {
                         markers!.map(marker => (
-                            <Marker position={marker.geocode} key={marker.id}>
+                            <Marker position={marker.geocode} key={marker.id}  >
                                 <Popup>
                                     <PopUpEvents title={marker.title} date={marker.eventDate} id={marker.id} />
                                 </Popup>

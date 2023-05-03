@@ -8,6 +8,7 @@ import { Box } from '@mui/system';
 import { useState } from 'react'
 import Cookies from 'js-cookie';
 import { useUserAuth } from '../../hooks/userProvider';
+import { useBackdrop } from '../../hooks/backdrop';
 
 const FormLogin = () => {
     const history = useHistory()
@@ -15,10 +16,13 @@ const FormLogin = () => {
     const [errorMessage, setErrorMessage] = useState('')
     const [alertOpen, setAlertOpen] = useState(false)
     const { addUserAuth } = useUserAuth()
+    const {handleBackdrop} = useBackdrop()
 
     const onSubmit: SubmitHandler<InputsLoginDTO> = ({ email, password }) => {
+        handleBackdrop(true)
         loginPost({ email: email, password: password })
             .then((res) => {
+                handleBackdrop(false)
                 const { acessToken, refreshToken, user } = res.data;
                 addUserAuth(
                     user.id,
@@ -36,6 +40,7 @@ const FormLogin = () => {
                 window.location.reload()
             })
             .catch((error) => {
+                handleBackdrop(false)
                 console.log(error)
                 error.response.data.message
                     ? setErrorMessage(error.response.data.message)
