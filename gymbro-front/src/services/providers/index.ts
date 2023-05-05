@@ -7,7 +7,7 @@ const Api = axios.create({
 
 Api.interceptors.request.use((config) => {
     const token = Cookies.get('refreshToken') || '';
-    const isAuthenticationRequest = config.url === `/auth/login` || config.url === '/auth/signup'
+    const isAuthenticationRequest = config.url === `/auth/login` || config.url === '/auth/signup' || config.url === `/auth/forgot_password`
 
     if (!isAuthenticationRequest && token) {
         config.headers.Authorization = `Bearer ${token}`

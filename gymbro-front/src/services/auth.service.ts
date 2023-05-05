@@ -50,3 +50,20 @@ export const logout = () => {
     Cookies.remove('acessToken');
     Cookies.remove('refreshToken')
 }
+
+export const forgotPassword = async (email: string) => {
+    const response = await Api.post(`/auth/forgot_password`, {
+        email
+    })
+    return response
+}
+
+export const resetPassword = async (
+    resetPasswordToken: string,
+    newPassword: string
+) => {
+    const response = await Api.post(`/auth/reset_password/${resetPasswordToken}`, {
+        newPassword
+    })
+    return response
+}

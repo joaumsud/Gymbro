@@ -2,21 +2,35 @@ import styles from './LoginCard.module.scss';
 import { useHistory } from 'react-router-dom';
 import { InputsLoginDTO } from '../../models/Login';
 import { SubmitHandler, useForm, } from 'react-hook-form';
-import { Alert, Button } from '@mui/material';
+import { Alert, Button, Link } from '@mui/material';
 import { loginPost } from '../../services/auth.service';
 import { Box } from '@mui/system';
 import { useState } from 'react'
 import Cookies from 'js-cookie';
 import { useUserAuth } from '../../hooks/userProvider';
 import { useBackdrop } from '../../hooks/backdrop';
+import { forgotPassword } from '../../services/auth.service';
+import Modal from '../ForgotPassword';
 
 const FormLogin = () => {
     const history = useHistory()
     const { register, handleSubmit, formState: { errors } } = useForm<InputsLoginDTO>();
     const [errorMessage, setErrorMessage] = useState('')
     const [alertOpen, setAlertOpen] = useState(false)
+    const [open, setOpen] = useState(false)
     const { addUserAuth } = useUserAuth()
-    const {handleBackdrop} = useBackdrop()
+    const { handleBackdrop } = useBackdrop()
+
+    // console.log(forgotPassword('charlemagnexxv@yahoo.com'))
+
+
+    const handleOpen = () => {
+        setOpen(true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
 
     const onSubmit: SubmitHandler<InputsLoginDTO> = ({ email, password }) => {
         handleBackdrop(true)
@@ -84,6 +98,11 @@ const FormLogin = () => {
                         Login
                     </Button>
                 </form>
+                <Link onClick={handleOpen}
+                >
+                    Esqueci a senha
+                </Link>
+                <Modal open={open} onClose={handleClose} />
             </Box>
         </>
     );
