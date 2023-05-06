@@ -1,5 +1,8 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material";
 import { useState } from "react";
+import { forgotPassword } from "../../services/auth.service";
+import styles from './ForgotPassword.module.scss';
+import { useBackdrop } from '../../hooks/backdrop';
 
 interface ModalProps {
     open: boolean;
@@ -12,23 +15,51 @@ interface PageProps {
 }
 
 const FirstPage: React.FC<PageProps> = ({ onNext }) => {
+    const [emailForgotPass, setEmailForgotPass] = useState<string>()
+    const [btnNext, setBtnNext] = useState(false)
+    const { handleBackdrop } = useBackdrop()
 
     const handleSubmitEmail = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log("ok")
+        handleBackdrop(true)
+        if (emailForgotPass) {
+            forgotPassword(emailForgotPass)
+                .then(res => {
+                    console.log(res)
+                    handleBackdrop(false)
+                    setBtnNext(true)
+                })
+                .catch(err => {
+                    console.log(err)
+                    handleBackdrop(false)
+                    setBtnNext(false)
+                })
+        }
+
     }
 
     return (
         <>
-            <DialogTitle>Primeira Página</DialogTitle>
+            <DialogTitle>Recuperação de Senha</DialogTitle>
             <DialogContent>
-                <form onSubmit={handleSubmitEmail}>
-                    <input id="emailForgotPass" type="text" />
-                    <Button type="submit">Receber Token</Button>
+                <Typography sx={{ mb: 3 }}>Digite seu e-mail para receber o token de verificação</Typography>
+                <form onSubmit={handleSubmitEmail} className={styles.formForgotPass}>
+                    <input
+
+                        value={emailForgotPass}
+                        id="emailForgotPass"
+                        type="email"
+                        onChange={(e) => {
+                            setEmailForgotPass(e.target.value)
+                        }}
+                        placeholder="E-mail"
+                    />
+                    <Button type="submit" className={styles.btnToken}>Receber Token</Button>
                 </form>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onNext}>Próximo</Button>
+                <Button onClick={onNext} disabled={!btnNext} className={btnNext ? styles.btnNext : undefined}>Próximo</Button>
+
             </DialogActions>
         </>
     )

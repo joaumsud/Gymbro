@@ -9,7 +9,6 @@ import { useState } from 'react'
 import Cookies from 'js-cookie';
 import { useUserAuth } from '../../hooks/userProvider';
 import { useBackdrop } from '../../hooks/backdrop';
-import { forgotPassword } from '../../services/auth.service';
 import Modal from '../ForgotPassword';
 
 const FormLogin = () => {
@@ -20,9 +19,6 @@ const FormLogin = () => {
     const [open, setOpen] = useState(false)
     const { addUserAuth } = useUserAuth()
     const { handleBackdrop } = useBackdrop()
-
-    // console.log(forgotPassword('charlemagnexxv@yahoo.com'))
-
 
     const handleOpen = () => {
         setOpen(true)
