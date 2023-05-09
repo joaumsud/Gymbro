@@ -1,0 +1,17 @@
+.btnEnter{
+    background-color: #6A19E3;
+    color: white;
+}
+
+.btnEnter:hover{
+    background-color: #C90FFA;
+}
+
+.btnEdit{
+    background-color: #F00E3D;
+    color: white;
+}
+
+.btnEdit:hover{
+    background-color: #F00E3D;
+}

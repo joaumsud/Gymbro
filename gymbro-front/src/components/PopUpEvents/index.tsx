@@ -5,15 +5,24 @@ import { EventByIdDTO } from "../../models/Events";
 import PublicIcon from '@mui/icons-material/Public';
 import PublicOffIcon from '@mui/icons-material/PublicOff';
 import { useBackdrop } from "../../hooks/backdrop";
+import axios from 'axios';
+import moment from 'moment';
+import './styles.css'
 
+interface Address {
+    road: string;
+    suburb: string;
+    city: string;
+    state: string;
+    postcode: string;
+    country: string;
+}
 
 export interface PopUpEventsDTO {
     title: string;
     date: string;
     id: number;
 }
-
-
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -30,44 +39,50 @@ const style = {
 const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id }) => {
     const [open, setOpen] = useState(false);
     const [eventById, setEventById] = useState<EventByIdDTO>()
-    const [eventDate, setEventDate] = useState('')
     const { handleBackdrop } = useBackdrop();
-
-    const meses = [
-        "Janeiro",
-        "Fevereiro",
-        "Março",
-        "Abril",
-        "Maio",
-        "Junho",
-        "Julho",
-        "Agosto",
-        "Setembro",
-        "Outubro",
-        "Novembro",
-        "Dezembro"
-    ];
-
-    const dateEvent = new Date(date)
-    useEffect(() => {
-        setEventDate(((dateEvent.getDate() + " " + meses[(dateEvent.getMonth())] + " " + dateEvent.getFullYear())))
-    }, [])
+    const [address, setAddress] = useState<string>()
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    async function reverseGeocode(latitude: number, longitude: number): Promise<string> {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
+
+        try {
+            const response = await axios.get(url);
+            const address: Address = response.data.address;
+            return `${address.road}, ${address.suburb}, ${address.city} - ${address.state} , ${address.country}`;
+        } catch (error) {
+            console.error(error);
+            return '';
+        }
+    }
+
     const handleEventsId = () => {
         handleBackdrop(true)
         getEventsById(id)
-            .then(res => {
+            .then((res) => {
                 setEventById(res?.data!)
-                handleBackdrop(false)
             })
             .catch(err => {
                 console.log(err)
                 handleBackdrop(false)
             })
     }
+
+    useEffect(() => {
+        if (eventById) {
+            reverseGeocode(eventById.event.geocode[0], eventById.event.geocode[1])
+                .then(res => {
+                    setAddress(res)
+                    handleBackdrop(false)
+                })
+                .catch(err => {
+                    console.log(err)
+                    handleBackdrop(false)
+                })
+        }
+    }, [eventById])
 
     return (
         <>
@@ -82,7 +97,7 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id }) => {
                     variant="body1"
                     sx={{ textAlign: 'left', color: 'secondary.light' }}
                 >
-                    {eventDate}
+                    {moment(eventById?.event.eventDate).format('DD/MM/YYYY')}
                 </Typography>
                 <Box
                     sx={{ display: 'flex', justifyContent: 'right' }}
@@ -107,11 +122,29 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id }) => {
                 <Box sx={style}>
                     <Typography variant="h4" gutterBottom>{eventById?.event.title}</Typography>
                     <Typography variant="body1">{eventById?.event.description}</Typography>
-                    <Typography sx={{ mt: 2 }}>{eventDate}</Typography>
+                    <Typography sx={{ mt: 2 }}><b>Data:</b> {moment(eventById?.event.eventDate).format('DD/MM/YYYY')}</Typography>
+                    <Typography sx={{ mt: 2 }}><b>Horário:</b> {moment(eventById?.event.eventDate).format('HH:MM')}</Typography>
                     <Typography sx={{ mt: 2 }}>
-                        {eventById?.event.isPublic ? <PublicIcon /> : <PublicOffIcon />}
+                        {eventById?.event.isPublic ?
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <PublicIcon /><Typography sx={{ display: 'inline', marginLeft: 2 }}>Público</Typography>
+                            </Box>
+                            :
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <PublicOffIcon /><Typography sx={{ display: 'inline', marginLeft: 2 }}>Privado</Typography>
+                            </Box>
+                        }
                     </Typography>
-                    <Typography sx={{ mt: 2 }}>Local:</Typography>
+                    <Typography sx={{ mt: 2 }}>Local: {address}</Typography>
+                    {
+                        eventById?.isAdmin ?
+                            <Box sx={{display:'flex', justifyContent: 'flex-end'}}>
+                                <Button className='btnEdit'>Editar Evento</Button>
+                            </Box> :
+                            <Box sx={{display:'flex', justifyContent: 'flex-end'}}>
+                                <Button className='btnEnter'>Entrar</Button>
+                            </Box>
+                    }
                 </Box>
             </Modal>
         </>
