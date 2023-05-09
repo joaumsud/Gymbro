@@ -54,11 +54,11 @@ const FirstPage: React.FC<PageProps> = ({ onNext }) => {
                         }}
                         placeholder="E-mail"
                     />
-                    <Button type="submit" className={styles.btnToken}>Receber Token</Button>
+                    <Button type="submit" sx={{ backgroundColor: '#6A19E3', color: 'white', '&:hover': { backgroundColor: '#C90FFA' } }}>Receber Token</Button>
                 </form>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onNext} disabled={!btnNext} className={btnNext ? styles.btnNext : undefined}>Próximo</Button>
+                <Button variant="contained" sx={{ backgroundColor: '#F00E3D', color: 'white', '&:hover': { backgroundColor: '#F00E3D' } }} onClick={onNext} disabled={!btnNext} className={btnNext ? styles.btnNext : undefined}>Próximo</Button>
 
             </DialogActions>
         </>
@@ -66,14 +66,33 @@ const FirstPage: React.FC<PageProps> = ({ onNext }) => {
 }
 
 const SecondPage: React.FC<PageProps> = ({ onNext, onBack }) => {
+    const [token, setToken] = useState<string>()
+    const [btnNext, setBtnNext] = useState(false)
+    const { handleBackdrop } = useBackdrop()
+
+    const handleSubmitEmail = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        handleBackdrop(true)
+    }
     return (
         <>
-            <DialogTitle>Segunda Página</DialogTitle>
+            <DialogTitle>Recuperação de Senha</DialogTitle>
             <DialogContent>
-                <p>Conteúdo 2</p>
+                <form onSubmit={handleSubmitEmail} className={styles.formForgotPass}>
+                    <input
+                        value={token}
+                        id="token"
+                        type="text"
+                        onChange={(e) => {
+
+                        }}
+                        placeholder="Token"
+                    />
+                    <Button type="submit" sx={{ backgroundColor: '#6A19E3', color: 'white', '&:hover': { backgroundColor: '#C90FFA' } }}>Atualizar senha</Button>
+                </form>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onBack}>Voltar</Button>
+                <Button variant="outlined" sx={{ borderColor: '#F00E3D', color: '#F00E3D', '&:hover': { borderColor: '#F00E3D' } }} onClick={onBack}>Voltar</Button>
             </DialogActions>
         </>
     )

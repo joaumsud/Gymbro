@@ -138,11 +138,11 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id }) => {
                     <Typography sx={{ mt: 2 }}>Local: {address}</Typography>
                     {
                         eventById?.isAdmin ?
-                            <Box sx={{display:'flex', justifyContent: 'flex-end'}}>
-                                <Button className='btnEdit'>Editar Evento</Button>
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                <Button sx={{ backgroundColor: '#F00E3D', color: 'white','&:hover':{backgroundColor:'#F00E3D'} }}>Editar Evento</Button>
                             </Box> :
-                            <Box sx={{display:'flex', justifyContent: 'flex-end'}}>
-                                <Button className='btnEnter'>Entrar</Button>
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                <Button sx={{ backgroundColor: '#6A19E3', color: 'white','&:hover':{backgroundColor:'#C90FFA'} }}>Entrar</Button>
                             </Box>
                     }
                 </Box>
