@@ -21,10 +21,10 @@ const MapEvents = () => {
             .then(res => {
                 setMarkers(res.data)
                 handleBackdrop(false)
-                addFedback({
-                    description: 'ok',
-                    typeMessage: 'success'
-                })
+                // addFedback({
+                //     description: 'ok',
+                //     typeMessage: 'success'
+                // })
             })
             .catch(err => {
                 console.log(err)
