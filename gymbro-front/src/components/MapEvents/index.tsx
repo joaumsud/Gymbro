@@ -8,10 +8,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { getEvents } from '../../services/events.service';
 import PopUpEvents from '../PopUpEvents';
 import { useBackdrop } from '../../hooks/backdrop';
+import { useFeedback } from '../../hooks/addFeedback';
 
 const MapEvents = () => {
     const [markers, setMarkers] = useState<Events[]>([])
-    const {handleBackdrop} = useBackdrop()
+    const { handleBackdrop } = useBackdrop()
+    const { addFedback } = useFeedback()
 
     const eventsList = useCallback(() => {
         handleBackdrop(true)
@@ -19,10 +21,18 @@ const MapEvents = () => {
             .then(res => {
                 setMarkers(res.data)
                 handleBackdrop(false)
+                addFedback({
+                    description: 'ok',
+                    typeMessage: 'success'
+                })
             })
-            .catch(err => { 
+            .catch(err => {
                 console.log(err)
                 handleBackdrop(false)
+                addFedback({
+                    description: 'Erro ao carregar dados dos Eventos',
+                    typeMessage: 'error'
+                })
             })
     }, [])
 

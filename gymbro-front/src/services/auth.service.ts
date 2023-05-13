@@ -18,7 +18,7 @@ export const checkToken = async (refreshToken: string) => {
         const response = await Api.post(``, { getRefreshToken })
         if (response.status === 200) {
             const { token } = response.data;
-            Cookies.set('acessToken', token)
+            Cookies.set('acessToken', token, { secure: true, sameSite: 'strict' })
             return token;
         }
     } catch (error) {
@@ -33,8 +33,8 @@ export const loginPost = async ({ email, password }: PostAuthStateDTO) => {
     //     const response = await Api.post(`/auth/login`, { email, password })
     //     if (response.status === 200) {
     //         const { acessToken, refreshToken } = response.data;
-    //         Cookies.set('acessToken', acessToken);
-    //         Cookies.set('refreshToken', refreshToken)
+    //         Cookies.set('acessToken', acessToken, { secure: true, sameSite: 'strict' });
+    //         Cookies.set('refreshToken', refreshToken, { secure: true, sameSite: 'strict' })
     //         return { acessToken, refreshToken }
     //     }
     // } catch (error) {

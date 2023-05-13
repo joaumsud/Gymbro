@@ -44,8 +44,8 @@ const FormLogin = () => {
                     user.isAdmin,
                     user.isActive
                 )
-                Cookies.set('acessToken', acessToken);
-                Cookies.set('refreshToken', refreshToken)
+                Cookies.set('acessToken', acessToken,{ secure: true, sameSite: 'strict' });
+                Cookies.set('refreshToken', refreshToken,{ secure: true, sameSite: 'strict' })
                 history.push('/dash')
                 window.location.reload()
             })
