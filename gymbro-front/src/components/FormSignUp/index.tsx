@@ -24,11 +24,12 @@ export interface InputsDTO {
 }
 
 const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, watch, getValues } = useForm();
     const [alertOpen, setAlertOpen] = useState(false)
     const [alertType, setAlertType] = useState('')
     const [alertMessage, setAlertMessage] = useState('')
-    const {handleBackdrop} = useBackdrop()
+    const [openModalDetails, setOpenModalDetails] = useState<boolean>(false)
+    const { handleBackdrop } = useBackdrop()
 
     const onSubmit: SubmitHandler<FieldValues> = ({ email, password, firstName, lastName }) => {
         handleBackdrop(true)
@@ -40,6 +41,7 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
         })
             .then(res => {
                 handleBackdrop(false)
+
                 setAlertOpen(true)
                 setAlertType('success')
                 setAlertMessage('Usuário adicionado com sucesso!')
@@ -62,8 +64,25 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
             })
     };
 
+    const handleOpenModalDetails = () => {
+        setOpenModalDetails(true)
+    }
+
+    const handleCloseModalDetails = () => {
+        setOpenModalDetails(false)
+    }
+
     return (
         <>
+            <Modal
+                open={openModalDetails}
+                onClose={handleCloseModalDetails}
+            >
+                <Box>
+
+                </Box>
+            </Modal>
+
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -80,28 +99,47 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
                         </Alert>
                     )}
                     <form onSubmit={handleSubmit(onSubmit)}>
+                        {errors.email && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>Campo email é obrigatório.</span>}
                         <input
                             placeholder="Email"
                             {...register("email", { required: true })} />
-                        {errors.email && <span style={{marginBottom:'5px'}}>Campo email é obrigatório.</span>}
 
+                        {errors.password && errors.password.type === 'required'
+                            && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>Campo senha é obrigatório.</span>}
+                        {errors.password && errors.password.type === 'minLength'
+                            && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>A senha deve conter no mínimo 8 caracteres</span>}
                         <input
-                            placeholder="Password"
+                            placeholder="Senha"
                             type="password"
                             autoComplete="current-password"
                             {...register("password", { required: true, minLength: 8 })} />
-                        {errors.password && errors.password.type === 'required' && <span style={{marginBottom:'5px'}}>Campo senha é obrigatório.</span>}
-                        {errors.password && errors.password.type === 'minLength' && <span style={{marginBottom:'5px'}}>A senha deve conter no mínimo 8 caracteres</span>}
 
+
+                        {errors.repetPassword && errors.repetPassword.type === 'required'
+                            && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>Campo repita a senha é obrigatório.</span>}
+                        {errors.repetPassword && errors.repetPassword.type === 'minLength'
+                            && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>A senha deve conter no mínimo 8 caracteres</span>}
+                        {watch("repetPassword") !== watch("password") &&
+                            getValues("repetPassword") ? (
+                            <span style={{ marginBottom: '5px', color: '#F00E3D' }}>As senhas são diferentes</span>
+                        ) : null}
+                        <input
+                            placeholder="Repita a Senha"
+                            type="password"
+                            autoComplete="current-password"
+                            {...register("repetPassword", { required: true, minLength: 8 })} />
+
+
+                        {errors.firstName && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>Campo nome é obrigatório.</span>}
                         <input
                             placeholder="Nome"
                             {...register("firstName", { required: true })} />
-                        {errors.firstName && <span style={{marginBottom:'5px'}}>Campo nome é obrigatório.</span>}
 
+                        {errors.lastName && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>Campo sobrenome é obrigatório.</span>}
                         <input
                             placeholder="Sobrenome"
                             {...register("lastName", { required: true })} />
-                        {errors.lastName && <span style={{marginBottom:'5px'}}>Campo sobrenome é obrigatório.</span>}
+
 
                         <Button className={styles.btnSignUp} type='submit' variant='contained'>
                             Cadastrar
