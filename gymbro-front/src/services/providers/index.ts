@@ -2,7 +2,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie';
 
 const Api = axios.create({
-    baseURL: "https://gymbro-apy.onrender.com/api/v1"
+    baseURL: "https://gymbro-apy.onrender.com/api/v1",
 })
 
 Api.interceptors.request.use((config) => {

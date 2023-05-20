@@ -18,8 +18,8 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
 
     return isAuthenticated ? (
         <Route path={path} component={Component} >
-            <Layout>
-                <Component/>
+            <Layout >
+                <Component />
             </Layout>
         </Route>
     ) : (

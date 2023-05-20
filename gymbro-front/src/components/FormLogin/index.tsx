@@ -63,17 +63,11 @@ const FormLogin = () => {
                 }, 10000)
             })
     };
-    // const onSubmit: SubmitHandler<InputsLoginDTO> = async ({ email, password }) => {
-    //     const authState = await loginPost({ email: email, password: password })
-    //     if (authState) {
-    //         history.push('/dash')
-    //         window.location.reload()
-    //     }
-    // };
+
     return (
         <>
             <Box className={styles.card}>
-                <form onSubmit={handleSubmit(onSubmit)} >
+                <form onSubmit={handleSubmit(onSubmit)}>
 
                     {alertOpen && (
                         <Alert severity='error' style={{
@@ -83,12 +77,11 @@ const FormLogin = () => {
                         </Alert>
                     )}
 
-                    <input placeholder="E-mail" {...register("email", { required: true })} />
+                    <input placeholder="E-mail" {...register("email", { required: true })}/>
                     {errors.email && <span style={{ marginBottom: '5px' }}>Campo e-mail é obrigatório</span>}
 
-                    <input placeholder="Senha" type="password" {...register("password", { required: true, minLength: 8 })} />
+                    <input placeholder="Senha" type="password" {...register("password", { required: true, minLength: 8 })} autoComplete="new-password"/>
                     {errors.password && errors.password.type === 'required' && <span>Campo senha é obrigatório.</span>}
-                    {errors.password && errors.password.type === 'minLength' && <span>A senha deve conter no mínimo<br></br>oito caracteres.</span>}
 
                     <Button type="submit" className={styles.btnLogin}>
                         Login

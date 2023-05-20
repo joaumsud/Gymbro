@@ -40,33 +40,21 @@ const MapEvents = () => {
 
     return (
         <>
-            <Grid container className='container-inputs'>
-
-                {/* <Grid item xs={12} className='inputs'>
-                    <TextField className='text-inputs' type="text" placeholder="Localização" />
-                </Grid>
-                <Grid item xs={12} className='inputs'>
-                    <TextField className='text-inputs' type="text" placeholder="Tipo de Evento" />
-                </Grid> */}
-            </Grid>
-            <Typography variant='h4' align="center">GymBroz</Typography>
-            <Grid className='container-map'>
-                <MapContainer center={[-22.812028708655735, -45.19140005961926]} zoom={13}>
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                    {
-                        markers!.map(marker => (
-                            <Marker position={marker.geocode} key={marker.id}  >
-                                <Popup>
-                                    <PopUpEvents title={marker.title} date={marker.eventDate} id={marker.id} />
-                                </Popup>
-                            </Marker>
-                        ))
-                    }
-                </MapContainer>
-            </Grid>
+            <MapContainer center={[-22.812028708655735, -45.19140005961926]} zoom={13}>
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                {
+                    markers!.map(marker => (
+                        <Marker position={marker.geocode} key={marker.id}  >
+                            <Popup>
+                                <PopUpEvents title={marker.title} date={marker.eventDate} id={marker.id} />
+                            </Popup>
+                        </Marker>
+                    ))
+                }
+            </MapContainer>
         </>
     );
 }

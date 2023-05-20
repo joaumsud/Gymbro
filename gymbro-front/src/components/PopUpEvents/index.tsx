@@ -97,7 +97,7 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id }) => {
                     variant="body1"
                     sx={{ textAlign: 'left', color: 'secondary.light' }}
                 >
-                    {moment(eventById?.event.eventDate).format('DD/MM/YYYY')}
+                    {moment(eventById?.event.eventDate).format('DD/MM/YYYY HH:mm')}
                 </Typography>
                 <Box
                     sx={{ display: 'flex', justifyContent: 'right' }}
@@ -123,7 +123,7 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id }) => {
                     <Typography variant="h4" gutterBottom>{eventById?.event.title}</Typography>
                     <Typography variant="body1">{eventById?.event.description}</Typography>
                     <Typography sx={{ mt: 2 }}><b>Data:</b> {moment(eventById?.event.eventDate).format('DD/MM/YYYY')}</Typography>
-                    <Typography sx={{ mt: 2 }}><b>Horário:</b> {moment(eventById?.event.eventDate).format('HH:MM')}</Typography>
+                    <Typography sx={{ mt: 2 }}><b>Horário:</b> {moment(eventById?.event.eventDate).format('HH:mm')}</Typography>
                     <Typography sx={{ mt: 2 }}>
                         {eventById?.event.isPublic ?
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>

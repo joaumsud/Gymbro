@@ -37,3 +37,20 @@
  .cardSignUp .btnSignUp:hover {
    background-color: #6A19E3;
  }
+
+ .modalDetails {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  box-shadow: 24;
+  padding: 80px 20px;
+  display: flex ;
+  justify-content: center;
+  // flex-direction: column;
+  // align-items: baseline;
+  background-color: rgba(255, 255, 255, 0.9);
+ }

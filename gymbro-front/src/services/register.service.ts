@@ -14,8 +14,8 @@ export interface ResponseRegisterDTO {
     email: string
     firstName: string
     lastName: string
-    profilePictureUrl: any
-    profilePicturePath: any
+    profilePictureUrl: string | null
+    profilePicturePath: string | null
     isAdmin: boolean
 }
 

@@ -3,12 +3,14 @@ import {
     Button,
     Modal,
     Alert,
+    Typography,
 } from "@mui/material";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { postRegister } from '../../services/register.service'
+import { ResponseRegisterDTO, postRegister } from '../../services/register.service'
 import styles from './SignUp.module.scss'
 import { useState } from "react";
 import { useBackdrop } from "../../hooks/backdrop";
+import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
 
 export interface RegisterDTO {
     handleClose: () => void;
@@ -24,11 +26,12 @@ export interface InputsDTO {
 }
 
 const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
-    const { register, handleSubmit, formState: { errors }, watch, getValues } = useForm();
+    const { register, handleSubmit, formState: { errors }, watch, getValues, reset } = useForm();
     const [alertOpen, setAlertOpen] = useState(false)
     const [alertType, setAlertType] = useState('')
     const [alertMessage, setAlertMessage] = useState('')
     const [openModalDetails, setOpenModalDetails] = useState<boolean>(false)
+    const [resSignUnp, setResSignUp] = useState<ResponseRegisterDTO>()
     const { handleBackdrop } = useBackdrop()
 
     const onSubmit: SubmitHandler<FieldValues> = ({ email, password, firstName, lastName }) => {
@@ -41,6 +44,11 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
         })
             .then(res => {
                 handleBackdrop(false)
+
+                reset()
+                handleClose()
+                handleOpenModalDetails()
+                setResSignUp(res.data)
 
                 setAlertOpen(true)
                 setAlertType('success')
@@ -78,8 +86,22 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
                 open={openModalDetails}
                 onClose={handleCloseModalDetails}
             >
-                <Box>
-
+                <Box className={styles.modalDetails}>
+                     
+                        <Alert severity={alertType === 'success' ? "success" : 'error'} style={{
+                            position: 'absolute',
+                            top: '10px',
+                        }}>
+                            {alertMessage}
+                        </Alert>
+                    
+                    <Typography>
+                        E-mail: {resSignUnp?.email}
+                        <br/>
+                        <br/>
+                        Bem-vindo ao GymBroz, <strong>{ `${resSignUnp?.firstName} ${resSignUnp?.lastName}` }</strong>, entre e se divirta!<SportsGymnasticsIcon/>
+                    </Typography>
+                    
                 </Box>
             </Modal>
 
@@ -98,27 +120,37 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
                             {alertMessage}
                         </Alert>
                     )}
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={handleSubmit(onSubmit)} autoComplete="new-password">
                         {errors.email && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>Campo email é obrigatório.</span>}
+
+
                         <input
                             placeholder="Email"
+                            autoComplete="off"
                             {...register("email", { required: true })} />
 
                         {errors.password && errors.password.type === 'required'
                             && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>Campo senha é obrigatório.</span>}
                         {errors.password && errors.password.type === 'minLength'
                             && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>A senha deve conter no mínimo 8 caracteres</span>}
+                        {errors.repetPassword && errors.repetPassword.type === 'pattern'
+                            && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>A senha deve conter pelo <br />menos uma letra, um <br />número e um caracter especial</span>}
+
                         <input
                             placeholder="Senha"
                             type="password"
-                            autoComplete="current-password"
-                            {...register("password", { required: true, minLength: 8 })} />
+                            autoComplete="new-password"
+                            {...register("password", {
+                                required: true, minLength: 8, pattern: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W_]).+$/
+                            })} />
 
 
                         {errors.repetPassword && errors.repetPassword.type === 'required'
                             && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>Campo repita a senha é obrigatório.</span>}
                         {errors.repetPassword && errors.repetPassword.type === 'minLength'
                             && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>A senha deve conter no mínimo 8 caracteres</span>}
+                        {errors.repetPassword && errors.repetPassword.type === 'pattern'
+                            && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>A senha deve conter pelo <br />menos uma letra, um <br />número e um caracter especial</span>}
                         {watch("repetPassword") !== watch("password") &&
                             getValues("repetPassword") ? (
                             <span style={{ marginBottom: '5px', color: '#F00E3D' }}>As senhas são diferentes</span>
@@ -126,8 +158,10 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
                         <input
                             placeholder="Repita a Senha"
                             type="password"
-                            autoComplete="current-password"
-                            {...register("repetPassword", { required: true, minLength: 8 })} />
+                            autoComplete="off"
+                            {...register("repetPassword", {
+                                required: true, minLength: 8, pattern: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W_]).+$/
+                            })} />
 
 
                         {errors.firstName && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>Campo nome é obrigatório.</span>}

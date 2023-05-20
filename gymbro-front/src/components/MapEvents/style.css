@@ -1,15 +1,19 @@
 .leaflet-container {
-    height: 60vh;
-    width: 50vw;
-    min-width: 400px;
+    height: 90vh;
+    width: 100%;
+    /* min-width: 400px; */
 }
 
-.container-map {
+/* .container-map {
+    height: 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
     padding: 20px;
     margin-top: 10px;
-}
+    margin: 0px;
+    padding:0px
+} */
 
 .container-inputs{
     margin-top: 30px;
