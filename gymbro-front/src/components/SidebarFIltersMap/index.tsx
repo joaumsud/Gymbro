@@ -107,7 +107,7 @@ const SideBarFilters: React.FC = () => {
         <>
             <Box sx={{ display: 'flex' }}>
                 {/* <CssBaseline /> */}
-                <Drawer variant="permanent" open={open} anchor="right">
+                <Drawer variant="permanent" open={open} anchor="right" style={{height:'90vh'}}>
                     <DrawerHeader>
                         <IconButton
                             // selected={open}
