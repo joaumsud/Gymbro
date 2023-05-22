@@ -18,3 +18,23 @@
 #root {
   height: 100vh;
 }
+
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #cecece;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
