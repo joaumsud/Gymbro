@@ -1,9 +1,11 @@
 import { Box } from "@mui/material"
+import useStyles from "./styles"
 
 const OnlineFriends: React.FC = () => {
+    const classes = useStyles()
     return (
-        <Box style={{ overflowY: 'scroll', height: '90vh' }} sx={{ py: 2 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+        <Box className={classes.boxFriends} sx={{ py: 2 }}>
+            <Box className={classes.boxOnlineCars}>
                 <Box sx={{
                     border: '3px solid #64FD58',
                     width: '3rem',
@@ -93,7 +95,7 @@ const OnlineFriends: React.FC = () => {
                             borderRadius: '50%'
                         }}
                     />
-                </Box>                
+                </Box>
             </Box>
         </Box>
     )

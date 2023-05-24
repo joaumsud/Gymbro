@@ -8,7 +8,9 @@ export const getEvents = async () => {
 }
 
 export const postEvents = async () => {
-    const response = await Api.post(`/events/`)
+    const response = await Api.post(`/events/`,{
+        
+    })
     return response
 }
 
