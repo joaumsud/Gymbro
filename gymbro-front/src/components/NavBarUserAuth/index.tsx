@@ -207,7 +207,7 @@ const NavBarUserAuth = () => {
                             <MenuItem onClick={() => {
                                 handleCloseUserMenu()
                                 logout()
-                                history.push('/')
+                                history.push('/') /*colocar o endereço do perfil*/ 
                                 window.location.reload()
                             }}>
                                 <Typography
