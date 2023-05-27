@@ -1,7 +1,7 @@
 import { Button, Modal, Box, Typography, Grid, TextField } from "@mui/material";
 import React, { useState } from "react";
-import './style.css'
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import useStyles from "./styles";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -17,15 +17,22 @@ const style = {
 
 
 const ModalCreateEvent: React.FC = () => {
+    const classes = useStyles()
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [title, setTitle] = useState<string>('')
+    const [description, setDescription] = useState<string>('')
+    const [eventDate, setEventDate] = useState<string>('')
+
+
+    const { handleSubmit, control, reset } = useForm();
 
     return (
         <>
             <div>
                 <Grid>
-                    <Button onClick={handleOpen} className="btn-add" >Criar Evento</Button>
+                    <Button onClick={handleOpen} className={classes.btnAdd} >Criar Evento</Button>
                 </Grid>
                 <Modal
                     open={open}
@@ -35,7 +42,57 @@ const ModalCreateEvent: React.FC = () => {
                 >
                     <Box sx={style}>
                         <form>
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: true,
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextField
+                                        label="Título"
+                                        variant="outlined"
+                                        value={title}
+                                        onChange={(e) => {
+                                            setTitle(e.target.value)
+                                        }}
+                                    />
+                                )}
+                                name="title"
+                            />
+
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: true,
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextField
+                                        label="Descrição"
+                                        variant="outlined"
+                                        value={description}
+                                        onChange={(e) => {
+                                            setTitle(e.target.value)
+                                        }}
+                                    />
+                                )}
+                                name="description"
+                            />
+
+                            {/* <Controller
+                                control={control}
+                                rules={{
+                                    required: true,
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <DatePicker
+                                        label="Controlled picker"
+                                        value={eventDate}
+                                        onChange={(e) => setEventDate(e.target.value)}
+                                    />
+                                )}
+                                name="description"
+                            /> */}
+
                         </form>
                     </Box>
                 </Modal>
