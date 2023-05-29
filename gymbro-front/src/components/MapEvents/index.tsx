@@ -19,7 +19,7 @@ const MapEvents = () => {
         handleBackdrop(true)
         getEvents()
             .then(res => {
-                setMarkers(res.data)
+                setMarkers(res.data.events)
                 handleBackdrop(false)
             })
             .catch(err => {
