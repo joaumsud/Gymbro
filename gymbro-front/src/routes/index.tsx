@@ -5,6 +5,7 @@ import HomePage from '../pages/HomePage';
 import HomeUseAuth from '../pages/HomeUseAuth';
 import Events from '../pages/Events';
 import NavBarUserAuth from '../components/NavBarUserAuth';
+import PerfilUser from '../pages/PerfilUser';
 
 interface PrivateRouteProps extends RouteProps {
     component: React.ComponentType<any>;
@@ -43,6 +44,7 @@ const Routes: React.FC = () => {
                 <Route exact path="/" component={HomePage} />
                 <PrivateRoute path="/dash" component={HomeUseAuth} />
                 <PrivateRoute path="/events" component={Events} />
+                <PrivateRoute path="/perfil" component={PerfilUser} />
             </Switch>
         </>
     );
