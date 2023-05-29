@@ -103,7 +103,7 @@ const SecondPage: React.FC<PageProps> = ({ onNext, onBack }) => {
     const [alertType, setAlertType] = useState('')
     const [alertMessage, setAlertMessage] = useState('')
 
-    const handleSubmitEmail = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmitEmail = (e: any) => {
         e.preventDefault()
         handleBackdrop(true)
         resetPassword(e.target.token.value, e.target.pass.value)
