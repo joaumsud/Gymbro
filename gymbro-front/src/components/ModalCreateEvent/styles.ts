@@ -6,16 +6,19 @@ const useStyles = makeStyles({
         overflowY: 'scroll',
         height: '600px',
         minHeight: '600px',
-        width: '550px',
-        [theme.breakpoints.down('md')]:{
-            width:'450px'
+        width: '750px',
+        [theme.breakpoints.down('md')]: {
+            width: '450px'
         }
     },
     formStyle: {
         padding: '1.2rem 0'
     },
-    inputsStyle:{
-      margin:'15px 0px !important'  
+    boxInputsStyle: {
+        margin: '10px 0px 15px !important'
+    },
+    inputsStyle: {
+        width: '90%'
     },
     btnAdd: {
         width: '150px !important',

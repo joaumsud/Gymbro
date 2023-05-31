@@ -1,11 +1,12 @@
-import { Button, Modal, Box, Typography, Grid, TextField, Checkbox, Divider } from "@mui/material";
+import { Button, Modal, Box, Typography, Grid, TextField, Checkbox, Divider, InputLabel } from "@mui/material";
 import React, { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import useStyles from "./styles";
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
-
+import { postEvents } from "../../services/events.service";
+import { CreateEventDTO } from "../../models/Events";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -29,6 +30,8 @@ const ModalCreateEvent: React.FC = () => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const { handleSubmit, control, reset } = useForm();
 
     const [startDate, setStartDate] = useState(new Date());
     const [title, setTitle] = useState<string>('')
@@ -75,7 +78,28 @@ const ModalCreateEvent: React.FC = () => {
         return null;
     };
 
-    const { handleSubmit, control, reset } = useForm();
+    const onSubmit = () => {
+        console.log("Ok")
+        const data = {
+            title: title,
+            description: description,
+            // eventDate: startDate.toString(),
+            eventDate: "2023-07-29T15:43:40.783Z",
+            isPublic: isPublic,
+            hasLimit: hasLimit,
+            limitCount: limitCount,
+            geocode: markerLocation!,
+        }
+
+        postEvents(data)
+            .then(res => {
+
+            })
+            .catch(err => {
+
+            })
+    }
+
 
     return (
         <>
@@ -92,109 +116,120 @@ const ModalCreateEvent: React.FC = () => {
                     <Box sx={style} className={classes.modalStyle}>
                         <Typography variant="h6">Crie seu evento aqui!</Typography>
                         <Divider />
-                        <form className={classes.formStyle}>
-                            <Controller
-                                control={control}
-                                rules={{
-                                    required: true,
-                                }}
-                                render={({ field: { onChange, onBlur, value } }) => (
-                                    <TextField
-                                        className={classes.inputsStyle}
-                                        label="Título"
-                                        variant="outlined"
-                                        value={title}
-                                        onChange={handleTitle}
-                                    />
-                                )}
-                                name="title"
-                            />
 
-                            <Controller
-                                control={control}
-                                rules={{
-                                    required: true,
-                                }}
-                                render={({ field: { onChange, onBlur, value } }) => (
-                                    <TextField
-                                        className={classes.inputsStyle}
-                                        label="Descrição"
-                                        variant="outlined"
-                                        multiline
-                                        maxRows={4}
-                                        value={description}
-                                        onChange={handleDescription}
-                                    />
-                                )}
-                                name="description"
-                            />
-
-                            <Controller
-                                control={control}
-                                rules={{
-                                    required: true,
-                                }}
-                                render={({ field: { onChange, onBlur, value } }) => (
-                                    <DatePicker
-                                        showIcon
-                                        selected={startDate}
-                                        onChange={(e) => {
-                                            if (e) setStartDate(e)
+                        <form className={classes.formStyle} onSubmit={handleSubmit(onSubmit)}>
+                            <Grid container>
+                                <Grid item md={6} sm={12} className={classes.boxInputsStyle}>
+                                    <Controller
+                                        control={control}
+                                        rules={{
+                                            required: true,
                                         }}
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <TextField
+                                                className={classes.inputsStyle}
+                                                label="Título"
+                                                variant="outlined"
+                                                value={title}
+                                                onChange={handleTitle}
+
+                                            />
+                                        )}
+                                        name="title"
                                     />
-                                )}
-                                name="date"
-                            />
-
-                            <Controller
-                                control={control}
-                                rules={{
-                                    required: true,
-                                }}
-                                render={({ field: { onChange, onBlur, value } }) => (
-                                    <Checkbox
-                                        checked={isPublic}
-                                        onChange={handleCheckPublic}
-                                        {...label}
+                                </Grid>
+                                <Grid item md={6} sm={12} sx={{ display: 'flex', }} className={classes.boxInputsStyle}>
+                                    <Controller
+                                        control={control}
+                                        rules={{
+                                            required: true,
+                                        }}
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <Checkbox
+                                                checked={isPublic}
+                                                onChange={handleCheckPublic}
+                                                {...label}
+                                            />
+                                        )}
+                                        name="isPublic"
                                     />
-                                )}
-                                name="isPublic"
-                            />
-
-                            <Controller
-                                control={control}
-                                rules={{
-                                    required: true,
-                                }}
-                                render={({ field: { onChange, onBlur, value } }) => (
-                                    <Checkbox
-                                        checked={hasLimit}
-                                        onChange={handleCheckHasLimit}
-                                        {...label}
+                                    <InputLabel sx={{ alignSelf: 'center', margin: '0px' }} disabled={!isPublic}>Evento Público</InputLabel>
+                                </Grid>
+                                <Grid item md={12} sm={12} className={classes.boxInputsStyle}>
+                                    <Controller
+                                        control={control}
+                                        rules={{
+                                            required: true,
+                                        }}
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <TextField
+                                                sx={{ width: '100%' }}
+                                                label="Descrição"
+                                                variant="outlined"
+                                                multiline
+                                                maxRows={4}
+                                                value={description}
+                                                onChange={handleDescription}
+                                            />
+                                        )}
+                                        name="description"
                                     />
-                                )}
-                                name="hasLimit"
-                            />
 
-
-                            <Controller
-                                control={control}
-                                rules={{
-                                    required: true,
-                                }}
-                                render={({ field: { onChange, onBlur, value } }) => (
-                                    <TextField
-                                        disabled={!hasLimit ?? true}
-                                        label="Descrição"
-                                        variant="outlined"
-                                        type="number"
-                                        value={limitCount}
-                                        onChange={handleLimitCount}
+                                </Grid>
+                                <Grid item md={6} sm={12} className={classes.boxInputsStyle}>
+                                    <Controller
+                                        control={control}
+                                        rules={{
+                                            required: true,
+                                        }}
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <DatePicker
+                                                showIcon
+                                                selected={startDate}
+                                                onChange={(e) => {
+                                                    if (e) setStartDate(e)
+                                                }}
+                                            />
+                                        )}
+                                        name="date"
                                     />
-                                )}
-                                name="limitCount"
-                            />
+                                </Grid>
+                                <Grid item md={6} sm={12} className={classes.boxInputsStyle}>
+                                    <Controller
+                                        control={control}
+                                        rules={{
+                                            required: true,
+                                        }}
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <Checkbox
+                                                checked={hasLimit}
+                                                onChange={handleCheckHasLimit}
+                                                {...label}
+                                            />
+                                        )}
+                                        name="hasLimit"
+                                    />
 
+
+                                    <Controller
+                                        control={control}
+                                        rules={{
+                                            required: true,
+                                        }}
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <TextField
+                                                disabled={!hasLimit ?? true}
+                                                label="Limite"
+                                                variant="outlined"
+                                                type="number"
+                                                value={limitCount}
+                                                onChange={handleLimitCount}
+                                            />
+                                        )}
+                                        name="limitCount"
+                                    />
+                                </Grid>
+                            </Grid>
                             <Box>
                                 <MapContainer center={[0, 0]} zoom={2} style={{ height: '400px' }}>
                                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -202,7 +237,7 @@ const ModalCreateEvent: React.FC = () => {
                                 </MapContainer>
                             </Box>
                             <Button>Cancelar</Button>
-                            <Button type="submit">Criar Evento</Button>
+                            <Button type="submit" onClick={onSubmit}>Criar Evento</Button>
                         </form>
                     </Box>
                 </Modal>

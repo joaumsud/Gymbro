@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { EventByIdDTO, Events } from "../models/Events";
+import { CreateEventDTO, EventByIdDTO, Events } from "../models/Events";
 import Api from "./providers";
 
 export const getEvents = async () => {
@@ -7,9 +7,23 @@ export const getEvents = async () => {
     return response
 }
 
-export const postEvents = async () => {
-    const response = await Api.post(`/events/`,{
-        
+export const postEvents = async ({
+    title,
+    description,
+    eventDate,
+    isPublic,
+    hasLimit,
+    limitCount,
+    geocode,
+}: CreateEventDTO): Promise<AxiosResponse<Events>> => {
+    const response = await Api.post(`/events/`, {
+        title,
+        description,
+        eventDate,
+        isPublic,
+        hasLimit,
+        limitCount,
+        geocode,
     })
     return response
 }
