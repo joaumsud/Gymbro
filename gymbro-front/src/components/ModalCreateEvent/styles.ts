@@ -4,6 +4,7 @@ import theme from '../../theme'
 const useStyles = makeStyles({
     modalStyle: {
         overflowY: 'scroll',
+        overflowX:'hidden',
         height: '600px',
         minHeight: '600px',
         width: '750px',
@@ -17,8 +18,27 @@ const useStyles = makeStyles({
     boxInputsStyle: {
         margin: '10px 0px 15px !important'
     },
+    boxInputsLimitStyle: {
+        margin: '10px 0px 15px !important',
+        display: 'flex',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+        [theme.breakpoints.down('md')]: {
+            justifyContent: 'flex-start'
+        }
+    },
     inputsStyle: {
-        width: '90%'
+        width: '90%',
+        [theme.breakpoints.down('md')]: {
+            width: '100%'
+        }
+    },
+    labelCheck: {
+        fontSize: '25px !important',
+        marginLeft: 2,
+        '&.MuiFormLabel-root': {
+            lineHeight: 1
+        }
     },
     btnAdd: {
         width: '150px !important',
@@ -29,7 +49,8 @@ const useStyles = makeStyles({
         '&:hover': {
             backgroundColor: '#110FFA !important'
         }
-    }
+    },
+
 
 })
 

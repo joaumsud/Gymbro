@@ -119,7 +119,7 @@ const ModalCreateEvent: React.FC = () => {
 
                         <form className={classes.formStyle} onSubmit={handleSubmit(onSubmit)}>
                             <Grid container>
-                                <Grid item md={6} sm={12} className={classes.boxInputsStyle}>
+                                <Grid item md={10} sm={12} className={classes.boxInputsStyle}>
                                     <Controller
                                         control={control}
                                         rules={{
@@ -138,7 +138,7 @@ const ModalCreateEvent: React.FC = () => {
                                         name="title"
                                     />
                                 </Grid>
-                                <Grid item md={6} sm={12} sx={{ display: 'flex', }} className={classes.boxInputsStyle}>
+                                <Grid item md={2} sm={12} className={classes.boxInputsLimitStyle}>
                                     <Controller
                                         control={control}
                                         rules={{
@@ -146,14 +146,32 @@ const ModalCreateEvent: React.FC = () => {
                                         }}
                                         render={({ field: { onChange, onBlur, value } }) => (
                                             <Checkbox
-                                                checked={isPublic}
-                                                onChange={handleCheckPublic}
+                                                sx={{ p: 0 }}
+                                                checked={hasLimit}
+                                                onChange={handleCheckHasLimit}
                                                 {...label}
                                             />
                                         )}
-                                        name="isPublic"
+                                        name="hasLimit"
                                     />
-                                    <InputLabel sx={{ alignSelf: 'center', margin: '0px' }} disabled={!isPublic}>Evento Público</InputLabel>
+                                    <Controller
+                                        control={control}
+                                        rules={{
+                                            required: true,
+                                        }}
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <TextField
+                                                sx={{ ml: 2 }}
+                                                disabled={!hasLimit ?? true}
+                                                label="Limite"
+                                                variant="outlined"
+                                                type="number"
+                                                value={limitCount}
+                                                onChange={handleLimitCount}
+                                            />
+                                        )}
+                                        name="limitCount"
+                                    />
                                 </Grid>
                                 <Grid item md={12} sm={12} className={classes.boxInputsStyle}>
                                     <Controller
@@ -184,7 +202,24 @@ const ModalCreateEvent: React.FC = () => {
                                         }}
                                         render={({ field: { onChange, onBlur, value } }) => (
                                             <DatePicker
-                                                showIcon
+                                                popperClassName="some-custom-class"
+                                                popperPlacement="top-start"
+                                                popperModifiers={[
+                                                    {
+                                                        name: "offset",
+                                                        options: {
+                                                            offset: [5, 10],
+                                                        },
+                                                    },
+                                                    {
+                                                        name: "preventOverflow",
+                                                        options: {
+                                                            rootBoundary: "viewport",
+                                                            tether: false,
+                                                            altAxis: true,
+                                                        },
+                                                    },
+                                                ]}
                                                 selected={startDate}
                                                 onChange={(e) => {
                                                     if (e) setStartDate(e)
@@ -194,41 +229,7 @@ const ModalCreateEvent: React.FC = () => {
                                         name="date"
                                     />
                                 </Grid>
-                                <Grid item md={6} sm={12} className={classes.boxInputsStyle}>
-                                    <Controller
-                                        control={control}
-                                        rules={{
-                                            required: true,
-                                        }}
-                                        render={({ field: { onChange, onBlur, value } }) => (
-                                            <Checkbox
-                                                checked={hasLimit}
-                                                onChange={handleCheckHasLimit}
-                                                {...label}
-                                            />
-                                        )}
-                                        name="hasLimit"
-                                    />
 
-
-                                    <Controller
-                                        control={control}
-                                        rules={{
-                                            required: true,
-                                        }}
-                                        render={({ field: { onChange, onBlur, value } }) => (
-                                            <TextField
-                                                disabled={!hasLimit ?? true}
-                                                label="Limite"
-                                                variant="outlined"
-                                                type="number"
-                                                value={limitCount}
-                                                onChange={handleLimitCount}
-                                            />
-                                        )}
-                                        name="limitCount"
-                                    />
-                                </Grid>
                             </Grid>
                             <Box>
                                 <MapContainer center={[0, 0]} zoom={2} style={{ height: '400px' }}>
@@ -236,6 +237,32 @@ const ModalCreateEvent: React.FC = () => {
                                     <LocationMarker />
                                 </MapContainer>
                             </Box>
+                            <Grid
+                                className={classes.boxInputsStyle}
+                                sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end' }}
+                            >
+                                <Controller
+                                    control={control}
+                                    rules={{
+                                        required: true,
+                                    }}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                        <Checkbox
+                                            sx={{ p: 0 }}
+                                            checked={isPublic}
+                                            onChange={handleCheckPublic}
+                                            {...label}
+                                        />
+                                    )}
+                                    name="isPublic"
+                                />
+                                <InputLabel
+                                    className={classes.labelCheck}
+                                    disabled={!isPublic}
+                                >
+                                    Evento Público
+                                </InputLabel>
+                            </Grid>
                             <Button>Cancelar</Button>
                             <Button type="submit" onClick={onSubmit}>Criar Evento</Button>
                         </form>
