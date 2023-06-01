@@ -1,6 +1,7 @@
 import { Box, Button, Grid } from '@mui/material';
 import './style.css'
 import ModalCreateEvent from '../../components/ModalCreateEvent';
+import EventsList from '../../components/EventsList';
 
 const Events = () => {
     return (
@@ -10,7 +11,7 @@ const Events = () => {
                     <ModalCreateEvent />
                 </Grid>
                 <Box className='box-style'>
-                    <p>Seus Eventos aqui</p>
+                    <EventsList />
                 </Box>
             </Box>
 
