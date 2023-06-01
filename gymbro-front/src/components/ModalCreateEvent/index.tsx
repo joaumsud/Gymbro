@@ -1,5 +1,5 @@
 import { Button, Modal, Box, Typography, Grid, TextField, Checkbox, Divider, InputLabel, Alert } from "@mui/material";
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import useStyles from "./styles";
 import DatePicker from 'react-datepicker'
@@ -8,6 +8,10 @@ import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import { postEvents } from "../../services/events.service";
 import { CreateEventDTO } from "../../models/Events";
 import Backdrop from '@mui/material/Backdrop';
+import ptBR from 'date-fns/locale/pt-BR'
+import moment from "moment";
+
+
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -23,7 +27,6 @@ const style = {
 };
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-
 
 const ModalCreateEvent: React.FC = () => {
     const classes = useStyles()
@@ -80,12 +83,12 @@ const ModalCreateEvent: React.FC = () => {
     };
 
     const onSubmit = () => {
-        console.log("Ok")
+        console.log(startDate)
         const data = {
             title: title,
             description: description,
             // eventDate: startDate.toString(),
-            eventDate: "2023-07-29T15:43:40.783Z",
+            eventDate: `${moment(startDate.toString()).format('YYYY-MM-DD')}T${moment(startDate.toString()).format("HH:mm:ss")}Z`,
             isPublic: isPublic,
             hasLimit: hasLimit,
             limitCount: limitCount,
@@ -100,7 +103,6 @@ const ModalCreateEvent: React.FC = () => {
 
             })
     }
-
 
     return (
         <>
@@ -212,6 +214,11 @@ const ModalCreateEvent: React.FC = () => {
                                             <DatePicker
                                                 popperClassName="some-custom-class"
                                                 popperPlacement="top-start"
+                                                showTimeSelect
+                                                dateFormat="dd/MM/yyyy HH:mm"
+                                                timeFormat="HH:mm"
+                                                locale={ptBR}
+                                                minDate={new Date()}
                                                 popperModifiers={[
                                                     {
                                                         name: "offset",
@@ -230,6 +237,7 @@ const ModalCreateEvent: React.FC = () => {
                                                 ]}
                                                 selected={startDate}
                                                 onChange={(e) => {
+                                                    console.log(`${moment(e).format('YYYY-MM-DD')}T${moment(e).format("HH:mm:ss")}Z`)
                                                     if (e) setStartDate(e)
                                                 }}
                                             />
@@ -237,7 +245,6 @@ const ModalCreateEvent: React.FC = () => {
                                         name="date"
                                     />
                                 </Grid>
-
                             </Grid>
                             <Alert
                                 icon={false}
