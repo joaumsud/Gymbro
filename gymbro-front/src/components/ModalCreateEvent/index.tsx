@@ -1,4 +1,4 @@
-import { Button, Modal, Box, Typography, Grid, TextField, Checkbox, Divider, InputLabel } from "@mui/material";
+import { Button, Modal, Box, Typography, Grid, TextField, Checkbox, Divider, InputLabel, Alert } from "@mui/material";
 import React, { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import useStyles from "./styles";
@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import { postEvents } from "../../services/events.service";
 import { CreateEventDTO } from "../../models/Events";
+import Backdrop from '@mui/material/Backdrop';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -112,9 +113,16 @@ const ModalCreateEvent: React.FC = () => {
                     onClose={handleClose}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
+                    closeAfterTransition
+                    slots={{ backdrop: Backdrop }}
+                    slotProps={{
+                        backdrop: {
+                            timeout: 500,
+                        },
+                    }}
                 >
                     <Box sx={style} className={classes.modalStyle}>
-                        <Typography variant="h6">Crie seu evento aqui!</Typography>
+                        <Typography variant="h5">Crie seu evento aqui!</Typography>
                         <Divider />
 
                         <form className={classes.formStyle} onSubmit={handleSubmit(onSubmit)}>
@@ -231,8 +239,15 @@ const ModalCreateEvent: React.FC = () => {
                                 </Grid>
 
                             </Grid>
+                            <Alert
+                                icon={false}
+                                severity="info"
+                                className={classes.alertLocal}
+                            >
+                                <strong>Ajuda</strong>: Clique no mapa para escolher o local do evento.
+                            </Alert>
                             <Box>
-                                <MapContainer center={[0, 0]} zoom={2} style={{ height: '400px' }}>
+                                <MapContainer center={[-22.7999744, -45.2001792]} zoom={13} style={{ height: '400px' }}>
                                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                                     <LocationMarker />
                                 </MapContainer>
@@ -263,8 +278,10 @@ const ModalCreateEvent: React.FC = () => {
                                     Evento Público
                                 </InputLabel>
                             </Grid>
-                            <Button>Cancelar</Button>
-                            <Button type="submit" onClick={onSubmit}>Criar Evento</Button>
+                            <Grid className={classes.gridBtns}>
+                                <Button variant="outlined" onClick={handleClose} className={classes.btnCancel}>Cancelar</Button>
+                                <Button type="submit" onClick={onSubmit} className={classes.btnAdd}>Criar Evento</Button>
+                            </Grid>
                         </form>
                     </Box>
                 </Modal>

@@ -4,7 +4,7 @@ import theme from '../../theme'
 const useStyles = makeStyles({
     modalStyle: {
         overflowY: 'scroll',
-        overflowX:'hidden',
+        overflowX: 'hidden',
         height: '600px',
         minHeight: '600px',
         width: '750px',
@@ -40,17 +40,37 @@ const useStyles = makeStyles({
             lineHeight: 1
         }
     },
+    alertLocal: {
+        marginBottom: '10px',
+        '&.MuiAlert-root': {
+            backgroundColor: 'rgb(229, 246, 253)',
+            color: 'rgb(1, 67, 97)'
+        }
+    },
+    gridBtns: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+    },
     btnAdd: {
         width: '150px !important',
         padding: '10px 20px !important',
         fontSize: '15px !important',
         backgroundColor: '#110FFA !important',
         color: 'white !important',
+        marginLeft: '1.5rem !important',
+        marginTop:'1.1rem !important',
         '&:hover': {
             backgroundColor: '#110FFA !important'
         }
     },
-
+    btnCancel: {
+        width: '150px !important',
+        padding: '10px 20px !important',
+        fontSize: '15px !important',
+        color: '#110FFA !important',
+        borderColor: '#110FFA !important',
+        marginTop:'1.1rem !important',
+    }
 
 })
 

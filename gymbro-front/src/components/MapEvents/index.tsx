@@ -2,9 +2,9 @@ import './style.css'
 import "leaflet/dist/leaflet.css";
 import { Divider, Grid, TextField, Typography } from "@mui/material";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { Icon } from 'leaflet';
+import { Icon, LatLngExpression } from 'leaflet';
 import { Events } from '../../models/Events';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useLayoutEffect } from 'react';
 import { getEvents } from '../../services/events.service';
 import PopUpEvents from '../PopUpEvents';
 import { useBackdrop } from '../../hooks/backdrop';
@@ -14,6 +14,8 @@ const MapEvents = () => {
     const [markers, setMarkers] = useState<Events[]>([])
     const { handleBackdrop } = useBackdrop()
     const { addFedback } = useFeedback()
+
+    // const [centerLocation, setCenterLocation] = useState<LatLngExpression>();
 
     const eventsList = useCallback(() => {
         handleBackdrop(true)
@@ -32,6 +34,12 @@ const MapEvents = () => {
         eventsList()
     }, [])
 
+    // navigator.geolocation.getCurrentPosition(location => {
+    //     setCenterLocation([location.coords.latitude, location.coords.longitude])
+    // },
+    //     error => {
+    //         console.log(error);
+    //     });
 
     const customIcon = new Icon({
         iconUrl: 'https:// cdn-icons-png.flaticon.com/512/5591/5591266.png',
@@ -40,9 +48,8 @@ const MapEvents = () => {
 
     return (
         <>
-            <MapContainer center={[-22.812028708655735, -45.19140005961926]} zoom={13}>
+            <MapContainer center={[-22.7999744, -45.2001792]} zoom={13}>
                 <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 {
