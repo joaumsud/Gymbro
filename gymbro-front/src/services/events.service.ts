@@ -3,7 +3,7 @@ import { CreateEventDTO, EventByIdDTO, Events } from "../models/Events";
 import Api from "./providers";
 
 export interface EventsDTO {
-    events: Event[];
+    events: EventUnique[];
     count: number;
   }
   
@@ -54,6 +54,6 @@ export const getEventsById = async (id: number): Promise<AxiosResponse<EventById
 }
 
 export const getEventsByUser = async (): Promise<AxiosResponse<EventsDTO>> => {
-    const response = await Api.get(`/events/participant_events`)
+    const response = await Api.get(`/events/user_events`)
     return response;
 }
