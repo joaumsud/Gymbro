@@ -1,7 +1,9 @@
 import {
     Box,
+    Button,
     Divider,
     Fab,
+    Grid,
     Popover,
     TextField,
     Typography,
@@ -56,9 +58,12 @@ const SideBarFilters: React.FC = () => {
                 PaperProps={{
                     className: classes.popOver
                 }}
+                className={classes.popOver}
             >
-                <Typography sx={{ p: 2 }} variant="h6">Filtre os eventos aqui!</Typography>
-                <Divider />
+                <Typography textAlign='left' py={1} variant="h6">
+                    Filtre
+                </Typography>
+                <Divider  />
                 <form>
                     <Controller
                         control={control}
@@ -72,11 +77,13 @@ const SideBarFilters: React.FC = () => {
                                 variant="outlined"
                                 value={title}
                             // onChange={handleTitle}
-
                             />
                         )}
                         name="title"
                     />
+                    <Grid sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <Button className={classes.btnFilter} type='submit'>Pesquisar</Button>
+                    </Grid>
                 </form>
             </Popover>
         </Box>

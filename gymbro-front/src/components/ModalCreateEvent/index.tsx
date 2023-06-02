@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import React, { forwardRef, useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import useStyles from "./styles";
-import DatePicker from 'react-datepicker'
+// import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import { postEvents } from "../../services/events.service";
@@ -11,6 +11,11 @@ import { CreateEventDTO } from "../../models/Events";
 import Backdrop from '@mui/material/Backdrop';
 import ptBR from 'date-fns/locale/pt-BR'
 import moment from "moment";
+import { BaseTextFieldProps } from '@mui/material';
+import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { DesktopDatePickerProps } from '@mui/x-date-pickers/DesktopDatePicker';
+import { Moment } from 'moment';
 
 
 
@@ -83,20 +88,20 @@ const ModalCreateEvent: React.FC = () => {
         return null;
     };
 
-    const onSubmit = () => {
-        console.log(startDate)
-        const data = {
+    const onSubmit = (data: any) => {
+        const object = {
             title: title,
             description: description,
             // eventDate: startDate.toString(),
-            eventDate: `${moment(startDate.toString()).format('YYYY-MM-DD')}T${moment(startDate.toString()).format("HH:mm:ss")}Z`,
+            // eventDate: `${moment(startDate.toString()).format('YYYY-MM-DD')}T${moment(startDate.toString()).format("HH:mm:ss")}Z`,
+            eventDate: data.date,
             isPublic: isPublic,
             hasLimit: hasLimit,
             limitCount: limitCount,
             geocode: markerLocation!,
         }
-
-        postEvents(data)
+        console.log(data.date)
+        postEvents(object)
             .then(res => {
 
             })
@@ -208,42 +213,33 @@ const ModalCreateEvent: React.FC = () => {
                                 <Grid item md={6} sm={12} className={classes.boxInputsStyle}>
                                     <Controller
                                         control={control}
+                                        name="date"
                                         rules={{
                                             required: true,
                                         }}
-                                        render={({ field: { onChange, onBlur, value } }) => (
-                                            <DatePicker
-                                                popperClassName="some-custom-class"
-                                                popperPlacement="top-start"
-                                                showTimeSelect
-                                                dateFormat="dd/MM/yyyy HH:mm"
-                                                timeFormat="HH:mm"
-                                                locale={ptBR}
-                                                minDate={new Date()}
-                                                popperModifiers={[
-                                                    {
-                                                        name: "offset",
-                                                        options: {
-                                                            offset: [5, 10],
-                                                        },
-                                                    },
-                                                    {
-                                                        name: "preventOverflow",
-                                                        options: {
-                                                            rootBoundary: "viewport",
-                                                            tether: false,
-                                                            altAxis: true,
-                                                        },
-                                                    },
-                                                ]}
-                                                selected={startDate}
-                                                onChange={(e) => {
-                                                    console.log(`${moment(e).format('YYYY-MM-DD')}T${moment(e).format("HH:mm:ss")}Z`)
-                                                    if (e) setStartDate(e)
-                                                }}
-                                            />
+                                        render={({ ...props }) => (
+                                            <LocalizationProvider dateAdapter={AdapterMoment}>
+                                                <DatePicker
+                                                    className={classes.datePickerStyle}
+                                                    onChange={(e) => console.log(e)}
+                                                />
+                                            </LocalizationProvider>
                                         )}
+                                    />
+                                </Grid>
+                                <Grid item md={6} sm={12} className={classes.boxInputsStyle} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    <Controller
+                                        control={control}
                                         name="date"
+                                        rules={{
+                                            required: true,
+                                        }}
+                                        render={({ ...props }) => (
+                                            <LocalizationProvider dateAdapter={AdapterMoment}>
+                                                <TimePicker 
+                                                className={classes.timePickerStyle} />
+                                            </LocalizationProvider>
+                                        )}
                                     />
                                 </Grid>
                             </Grid>
@@ -288,7 +284,7 @@ const ModalCreateEvent: React.FC = () => {
                             </Grid>
                             <Grid className={classes.gridBtns}>
                                 <Button variant="outlined" onClick={handleClose} className={classes.btnCancel}>Cancelar</Button>
-                                <Button type="submit" onClick={onSubmit} className={classes.btnAdd}>Criar Evento</Button>
+                                <Button type="submit" className={classes.btnAdd}>Criar Evento</Button>
                             </Grid>
                         </form>
                     </Box>

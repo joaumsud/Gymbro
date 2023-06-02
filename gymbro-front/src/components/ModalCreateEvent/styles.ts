@@ -70,6 +70,21 @@ const useStyles = makeStyles({
         color: '#110FFA !important',
         borderColor: '#110FFA !important',
         marginTop:'1.1rem !important',
+    },
+    datePickerStyle:{
+        "& input":{
+            border:'none !important',
+            boxShadow:'none !important'
+        },
+        '&.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input':{
+            margin:'0px !important'
+        }
+    },
+    timePickerStyle:{
+        "& input":{
+            border:'none !important',
+            boxShadow:'none !important'
+        },
     }
 
 })
