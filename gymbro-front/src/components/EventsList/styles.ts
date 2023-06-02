@@ -60,6 +60,6 @@ export const useStyles = makeStyles(() => ({
     pagination: {
         display: 'flex',
         justifyContent: 'center',
-        marginTop: '1rem',
+        marginTop: '1rem !important',
     },
 }));

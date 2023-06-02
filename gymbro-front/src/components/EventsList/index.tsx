@@ -5,6 +5,8 @@ import { useStyles } from "./styles";
 import moment from "moment";
 import PublicIcon from '@mui/icons-material/Public';
 import PublicOffIcon from '@mui/icons-material/PublicOff';
+import { useBackdrop } from '../../hooks/backdrop';
+
 
 const EventsList: React.FC = () => {
     const classes = useStyles();
@@ -13,17 +15,20 @@ const EventsList: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(6)
 
+    const { handleBackdrop } = useBackdrop()
+
     const getEvents = useCallback(() => {
         getEventsByUser().
             then(res => {
-                console.log(res)
+                handleBackdrop(false)
                 setUserEvents(res.data)
             })
             .catch(err => {
-                console.log(err)
+                handleBackdrop(false)
             })
     }, [])
     useEffect(() => {
+        handleBackdrop(true)
         getEvents()
     }, [])
 
@@ -41,7 +46,7 @@ const EventsList: React.FC = () => {
             <Grid container>
                 {currentPost && (currentPost.length > 0 ? currentPost.map((event: EventUnique) =>
                 (
-                    <Grid item md={4} sm={12} p={1} >
+                    <Grid item md={6} sm={12} p={1} lg={4} >
                         <Card sx={{ minWidth: 275, }} className={event.isAdmin ? classes.cardAdmin : classes.card}>
                             <Typography textAlign='center' variant="h5" gutterBottom>
                                 {event.title}
