@@ -6,18 +6,28 @@ export const useStyles = makeStyles(() => ({
         borderColor: '#110FFA',
         borderRadius: 12,
         backgroundColor: '#fff',
+        transition: ' all .2s ease-in-out !important',
         '&.MuiCard-root': {
             padding: '10px 0px !important',
         },
+        '&:hover': {
+            transform: 'scale(1.02)',
+            boxShadow: "0 6px 12px 0 #6A19E3"
+        }
     },
     cardAdmin: {
         border: '1px solid',
         borderColor: 'rgba(201,15,250,0.5)',
         borderRadius: 12,
         backgroundColor: '#fff',
+        transition: 'all .2s ease-in-out !important',
         '&.MuiCard-root': {
             padding: '10px 0px !important',
         },
+        '&:hover': {
+            transform: 'scale(1.02)',
+            boxShadow: "0 6px 12px 0 #6A19E3"
+        }
     },
     titleFont: {
         fontFamily: "'Kanit', san-serif",

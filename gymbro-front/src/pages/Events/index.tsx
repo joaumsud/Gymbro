@@ -7,14 +7,13 @@ const Events = () => {
     return (
         <div className='div-style'>
             <Box className='box-father-style'>
-                <Grid style={{ display: 'flex', justifyContent: 'end', marginBottom: '10px' }}>
+                <Grid style={{ display: 'flex', justifyContent: 'end', marginBottom: '10px' }} p={1}>
                     <ModalCreateEvent />
                 </Grid>
                 <Box className='box-style'>
                     <EventsList />
                 </Box>
             </Box>
-
         </div>
     )
 }

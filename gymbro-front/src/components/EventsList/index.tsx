@@ -39,7 +39,7 @@ const EventsList: React.FC = () => {
     return (
         <>
             <Grid container>
-                {currentPost && currentPost?.length > 0 ? currentPost.map((event: EventUnique) =>
+                {currentPost && (currentPost.length > 0 ? currentPost.map((event: EventUnique) =>
                 (
                     <Grid item md={4} sm={12} p={1} >
                         <Card sx={{ minWidth: 275, }} className={event.isAdmin ? classes.cardAdmin : classes.card}>
@@ -52,9 +52,9 @@ const EventsList: React.FC = () => {
                                 </Typography>
                             </Box>
                             <CardContent>
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                     { }
-                                </Typography>
+                                </Typography> */}
                                 {event.isPublic ?
                                     <Box sx={{ display: 'flex', alignItems: 'center' }} my={1}>
                                         <PublicIcon /><Typography sx={{ display: 'inline', marginLeft: 2 }}>Público</Typography>
@@ -77,12 +77,11 @@ const EventsList: React.FC = () => {
                     </Grid>
                 ))
                     : (
-                        <Alert severity="error">Não há eventos associados a esta conta!</Alert>
-                    )}
-
-                {totalPages && totalPages > 1 && (
+                        <Alert severity="error" sx={{ width: '80vw' }}>Não há eventos associados a esta conta!</Alert>
+                    ))}
+                {currentPost && currentPost.length > 0 ? (totalPages && totalPages > 1 && (
                     <Grid xs={12} sm={12} item
-                    className={classes.pagination}
+                        className={classes.pagination}
                     >
                         <Pagination
                             count={totalPages}
@@ -90,7 +89,8 @@ const EventsList: React.FC = () => {
                             onChange={handleChange}
                         />
                     </Grid>
-                )}
+                )) : null}
+
             </Grid>
         </>
     )
