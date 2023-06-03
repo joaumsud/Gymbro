@@ -45,7 +45,7 @@ export const useStyles = makeStyles(() => ({
         letterSpacing: 1,
         width: '100%',
     },
-    btnAdd: {
+    btnView: {
         width: '150px !important',
         padding: '5px 15px !important',
         fontSize: '12px !important',
@@ -61,5 +61,36 @@ export const useStyles = makeStyles(() => ({
         display: 'flex',
         justifyContent: 'center',
         marginTop: '1rem !important',
+    },
+    btnDelete:{
+        color:'#F00E3D !important'
+    },
+    btnEdit:{
+        color:'#6A19E3 !important'
+    },
+    btnDialogDelete: {
+        width: '130px !important',
+        padding: '5px 15px !important',
+        fontSize: '12px !important',
+        backgroundColor: '#F00E3D !important',
+        color: 'white !important',
+        marginLeft: '1.0rem !important',
+        marginTop: '1.1rem !important',
+        '&:hover': {
+            backgroundColor: '#F00E3D !important'
+        }
+    },
+    btnDialogCancel: {
+        width: '130px !important',
+        padding: '5px 15px !important',
+        fontSize: '12px !important',
+        // backgroundColor: '#6A19E3 !important',
+        borderColor:'#F00E3D !important',
+        color: '#F00E3D !important',
+        // marginLeft: '1.5rem !important',
+        marginTop: '1.1rem !important',
+        '&:hover': {
+            // backgroundColor: '#6A19E3 !important'
+        }
     },
 }));

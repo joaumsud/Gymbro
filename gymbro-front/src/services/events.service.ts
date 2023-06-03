@@ -5,9 +5,9 @@ import Api from "./providers";
 export interface EventsDTO {
     events: EventUnique[];
     count: number;
-  }
-  
-  export interface EventUnique {
+}
+
+export interface EventUnique {
     id: number;
     title: string;
     description: string;
@@ -16,11 +16,11 @@ export interface EventsDTO {
     hasLimit: boolean;
     limitCount: number;
     isActive: boolean;
-    geocode: [number,number];
+    geocode: [number, number];
     adminId: number;
     isAdmin: boolean;
-  }
-  
+}
+
 
 export const getEvents = async () => {
     const response = await Api.get(`/events/public_events`)
@@ -55,5 +55,10 @@ export const getEventsById = async (id: number): Promise<AxiosResponse<EventById
 
 export const getEventsByUser = async (): Promise<AxiosResponse<EventsDTO>> => {
     const response = await Api.get(`/events/user_events`)
+    return response;
+}
+
+export const deleteEvent = async (eventId: number): Promise<AxiosResponse> => {
+    const response = await Api.delete(`/events/${eventId}`)
     return response;
 }

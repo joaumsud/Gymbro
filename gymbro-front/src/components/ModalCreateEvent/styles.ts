@@ -58,7 +58,7 @@ const useStyles = makeStyles({
         backgroundColor: '#110FFA !important',
         color: 'white !important',
         marginLeft: '1.5rem !important',
-        marginTop:'1.1rem !important',
+        marginTop: '1.1rem !important',
         '&:hover': {
             backgroundColor: '#110FFA !important'
         }
@@ -69,22 +69,27 @@ const useStyles = makeStyles({
         fontSize: '15px !important',
         color: '#110FFA !important',
         borderColor: '#110FFA !important',
-        marginTop:'1.1rem !important',
+        marginTop: '1.1rem !important',
     },
-    datePickerStyle:{
-        "& input":{
-            border:'none !important',
-            boxShadow:'none !important'
+    datePickerStyle: {
+        "& input": {
+            border: 'none !important',
+            boxShadow: 'none !important'
         },
-        '&.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input':{
-            margin:'0px !important'
+        '&.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input': {
+            margin: '0px !important'
         }
     },
-    timePickerStyle:{
-        "& input":{
-            border:'none !important',
-            boxShadow:'none !important'
+    timePickerStyle: {
+        "& input": {
+            border: 'none !important',
+            boxShadow: 'none !important'
         },
+    },
+    helperText: {
+        color: theme.palette.info.light,
+        position: 'relative',
+        height: '5px',
     }
 
 })
