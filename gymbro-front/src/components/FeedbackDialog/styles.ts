@@ -4,11 +4,11 @@ import theme from '../../theme'
 const useStyles = makeStyles({
     dialogStyle: {
         height: '100%',
-        padding: '24px',
+        padding: '20px',
 
     },
     paperRoot: {
-        minWidth: '500px',
+        minWidth: '350px',
         minHeight: '250px',
     },
 })

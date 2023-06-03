@@ -3,7 +3,7 @@ import { makeStyles } from "@mui/styles";
 export const useStyles = makeStyles(() => ({
     card: {
         border: '1px solid',
-        borderColor: '#110FFA',
+        borderColor: 'rgba(17,15,250,0.5)',
         borderRadius: 12,
         backgroundColor: '#fff',
         transition: ' all .2s ease-in-out !important',
@@ -12,7 +12,7 @@ export const useStyles = makeStyles(() => ({
         },
         '&:hover': {
             transform: 'scale(1.02)',
-            boxShadow: "0 6px 12px 0 #6A19E3"
+            boxShadow: "0 6px 12px 0 #110FFA"
         }
     },
     cardAdmin: {

@@ -11,6 +11,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import theme from "../../theme";
 import { TransitionProps } from '@mui/material/transitions';
 import CustomSkeleton from "../Skeleton";
+import { useFeedback } from "../../hooks/addFeedback";
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import FeedIcon from '@mui/icons-material/Feed';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -33,6 +36,7 @@ const EventsList: React.FC = () => {
     const [idEvent, setIdEvent] = useState<number>()
 
     const { handleBackdrop } = useBackdrop()
+    const { addFedback } = useFeedback()
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -51,6 +55,10 @@ const EventsList: React.FC = () => {
                 setUserEvents(res.data)
             })
             .catch(err => {
+                addFedback({
+                    description: 'Erro ao exibir os eventos!',
+                    typeMessage: 'error'
+                })
                 handleBackdrop(false)
             })
             .finally(() => {
@@ -67,9 +75,17 @@ const EventsList: React.FC = () => {
         deleteEvent(eventId)
             .then(res => {
                 getEvents()
+                addFedback({
+                    description: 'Evento excluído com sucesso!',
+                    typeMessage: 'success'
+                })
             })
             .catch(err => {
                 handleBackdrop(false)
+                addFedback({
+                    description: 'Erro ao excluir o evento!',
+                    typeMessage: 'success'
+                })
             })
     }
 
@@ -92,7 +108,12 @@ const EventsList: React.FC = () => {
                             {currentPost && (currentPost.length > 0 ? currentPost.map((event: EventUnique) =>
                             (
                                 <Grid item md={6} sm={12} p={1} lg={4} >
-                                    <Card sx={{ minWidth: 275, }} className={event.isAdmin ? classes.cardAdmin : classes.card}>
+                                    <Card sx={{ minWidth: 275, }}
+                                        className={
+                                            event.isAdmin ?
+                                                classes.cardAdmin :
+                                                classes.card}
+                                    >
                                         <Typography textAlign='center' variant="h5" gutterBottom>
                                             {event.title}
                                         </Typography>
@@ -159,7 +180,41 @@ const EventsList: React.FC = () => {
 
                                             </CardActions>)
                                             : (<CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                                <Button className={classes.btnView} size="small">Ver mais</Button>
+                                                {/* <Button className={classes.btnView} size="small">Ver mais</Button> */}
+                                                <Tooltip
+                                                    title="Sair do Evento"
+                                                    placement="top"
+                                                    arrow
+                                                    TransitionComponent={Fade}
+                                                    TransitionProps={{ timeout: 400 }}
+                                                >
+                                                    <IconButton
+                                                        aria-label="delete"
+                                                        size="large"
+                                                        onClick={() => {
+                                                            // handleClickOpen()
+                                                            // setIdEvent(event.id)
+                                                        }}
+                                                        className={classes.btnDelete}
+                                                    >
+                                                        <HighlightOffIcon fontSize="inherit" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip
+                                                    title="Detalhes"
+                                                    placement="top"
+                                                    arrow
+                                                    TransitionComponent={Fade}
+                                                    TransitionProps={{ timeout: 400 }}
+                                                >
+                                                    <IconButton
+                                                        aria-label="edit"
+                                                        size="large"
+                                                        className={classes.btnEdit}
+                                                    >
+                                                        <FeedIcon fontSize="inherit" />
+                                                    </IconButton>
+                                                </Tooltip>
                                             </CardActions>)
                                         }
 

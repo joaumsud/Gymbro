@@ -5,13 +5,13 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Icon, LatLngExpression } from 'leaflet';
 import { Events } from '../../models/Events';
 import { useCallback, useEffect, useState, useLayoutEffect } from 'react';
-import { getEvents } from '../../services/events.service';
+import { EventsDTO, getEvents } from '../../services/events.service';
 import PopUpEvents from '../PopUpEvents';
 import { useBackdrop } from '../../hooks/backdrop';
 import { useFeedback } from '../../hooks/addFeedback';
 
 const MapEvents = () => {
-    const [markers, setMarkers] = useState<Events[]>([])
+    const [markers, setMarkers] = useState<EventsDTO>()
     const { handleBackdrop } = useBackdrop()
     const { addFedback } = useFeedback()
 
@@ -21,11 +21,14 @@ const MapEvents = () => {
         handleBackdrop(true)
         getEvents()
             .then(res => {
-                setMarkers(res.data.events)
+                setMarkers(res.data)
                 handleBackdrop(false)
             })
             .catch(err => {
-                console.log(err)
+                addFedback({
+                    description: 'Erro ao exibir os eventos',
+                    typeMessage: 'error'
+                })
                 handleBackdrop(false)
             })
     }, [])
@@ -33,6 +36,10 @@ const MapEvents = () => {
     useEffect(() => {
         eventsList()
     }, [])
+
+    const deleteEventInPop = () => {
+        eventsList()
+    }
 
     // navigator.geolocation.getCurrentPosition(location => {
     //     setCenterLocation([location.coords.latitude, location.coords.longitude])
@@ -45,7 +52,7 @@ const MapEvents = () => {
         iconUrl: 'https:// cdn-icons-png.flaticon.com/512/5591/5591266.png',
         iconSize: [38, 38]
     })
-
+    console.log(markers)
     return (
         <>
             <MapContainer center={[-22.7999744, -45.2001792]} zoom={13}>
@@ -53,10 +60,10 @@ const MapEvents = () => {
                     url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 {
-                    markers!.map(marker => (
+                    markers?.events && markers.events!.map((marker: any) => (
                         <Marker position={marker.geocode} key={marker.id}  >
                             <Popup>
-                                <PopUpEvents title={marker.title} date={marker.eventDate} id={marker.id} />
+                                <PopUpEvents title={marker.title} date={marker.eventDate} id={marker.id} deleteEventInPop={deleteEventInPop} />
                             </Popup>
                         </Marker>
                     ))

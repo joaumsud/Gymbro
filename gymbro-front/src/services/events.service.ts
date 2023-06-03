@@ -22,7 +22,7 @@ export interface EventUnique {
 }
 
 
-export const getEvents = async () => {
+export const getEvents = async (): Promise<AxiosResponse<EventsDTO>> => {
     const response = await Api.get(`/events/public_events`)
     return response
 }
@@ -61,4 +61,9 @@ export const getEventsByUser = async (): Promise<AxiosResponse<EventsDTO>> => {
 export const deleteEvent = async (eventId: number): Promise<AxiosResponse> => {
     const response = await Api.delete(`/events/${eventId}`)
     return response;
+}
+
+export const joinEvent = async (eventId: number) => {
+    const response = await Api.post(`/events/join_event/${eventId}`)
+    return response
 }
