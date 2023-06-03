@@ -1,13 +1,17 @@
-import { Box, Button, Modal, Typography } from "@mui/material"
-import { useEffect, useState } from "react";
-import { getEventsById } from "../../services/events.service";
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, IconButton, Modal, Slide, Tooltip, Typography } from "@mui/material"
+import { forwardRef, useEffect, useState } from "react";
+import { deleteEvent, getEventsById } from "../../services/events.service";
 import { EventByIdDTO } from "../../models/Events";
 import PublicIcon from '@mui/icons-material/Public';
 import PublicOffIcon from '@mui/icons-material/PublicOff';
 import { useBackdrop } from "../../hooks/backdrop";
 import axios from 'axios';
 import moment from 'moment';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import './styles.css'
+import { TransitionProps } from "@mui/material/transitions";
+import { useStyles } from "./styles";
 
 interface Address {
     road: string;
@@ -36,11 +40,32 @@ const style = {
     p: 4,
 };
 
+const Transition = forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement<any, any>;
+    },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
 const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id }) => {
+    const classes = useStyles()
+
     const [open, setOpen] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
     const [eventById, setEventById] = useState<EventByIdDTO>()
     const { handleBackdrop } = useBackdrop();
     const [address, setAddress] = useState<string>()
+    const [idEvent, setIdEvent] = useState<number>()
+
+    const handleClickOpen = () => {
+        setOpenDialog(true);
+    };
+
+    const handleClickClose = () => {
+        setOpenDialog(false);
+    };
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -66,6 +91,17 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id }) => {
             })
             .catch(err => {
                 console.log(err)
+                handleBackdrop(false)
+            })
+    }
+
+    const deleteEventById = (eventId: number) => {
+        handleBackdrop(true)
+        deleteEvent(eventId)
+            .then(res => {
+                // getEvents()
+            })
+            .catch(err => {
                 handleBackdrop(false)
             })
     }
@@ -138,15 +174,82 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id }) => {
                     <Typography sx={{ mt: 2 }}>Local: {address}</Typography>
                     {
                         eventById?.isAdmin ?
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                <Button sx={{ backgroundColor: '#F00E3D', color: 'white','&:hover':{backgroundColor:'#F00E3D'} }}>Editar Evento</Button>
-                            </Box> :
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                <Button sx={{ backgroundColor: '#6A19E3', color: 'white','&:hover':{backgroundColor:'#C90FFA'} }}>Entrar</Button>
-                            </Box>
+                            (
+                                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    {/* <Button sx={{ backgroundColor: '#F00E3D', color: 'white', '&:hover': { backgroundColor: '#F00E3D' } }}>Editar Evento</Button> */}
+                                    <Tooltip
+                                        title="Deletar"
+                                        placement="top"
+                                        arrow
+                                        TransitionComponent={Fade}
+                                        TransitionProps={{ timeout: 400 }}
+                                    >
+                                        <IconButton
+                                            aria-label="delete"
+                                            size="large"
+                                            onClick={() => {
+                                                handleClickOpen()
+                                                // setIdEvent(eventById.id)
+                                            }}
+                                            className={classes.btnDelete}
+                                        >
+                                            <DeleteIcon fontSize="inherit" />
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip
+                                        title="Editar"
+                                        placement="top"
+                                        arrow
+                                        TransitionComponent={Fade}
+                                        TransitionProps={{ timeout: 400 }}
+                                    >
+                                        <IconButton
+                                            aria-label="edit"
+                                            size="large"
+                                            className={classes.btnEdit}
+                                        >
+                                            <EditIcon fontSize="inherit" />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box>
+                            ) : (
+                                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    <Button sx={{ backgroundColor: '#6A19E3', color: 'white', '&:hover': { backgroundColor: '#C90FFA' } }}>Entrar</Button>
+                                </Box>
+                            )
                     }
                 </Box>
             </Modal>
+            <Dialog
+                open={openDialog}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={handleClose}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>Deseja excluir o evento?</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        <Alert severity="warning">Excluir o evento é uma ação irreversível, tenha certeza ao executar!</Alert>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        onClick={handleClickClose}
+                        variant="outlined"
+                        className={classes.btnDialogCancel}
+                    >Cancelar</Button>
+                    <Button
+                        onClick={() => {
+                            handleClickClose()
+                            // idEvent && deleteEventById(idEvent)
+                        }}
+                        className={classes.btnDialogDelete}
+                    >
+                        Excluir
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     )
 }
