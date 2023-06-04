@@ -2,6 +2,7 @@ import './style.css'
 import "leaflet/dist/leaflet.css";
 import { Divider, Grid, TextField, Typography } from "@mui/material";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import MarkerClusterGroup from 'react-leaflet-cluster'
 import { Icon, LatLngExpression } from 'leaflet';
 import { Events } from '../../models/Events';
 import { useCallback, useEffect, useState, useLayoutEffect } from 'react';
@@ -9,6 +10,7 @@ import { EventsDTO, getEvents } from '../../services/events.service';
 import PopUpEvents from '../PopUpEvents';
 import { useBackdrop } from '../../hooks/backdrop';
 import { useFeedback } from '../../hooks/addFeedback';
+import iconGym from '../../../assets/location2.png'
 
 const MapEvents = () => {
     const [markers, setMarkers] = useState<EventsDTO>()
@@ -48,26 +50,39 @@ const MapEvents = () => {
     //         console.log(error);
     //     });
 
-    const customIcon = new Icon({
-        iconUrl: 'https:// cdn-icons-png.flaticon.com/512/5591/5591266.png',
-        iconSize: [38, 38]
-    })
-    console.log(markers)
+    const customMarkerIcon = new Icon({
+        iconUrl: iconGym,
+        iconSize: [45, 45]
+    });
+
     return (
         <>
-            <MapContainer center={[-22.7999744, -45.2001792]} zoom={13}>
+            <MapContainer
+                center={[-22.7999744, -45.2001792]}
+                zoom={13}
+                scrollWheelZoom={true}
+            >
                 <TileLayer
                     url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {
-                    markers?.events && markers.events!.map((marker: any) => (
-                        <Marker position={marker.geocode} key={marker.id}  >
-                            <Popup>
-                                <PopUpEvents title={marker.title} date={marker.eventDate} id={marker.id} deleteEventInPop={deleteEventInPop} />
-                            </Popup>
-                        </Marker>
-                    ))
-                }
+                <MarkerClusterGroup
+                    chunkedLoading
+                    maxClusterRadius={150}
+                    spiderfyOnMaxZoom={true}
+                    showCoverageOnHover={true}
+                >
+
+                    {
+                        markers?.events && markers.events!.map((marker: any) => (
+                            <Marker position={marker.geocode} key={marker.id} icon={customMarkerIcon}>
+                                <Popup>
+                                    <PopUpEvents title={marker.title} date={marker.eventDate} id={marker.id} deleteEventInPop={deleteEventInPop} />
+                                </Popup>
+                            </Marker>
+                        ))
+                    }
+                </MarkerClusterGroup>
+
             </MapContainer>
         </>
     );

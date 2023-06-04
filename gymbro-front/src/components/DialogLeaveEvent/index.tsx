@@ -64,7 +64,7 @@ const DialogLaveEvent: React.FC<DiaogLeaveProps> = ({ eventId, open, handleClose
             <DialogTitle>Deseja sair do evento?</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    <Alert severity="warning">Ao sair, você não receberá notificaações sobre o evento!</Alert>
+                    <Alert severity="warning">Ao sair, você não receberá notificações sobre o evento!</Alert>
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
