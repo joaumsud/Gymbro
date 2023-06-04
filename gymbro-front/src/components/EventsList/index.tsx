@@ -14,6 +14,7 @@ import CustomSkeleton from "../Skeleton";
 import { useFeedback } from "../../hooks/addFeedback";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import FeedIcon from '@mui/icons-material/Feed';
+import DialogLaveEvent from "../DialogLeaveEvent";
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -33,7 +34,8 @@ const EventsList: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(6)
     const [loadingCard, setLoadingCard] = useState(false);
-    const [idEvent, setIdEvent] = useState<number>()
+    const [idEvent, setIdEvent] = useState<number>(1)
+    const [openLeaveDialog, setOpenLeaveDialog] = useState(false)
 
     const { handleBackdrop } = useBackdrop()
     const { addFedback } = useFeedback()
@@ -44,6 +46,14 @@ const EventsList: React.FC = () => {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleOpenLeaveDialog = () => {
+        setOpenLeaveDialog(true);
+    };
+
+    const handleCloseLeaveDialog = () => {
+        setOpenLeaveDialog(false);
     };
 
     const getEvents = useCallback(() => {
@@ -107,7 +117,7 @@ const EventsList: React.FC = () => {
                         <>
                             {currentPost && (currentPost.length > 0 ? currentPost.map((event: EventUnique) =>
                             (
-                                <Grid item md={6} sm={12} p={1} lg={4} >
+                                <Grid item md={6} sm={12} p={1} lg={4} key={event.id}>
                                     <Card sx={{ minWidth: 275, }}
                                         className={
                                             event.isAdmin ?
@@ -192,8 +202,8 @@ const EventsList: React.FC = () => {
                                                         aria-label="delete"
                                                         size="large"
                                                         onClick={() => {
-                                                            // handleClickOpen()
-                                                            // setIdEvent(event.id)
+                                                            handleOpenLeaveDialog()
+                                                            setIdEvent(event.id)
                                                         }}
                                                         className={classes.btnDelete}
                                                     >
@@ -265,6 +275,13 @@ const EventsList: React.FC = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <DialogLaveEvent
+                eventId={idEvent}
+                open={openLeaveDialog}
+                handleClose={handleCloseLeaveDialog}
+                refreshEvents={getEvents}
+                changePage={setCurrentPage}
+            />
         </>
     )
 }

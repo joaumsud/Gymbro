@@ -30,6 +30,7 @@ import { useStyles } from "./styles";
 import InputIcon from '@mui/icons-material/Input';
 import { useFeedback } from "../../hooks/addFeedback";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import DialogLaveEvent from "../DialogLeaveEvent";
 
 interface Address {
     road: string;
@@ -75,10 +76,15 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id, deleteEventInP
     const [openDialog, setOpenDialog] = useState(false);
     const [eventById, setEventById] = useState<EventByIdDTO>()
     const [address, setAddress] = useState<string>()
-    const [idEvent, setIdEvent] = useState<number>()
+    const [idEvent, setIdEvent] = useState<number>(1)
     const [loadingCard, setLoadingCard] = useState(false);
+    const [openLeaveDialog, setOpenLeaveDialog] = useState(false)
+
     const { handleBackdrop } = useBackdrop();
     const { addFedback } = useFeedback()
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const handleClickOpen = () => {
         setOpenDialog(true);
@@ -88,8 +94,14 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id, deleteEventInP
         setOpenDialog(false);
     };
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+
+    const handleOpenLeaveDialog = () => {
+        setOpenLeaveDialog(true);
+    };
+
+    const handleCloseLeaveDialog = () => {
+        setOpenLeaveDialog(false);
+    };
 
     async function reverseGeocode(latitude: number, longitude: number): Promise<string> {
         const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
@@ -312,7 +324,8 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id, deleteEventInP
                                                             size="large"
                                                             className={classes.btnDelete}
                                                             onClick={() => {
-                                                                // eventById?.event.id && handleJoinEvent(eventById?.event.id)
+                                                                eventById?.event.id && setIdEvent(eventById?.event.id)
+                                                                handleOpenLeaveDialog()
                                                             }}
                                                         >
                                                             <HighlightOffIcon fontSize="large" />
@@ -331,7 +344,7 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id, deleteEventInP
                 open={openDialog}
                 TransitionComponent={Transition}
                 keepMounted
-                onClose={handleClose}
+                onClose={handleClickClose}
                 aria-describedby="alert-dialog-slide-description"
                 sx={{ zIndex: '2000' }}
             >
@@ -358,6 +371,12 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id, deleteEventInP
                     </Button>
                 </DialogActions>
             </Dialog>
+            <DialogLaveEvent
+                eventId={idEvent}
+                open={openLeaveDialog}
+                handleClose={handleCloseLeaveDialog}
+                closeModalEvent={handleClose}
+            />
         </>
     )
 }

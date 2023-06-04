@@ -67,3 +67,8 @@ export const joinEvent = async (eventId: number) => {
     const response = await Api.post(`/events/join_event/${eventId}`)
     return response
 }
+
+export const leaveEvent = async (eventId: number): Promise<AxiosResponse> => {
+    const response = await Api.post(`/events/leave_event/${eventId}`)
+    return response;
+}
