@@ -201,13 +201,16 @@ const NavBarUserAuth = () => {
                         >
 
                             <MenuItem onClick={handleCloseUserMenu}>
-                                <Typography textAlign="center">{settings[0]}</Typography>
+                            <Typography onClick={(e)=> {
+                               history.push('/perfil')
+                               window.location.reload() 
+                            }} textAlign="center">{settings[0]}</Typography>
                             </MenuItem>
 
                             <MenuItem onClick={() => {
                                 handleCloseUserMenu()
                                 logout()
-                                history.push('/')
+                                history.push('/') /*colocar o endereço do perfil*/ 
                                 window.location.reload()
                             }}>
                                 <Typography
