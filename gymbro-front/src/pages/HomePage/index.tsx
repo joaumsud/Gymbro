@@ -48,7 +48,7 @@ const HomePage = () => {
                     </Grid>
                 </main>
                 <footer className={styles.footer}>
-                    <Typography>GymBro Todos os direitos resevados.</Typography>
+                    <Typography>GymBroz Todos os direitos resevados.</Typography>
                 </footer>
             </div>
         </>

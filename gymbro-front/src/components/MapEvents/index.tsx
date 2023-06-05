@@ -9,6 +9,7 @@ import PopUpEvents from '../PopUpEvents';
 import { useBackdrop } from '../../hooks/backdrop';
 import { useFeedback } from '../../hooks/addFeedback';
 import iconGym from '../../../assets/location2.png'
+import { Box } from '@mui/material';
 
 const MapEvents = () => {
     const [markers, setMarkers] = useState<EventsDTO>()
@@ -54,7 +55,7 @@ const MapEvents = () => {
     });
 
     return (
-        <>
+        <Box sx={{marginBottom:'0px'}}>
             <MapContainer
                 center={[-22.7999744, -45.2001792]}
                 zoom={13}
@@ -82,7 +83,7 @@ const MapEvents = () => {
                 </MarkerClusterGroup>
 
             </MapContainer>
-        </>
+        </Box>
     );
 }
 
