@@ -3,12 +3,15 @@ import theme from '../../theme'
 
 const useStyles = makeStyles({
     boxFriends: {
-        overflowY: 'scroll', height: '90vh',
+        overflowY: 'hidden', height: '90vh',
         [theme.breakpoints.down('md')]: {
             height: '10vh',
             overflowY:'hidden',
             overflowX: 'scroll'
-        }
+        },
+        '&:hover': {
+            // overflowY: 'scroll !important'
+          }
     },
     boxOnlineCars: {
         display: 'flex',

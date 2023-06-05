@@ -32,7 +32,4 @@ export default function BackdropProvider({ children }: any) {
 
 }
 
-
-
-
 export { BackdropProvider }

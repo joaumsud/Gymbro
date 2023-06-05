@@ -84,12 +84,12 @@ const Dash = () => {
         <>
             <Grid container style={{
             }}>
-                <Grid item lg={1} md={1} sm={12} xs={12}>
+                <Grid item lg={1} md={1} sm={12} xs={12} sx={{ height:'calc(100vh-80px)' }}>
                     <OnlineFriends />
                 </Grid>
-                <Grid item lg={11} md={11} sm={12} xs={12} sx={{position:'relative'}}>
+                <Grid item lg={11} md={11} sm={12} xs={12} sx={{ position: 'relative', height: '100% !important' }}>
                     <MapEvents />
-                    <SideBarFilters/>
+                    <SideBarFilters />
                 </Grid>
             </Grid>
         </>
