@@ -1,11 +1,9 @@
 import './style.css'
 import "leaflet/dist/leaflet.css";
-import { Divider, Grid, TextField, Typography } from "@mui/material";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import { Icon, LatLngExpression } from 'leaflet';
-import { Events } from '../../models/Events';
-import { useCallback, useEffect, useState, useLayoutEffect } from 'react';
+import { useCallback, useEffect, useState, } from 'react';
 import { EventsDTO, getEvents } from '../../services/events.service';
 import PopUpEvents from '../PopUpEvents';
 import { useBackdrop } from '../../hooks/backdrop';
