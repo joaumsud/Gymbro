@@ -110,7 +110,7 @@ const EventsList: React.FC = () => {
 
     return (
         <>
-            <Grid container sx={{ maxHeight: '90vh', minHeight: '60vh' }}>
+            <Grid container sx={{  minHeight: '60vh' }}>
                 {loadingCard ?
                     <CustomSkeleton />
                     : (

@@ -1,4 +1,5 @@
 import { makeStyles } from "@mui/styles";
+import theme from "../../theme";
 
 export const useStyles = makeStyles(() => ({
     card: {
@@ -13,6 +14,9 @@ export const useStyles = makeStyles(() => ({
         '&:hover': {
             transform: 'scale(1.02)',
             boxShadow: "0 6px 12px 0 #110FFA"
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: '80vw'
         }
     },
     cardAdmin: {
@@ -27,6 +31,9 @@ export const useStyles = makeStyles(() => ({
         '&:hover': {
             transform: 'scale(1.02)',
             boxShadow: "0 6px 12px 0 #6A19E3"
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: '80vw'
         }
     },
     titleFont: {
@@ -62,11 +69,11 @@ export const useStyles = makeStyles(() => ({
         justifyContent: 'center',
         marginTop: '1rem !important',
     },
-    btnDelete:{
-        color:'#F00E3D !important'
+    btnDelete: {
+        color: '#F00E3D !important'
     },
-    btnEdit:{
-        color:'#6A19E3 !important'
+    btnEdit: {
+        color: '#6A19E3 !important'
     },
     btnDialogDelete: {
         width: '130px !important',
@@ -85,7 +92,7 @@ export const useStyles = makeStyles(() => ({
         padding: '5px 15px !important',
         fontSize: '12px !important',
         // backgroundColor: '#6A19E3 !important',
-        borderColor:'#F00E3D !important',
+        borderColor: '#F00E3D !important',
         color: '#F00E3D !important',
         // marginLeft: '1.5rem !important',
         marginTop: '1.1rem !important',
