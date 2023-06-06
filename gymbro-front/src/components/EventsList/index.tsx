@@ -232,7 +232,7 @@ const EventsList: React.FC = () => {
                                 </Grid>
                             ))
                                 : (
-                                    <Alert severity="error" sx={{ width: '80vw' }}>Não há eventos associados a esta conta!</Alert>
+                                    <Alert severity="error" sx={{ width: '80vw', height: '50px' }}>Não há eventos associados a esta conta!</Alert>
                                 ))}
                             {currentPost && currentPost.length > 0 ? (totalPages && totalPages > 1 && (
                                 <Grid xs={12} sm={12} item
