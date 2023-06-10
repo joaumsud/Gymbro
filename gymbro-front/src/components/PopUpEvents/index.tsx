@@ -31,6 +31,8 @@ import InputIcon from '@mui/icons-material/Input';
 import { useFeedback } from "../../hooks/addFeedback";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import DialogLaveEvent from "../DialogLeaveEvent";
+import FeedIcon from '@mui/icons-material/Feed';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 interface Address {
     road: string;
@@ -204,15 +206,25 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id, deleteEventInP
                 <Box
                     sx={{ display: 'flex', justifyContent: 'right' }}
                 >
-                    <Button
-                        onClick={() => {
-                            handleOpen()
-                            handleEventsId()
-                        }}
-                        sx={{ color: 'white', backgroundColor: 'secondary.main', '&:hover': { backgroundColor: 'secondary.main' } }}
+                    <Tooltip
+                        title="Detalhes"
+                        placement="top"
+                        arrow
+                        TransitionComponent={Fade}
+                        TransitionProps={{ timeout: 400 }}
                     >
-                        Ver mais
-                    </Button>
+                        <IconButton
+                            onClick={() => {
+                                handleOpen()
+                                handleEventsId()
+                            }}
+                            aria-label="edit"
+                            size="large"
+                            className={classes.btnEdit}
+                        >
+                            <FeedIcon fontSize="inherit" />
+                        </IconButton>
+                    </Tooltip>
                 </Box>
             </Box>
             <Modal
@@ -328,7 +340,7 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id, deleteEventInP
                                                                 handleOpenLeaveDialog()
                                                             }}
                                                         >
-                                                            <HighlightOffIcon fontSize="large" />
+                                                            <LogoutIcon fontSize="large" />
                                                         </IconButton>
                                                     </Tooltip>
                                                 </>

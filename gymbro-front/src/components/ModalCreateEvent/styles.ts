@@ -19,13 +19,13 @@ const useStyles = makeStyles({
         margin: '10px 0px 15px !important'
     },
     boxInputsLimitStyle: {
-        margin: '10px 0px 15px !important',
+        margin: '10px 0px 20px !important',
         display: 'flex',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
         [theme.breakpoints.down('md')]: {
             justifyContent: 'flex-start'
-        }
+        },
     },
     inputsStyle: {
         width: '90%',
@@ -41,6 +41,7 @@ const useStyles = makeStyles({
         }
     },
     alertLocal: {
+        marginTop:'8px',
         marginBottom: '10px',
         '&.MuiAlert-root': {
             backgroundColor: 'rgb(229, 246, 253)',
@@ -52,16 +53,10 @@ const useStyles = makeStyles({
         justifyContent: 'flex-end',
     },
     btnAdd: {
-        width: '150px !important',
-        padding: '10px 20px !important',
-        fontSize: '15px !important',
-        backgroundColor: '#110FFA !important',
+        backgroundColor: '#C90FFA !important',
         color: 'white !important',
         marginLeft: '1.5rem !important',
         marginTop: '1.1rem !important',
-        '&:hover': {
-            backgroundColor: '#110FFA !important'
-        }
     },
     btnCancel: {
         width: '150px !important',
@@ -90,6 +85,7 @@ const useStyles = makeStyles({
         color: theme.palette.info.light,
         position: 'relative',
         height: '5px',
+        marginBottom:'5px',
     }
 
 })

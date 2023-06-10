@@ -1,10 +1,9 @@
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-    title: Yup.string().required('*Digite o título'),
-    limitCount: Yup.number().nullable().required('*Informe a quantidade'),
+    title: Yup.string().nullable().required('*Digite o título'),
     description: Yup.string().nullable().required('*Digite a descrição'),
-    date: Yup.date().min(new Date(Date.now() - 86400000), 'A data não pode ser anterior à data atual').required('*Informe a data'),
+    date: Yup.date().min(new Date(Date.now() - 86400000), '*A data não pode ser anterior à data atual').required('*Informe a data'),
     time: Yup.string().test(
         'hora-atual',
         'A hora não pode ser anterior à hora atual',

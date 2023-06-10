@@ -41,7 +41,7 @@ const FeedbackDialog: React.FC<DialogFeedback> = (props: DialogFeedback) => {
             icon: <ErrorIcon/>
         },
         success: {
-            backgroudColor: '#01E122',
+            backgroudColor: '#1FB651',
             icon: <DoneIcon/>
         }
     }

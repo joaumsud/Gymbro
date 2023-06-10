@@ -9,8 +9,7 @@ import {
     Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import AddIcon from '@mui/icons-material/Add';
-import CloseIcon from '@mui/icons-material/Close';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import useStyles from './styles';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -39,7 +38,7 @@ const SideBarFilters: React.FC = () => {
                     aria-label="add"
                     onClick={handleClick}
                 >
-                    {open ? <CloseIcon /> : <AddIcon />}
+                    <TravelExploreIcon />
                 </Fab>
             </Box>
             <Popover
@@ -63,7 +62,7 @@ const SideBarFilters: React.FC = () => {
                 <Typography textAlign='left' py={1} variant="h6">
                     Filtre
                 </Typography>
-                <Divider  />
+                <Divider />
                 <form>
                     <Controller
                         control={control}

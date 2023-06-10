@@ -1,6 +1,25 @@
 import { useCallback, useEffect, useState, forwardRef } from "react";
 import { EventUnique, EventsDTO, deleteEvent, getEventsByUser } from "../../services/events.service";
-import { Alert, Box, Button, Card, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, Grid, IconButton, Pagination, Skeleton, Slide, Tooltip, Typography } from "@mui/material";
+import { 
+    Alert, 
+    Box, 
+    Button, 
+    Card, 
+    CardActions, 
+    CardContent, 
+    Dialog, 
+    DialogActions, 
+    DialogContent, 
+    DialogContentText, 
+    DialogTitle, 
+    Fade, 
+    Grid, 
+    IconButton, 
+    Pagination,
+    Slide, 
+    Tooltip, 
+    Typography 
+} from "@mui/material";
 import { useStyles } from "./styles";
 import moment from "moment";
 import PublicIcon from '@mui/icons-material/Public';
@@ -8,13 +27,12 @@ import PublicOffIcon from '@mui/icons-material/PublicOff';
 import { useBackdrop } from '../../hooks/backdrop';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import theme from "../../theme";
 import { TransitionProps } from '@mui/material/transitions';
 import CustomSkeleton from "../Skeleton";
 import { useFeedback } from "../../hooks/addFeedback";
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import FeedIcon from '@mui/icons-material/Feed';
 import DialogLaveEvent from "../DialogLeaveEvent";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -199,7 +217,7 @@ const EventsList: React.FC = () => {
                                                     TransitionProps={{ timeout: 400 }}
                                                 >
                                                     <IconButton
-                                                        aria-label="delete"
+                                                        aria-label="exit"
                                                         size="large"
                                                         onClick={() => {
                                                             handleOpenLeaveDialog()
@@ -207,7 +225,7 @@ const EventsList: React.FC = () => {
                                                         }}
                                                         className={classes.btnDelete}
                                                     >
-                                                        <HighlightOffIcon fontSize="inherit" />
+                                                        <LogoutIcon fontSize="inherit" />
                                                     </IconButton>
                                                 </Tooltip>
                                                 <Tooltip

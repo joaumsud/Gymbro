@@ -1,24 +1,30 @@
-import { Button, Modal, Box, Typography, Grid, TextField, Checkbox, Divider, InputLabel, Alert, FormHelperText } from "@mui/material";
+import {
+    Button,
+    Modal,
+    Box,
+    Typography,
+    Grid,
+    TextField,
+    Checkbox,
+    Divider,
+    InputLabel,
+    Alert,
+    FormHelperText,
+    Tooltip,
+    IconButton,
+    Fade
+} from "@mui/material";
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { forwardRef, useState } from "react";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import React, { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import useStyles from "./styles";
-// import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
-import { postEvents } from "../../services/events.service";
-import { CreateEventDTO } from "../../models/Events";
 import Backdrop from '@mui/material/Backdrop';
-import ptBR from 'date-fns/locale/pt-BR'
-import moment from "moment";
-import { BaseTextFieldProps } from '@mui/material';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { DesktopDatePickerProps } from '@mui/x-date-pickers/DesktopDatePicker';
-import { Moment } from 'moment';
 import { validationSchema } from "./ValidationSchema";
-
-
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -54,30 +60,30 @@ const ModalCreateEvent: React.FC = () => {
     const [limitCount, setLimitCount] = useState<number | undefined>(0)
     const [markerLocation, setMarkerLocation] = useState<[number, number] | null>(null);
 
-    const handleTitle = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        setTitle(e.target.value)
-    }
+    // const handleTitle = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    //     setTitle(e.target.value)
+    // }
 
-    const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        setDescription(e.target.value)
-    }
+    // const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    //     setDescription(e.target.value)
+    // }
 
-    const handleCheckPublic = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIsPublic(event.target.checked);
-    };
+    // const handleCheckPublic = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setIsPublic(event.target.checked);
+    // };
 
-    const handleCheckHasLimit = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setHasLimit(event.target.checked);
-    };
+    // const handleCheckHasLimit = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setHasLimit(event.target.checked);
+    // };
 
-    const handleLimitCount = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        setLimitCount(+e.target.value)
-    }
+    // const handleLimitCount = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    //     setLimitCount(+e.target.value)
+    // }
 
-    const handleMapClick = (event: L.LeafletMouseEvent) => {
-        const { lat, lng } = event.latlng;
-        setMarkerLocation([lat, lng]);
-    };
+    // const handleMapClick = (event: L.LeafletMouseEvent) => {
+    //     const { lat, lng } = event.latlng;
+    //     setMarkerLocation([lat, lng]);
+    // };
 
     // const LocationMarker = () => {
     //     useMapEvents({
@@ -139,7 +145,22 @@ const ModalCreateEvent: React.FC = () => {
         <>
             <Box >
                 <Grid>
-                    <Button onClick={handleOpen} className={classes.btnAdd} >Criar Evento</Button>
+                    <Tooltip
+                        title="Criar Evento"
+                        placement="top"
+                        arrow
+                        TransitionComponent={Fade}
+                        TransitionProps={{ timeout: 400 }}
+                    >
+                        <IconButton
+                            aria-label="join"
+                            size="large"
+                            onClick={handleOpen}
+                            className={classes.btnAdd}
+                        >
+                            <LibraryAddIcon fontSize="large" />
+                        </IconButton>
+                    </Tooltip>
                 </Grid>
                 <Modal
                     open={open}
@@ -157,7 +178,6 @@ const ModalCreateEvent: React.FC = () => {
                     <Box sx={style} className={classes.modalStyle}>
                         <Typography variant="h5">Crie seu evento aqui!</Typography>
                         <Divider />
-
                         <form className={classes.formStyle} onSubmit={handleSubmit(onSubmit)}>
                             <Grid container>
                                 <Grid item md={10} sm={12} className={classes.boxInputsStyle}>
@@ -208,29 +228,24 @@ const ModalCreateEvent: React.FC = () => {
                                         }}
                                         render={({ field: { onChange, onBlur, value } }) => (
                                             <TextField
-                                                sx={{ ml: 2 }}
+                                                defaultValue={2}
                                                 disabled={!watch('hasLimit')}
                                                 label="Limite"
                                                 variant="outlined"
                                                 type="number"
-                                                // value={limitCount}
                                                 onChange={onChange}
                                                 InputProps={{
                                                     inputProps: {
-                                                        min: 1
+                                                        min: 2
                                                     }
                                                 }}
                                                 InputLabelProps={{
                                                     shrink: true,
                                                 }}
-                                                error={!!errors.limitCount}
                                             />
                                         )}
                                         name="limitCount"
                                     />
-                                    {/* <FormHelperText className={classes.helperText}>
-                                        {errors.limitCount ? errors.limitCount?.message + '' : ''}
-                                    </FormHelperText> */}
                                 </Grid>
                                 <Grid item md={12} sm={12} className={classes.boxInputsStyle}>
                                     <Controller
@@ -245,7 +260,6 @@ const ModalCreateEvent: React.FC = () => {
                                                 variant="outlined"
                                                 multiline
                                                 maxRows={4}
-                                                // value={description}
                                                 onChange={onChange}
                                                 error={!!errors.description}
                                                 InputLabelProps={{
@@ -271,6 +285,11 @@ const ModalCreateEvent: React.FC = () => {
                                                 <DatePicker
                                                     className={classes.datePickerStyle}
                                                     onChange={onChange}
+                                                    slotProps={{
+                                                        textField: {
+                                                          error: !!errors.date,
+                                                        },
+                                                      }}
                                                 />
                                             </LocalizationProvider>
                                         )}
@@ -307,29 +326,6 @@ const ModalCreateEvent: React.FC = () => {
                                 <strong>Ajuda</strong>: Clique no mapa para escolher o local do evento.
                             </Alert>
                             <Box>
-                                {/* <Controller
-                                        control={control}
-                                        rules={{
-                                            required: true,
-                                        }}
-                                        render={({ field: { onChange, onBlur, value } }) => (
-                                            <TextField
-                                                className={classes.inputsStyle}
-                                                label="Título"
-                                                variant="outlined"
-                                                onChange={onChange}
-                                                error={!!errors.title}
-                                                InputLabelProps={{
-                                                    shrink: true,
-                                                }}
-                                            />
-                                        )}
-                                        name="title"
-                                    /> */}
-                                {/* <MapContainer center={[-22.7999744, -45.2001792]} zoom={13} style={{ height: '400px' }}>
-                                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                                    <LocationMarker control={control} />
-                                </MapContainer> */}
                                 <Controller
                                     name="location"
                                     control={control}
@@ -381,3 +377,32 @@ const ModalCreateEvent: React.FC = () => {
 }
 
 export default ModalCreateEvent
+
+{/* <Controller
+                                        control={control}
+                                        rules={{
+                                            required: true,
+                                        }}
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <TextField
+                                                className={classes.inputsStyle}
+                                                label="Título"
+                                                variant="outlined"
+                                                onChange={onChange}
+                                                error={!!errors.title}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+                                            />
+                                        )}
+                                        name="title"
+                                    /> */}
+{/* <MapContainer center={[-22.7999744, -45.2001792]} zoom={13} style={{ height: '400px' }}>
+                                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                                    <LocationMarker control={control} />
+                                </MapContainer> */}
+
+
+{/* <FormHelperText className={classes.helperText}>
+                                        {errors.limitCount ? errors.limitCount?.message + '' : ''}
+                                    </FormHelperText> */}
