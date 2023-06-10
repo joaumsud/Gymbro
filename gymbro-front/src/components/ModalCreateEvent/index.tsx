@@ -287,9 +287,9 @@ const ModalCreateEvent: React.FC = () => {
                                                     onChange={onChange}
                                                     slotProps={{
                                                         textField: {
-                                                          error: !!errors.date,
+                                                            error: !!errors.date,
                                                         },
-                                                      }}
+                                                    }}
                                                 />
                                             </LocalizationProvider>
                                         )}
@@ -298,24 +298,37 @@ const ModalCreateEvent: React.FC = () => {
                                         {errors.date ? errors.date?.message + '' : ''}
                                     </FormHelperText>
                                 </Grid>
-                                <Grid item md={6} sm={12} className={classes.boxInputsStyle} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                    <Controller
-                                        control={control}
-                                        name="time"
-                                        rules={{
-                                            required: true,
-                                        }}
-                                        render={({ field: { onChange, onBlur, value } }) => (
-                                            <LocalizationProvider dateAdapter={AdapterMoment}>
-                                                <TimePicker
-                                                    onChange={onChange}
-                                                    className={classes.timePickerStyle} />
-                                            </LocalizationProvider>
-                                        )}
-                                    />
-                                    <FormHelperText className={classes.helperText}>
-                                        {errors.time ? errors.time?.message + '' : ''}
-                                    </FormHelperText>
+                                <Grid item md={6} sm={12} className={classes.boxInputsStyle}
+
+                                >
+                                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
+                                        <Controller
+                                            control={control}
+                                            name="time"
+                                            rules={{
+                                                required: true,
+                                            }}
+                                            render={({ field: { onChange, onBlur, value } }) => (
+                                                <LocalizationProvider dateAdapter={AdapterMoment}>
+                                                    <TimePicker
+                                                        onChange={onChange}
+                                                        className={classes.timePickerStyle}
+                                                        slotProps={{
+                                                            textField: {
+                                                                error: !!errors.time,
+                                                            },
+                                                        }}
+                                                    />
+                                                </LocalizationProvider>
+                                            )}
+                                        />
+                                    </Box>
+                                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
+                                        <FormHelperText className={classes.helperText}>
+                                            {errors.time ? errors.time?.message + '' : ''}
+                                        </FormHelperText>
+                                    </Box>
+
                                 </Grid>
                             </Grid>
                             <Alert
@@ -337,6 +350,9 @@ const ModalCreateEvent: React.FC = () => {
                                         </MapContainer>
                                     )}
                                 />
+                                <FormHelperText className={classes.helperText}>
+                                    {errors.location ? errors.location?.message + '' : ''}
+                                </FormHelperText>
                             </Box>
                             <Grid
                                 className={classes.boxInputsStyle}
