@@ -25,14 +25,16 @@ import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-picker
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { validationSchema } from "./ValidationSchema";
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import moment from "moment";
+import { postEvents } from "../../services/events.service";
+import { useBackdrop } from "../../hooks/backdrop";
+import { useFeedback } from "../../hooks/addFeedback";
 
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    // width: 550,
-    // minWidth: 200,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -47,98 +49,58 @@ const ModalCreateEvent: React.FC = () => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const { handleBackdrop } = useBackdrop();
+    const { addFedback } = useFeedback()
 
     const { handleSubmit, control, watch, setValue, reset, formState: { errors } } = useForm<any>({
         resolver: yupResolver(validationSchema)
     });
 
-    const [startDate, setStartDate] = useState(new Date());
-    const [title, setTitle] = useState<string>('')
-    const [description, setDescription] = useState<string>('')
-    const [isPublic, setIsPublic] = useState<boolean>(false)
-    const [hasLimit, setHasLimit] = useState<boolean>(false)
-    const [limitCount, setLimitCount] = useState<number | undefined>(0)
-    const [markerLocation, setMarkerLocation] = useState<[number, number] | null>(null);
-
-    // const handleTitle = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    //     setTitle(e.target.value)
-    // }
-
-    // const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    //     setDescription(e.target.value)
-    // }
-
-    // const handleCheckPublic = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setIsPublic(event.target.checked);
-    // };
-
-    // const handleCheckHasLimit = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setHasLimit(event.target.checked);
-    // };
-
-    // const handleLimitCount = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    //     setLimitCount(+e.target.value)
-    // }
-
-    // const handleMapClick = (event: L.LeafletMouseEvent) => {
-    //     const { lat, lng } = event.latlng;
-    //     setMarkerLocation([lat, lng]);
-    // };
-
-    // const LocationMarker = () => {
-    //     useMapEvents({
-    //         click: handleMapClick,
-    //     });
-
-    //     if (markerLocation) {
-    //         return <Marker position={markerLocation} />;
-    //     }
-
-    //     return null;
-    // };
     const LocationMarker = ({ control }: any) => {
-        // const { setValue } = useForm({ control });
         const [markerLocation, setMarkerLocation] = useState(null);
 
         const handleMapClick = (e: any) => {
             const { lat, lng } = e.latlng;
             const location: any = [lat, lng];
             setMarkerLocation(location);
-            setValue('location', location); // Atualize o valor do campo 'location' com a localização selecionada
+            setValue('location', location);
         };
-
+        //está pegando qualquer click no formulário
         useMapEvents({
             click: handleMapClick,
         });
 
-        if (markerLocation) {
-            return <Marker position={markerLocation} />;
-        }
-
-        return null;
+        return markerLocation ? <Marker position={markerLocation} /> : null
     };
 
 
     const onSubmit = (data: any) => {
+        handleBackdrop(true)
         const object = {
-            title: title,
-            description: description,
-            // eventDate: startDate.toString(),
-            // eventDate: `${moment(startDate.toString()).format('YYYY-MM-DD')}T${moment(startDate.toString()).format("HH:mm:ss")}Z`,
-            eventDate: data.date,
-            isPublic: isPublic,
-            hasLimit: hasLimit,
-            limitCount: limitCount,
-            geocode: markerLocation!,
+            title: data.title,
+            description: data.description,
+            eventDate: `${moment(data.date.toString()).format('YYYY-MM-DD')}T${moment(data.time.toString()).format("HH:mm:ss")}Z`,
+            isPublic: data.isPublic,
+            hasLimit: data.hasLimit,
+            limitCount: data.limitCount,
+            geocode: data.location,
         }
-        console.log(data)
-        // postEvents(object)
-        //     .then(res => {
-
-        //     })
-        //     .catch(err => {
-
-        //     })
+        console.log(object)
+        postEvents(object)
+            .then(res => {
+                handleBackdrop(false)
+                addFedback({
+                    description: `Evento criado com sucesso`,
+                    typeMessage: 'success'
+                })
+            })
+            .catch(err => {
+                handleBackdrop(false)
+                addFedback({
+                    description: `${err.data.message}`,
+                    typeMessage: 'error'
+                })
+            })
     }
 
     return (
@@ -342,9 +304,10 @@ const ModalCreateEvent: React.FC = () => {
                                 <Controller
                                     name="location"
                                     control={control}
-                                    defaultValue={[-22.7999744, -45.2001792]}
                                     render={({ field: { value } }) => (
-                                        <MapContainer center={value} zoom={13} style={{ height: '400px' }}>
+                                        <MapContainer
+                                            center={[-22.7999744, -45.2001792]}
+                                            zoom={13} style={{ height: '400px' }}>
                                             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                                             <LocationMarker control={control} />
                                         </MapContainer>
@@ -382,7 +345,7 @@ const ModalCreateEvent: React.FC = () => {
                             </Grid>
                             <Grid className={classes.gridBtns}>
                                 <Button variant="outlined" onClick={handleClose} className={classes.btnCancel}>Cancelar</Button>
-                                <Button type="submit" className={classes.btnAdd}>Criar Evento</Button>
+                                <Button type="submit" className={classes.btnSubmit}>Criar Evento</Button>
                             </Grid>
                         </form>
                     </Box>
@@ -393,32 +356,3 @@ const ModalCreateEvent: React.FC = () => {
 }
 
 export default ModalCreateEvent
-
-{/* <Controller
-                                        control={control}
-                                        rules={{
-                                            required: true,
-                                        }}
-                                        render={({ field: { onChange, onBlur, value } }) => (
-                                            <TextField
-                                                className={classes.inputsStyle}
-                                                label="Título"
-                                                variant="outlined"
-                                                onChange={onChange}
-                                                error={!!errors.title}
-                                                InputLabelProps={{
-                                                    shrink: true,
-                                                }}
-                                            />
-                                        )}
-                                        name="title"
-                                    /> */}
-{/* <MapContainer center={[-22.7999744, -45.2001792]} zoom={13} style={{ height: '400px' }}>
-                                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                                    <LocationMarker control={control} />
-                                </MapContainer> */}
-
-
-{/* <FormHelperText className={classes.helperText}>
-                                        {errors.limitCount ? errors.limitCount?.message + '' : ''}
-                                    </FormHelperText> */}

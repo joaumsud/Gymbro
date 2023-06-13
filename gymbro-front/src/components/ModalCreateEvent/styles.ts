@@ -58,13 +58,33 @@ const useStyles = makeStyles({
         marginLeft: '1.5rem !important',
         marginTop: '1.1rem !important',
     },
+    btnSubmit: {
+        width: '150px !important',
+        padding: '10px 20px !important',
+        fontSize: '15px !important',
+        backgroundColor: '#C90FFA !important',
+        color: 'white !important',
+        marginLeft: '1.5rem !important',
+        marginTop: '1.1rem !important',
+        transition: 'all .2s ease-in-out !important',
+        '&:hover': {
+            animation: 'pulse 1s',
+            transform: 'scale(1.02)',
+            boxShadow: "0 6px 12px 0 #C90FFA"
+        },
+    },
     btnCancel: {
         width: '150px !important',
         padding: '10px 20px !important',
         fontSize: '15px !important',
-        color: '#110FFA !important',
-        borderColor: '#110FFA !important',
+        color: '#C90FFA !important',
+        borderColor: '#C90FFA !important',
         marginTop: '1.1rem !important',
+        transition: 'all .2s ease-in-out !important',
+        '&:hover': {
+            transform: 'scale(1.02)',
+            boxShadow: "0 6px 12px 0 #C90FFA"
+        },
     },
     datePickerStyle: {
         "& input": {

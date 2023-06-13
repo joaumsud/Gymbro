@@ -35,11 +35,11 @@ export const validationSchema = Yup.object().shape({
         }
     ).required('*Digite a hora'),
     location: Yup.array().test(
-        'Local',
-        'Escolha o local do evento',
+        'location',
+        '*Informe o local do evento',
         function(value){
             console.log(value)
             return value && value?.length > 0
         }
-    ).required('*Digite o local')
+    ).required('*Informe o local do evento')
 })
