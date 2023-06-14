@@ -1,24 +1,24 @@
 import { useCallback, useEffect, useState, forwardRef } from "react";
 import { EventUnique, EventsDTO, deleteEvent, getEventsByUser } from "../../services/events.service";
-import { 
-    Alert, 
-    Box, 
-    Button, 
-    Card, 
-    CardActions, 
-    CardContent, 
-    Dialog, 
-    DialogActions, 
-    DialogContent, 
-    DialogContentText, 
-    DialogTitle, 
-    Fade, 
-    Grid, 
-    IconButton, 
+import {
+    Alert,
+    Box,
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Fade,
+    Grid,
+    IconButton,
     Pagination,
-    Slide, 
-    Tooltip, 
-    Typography 
+    Slide,
+    Tooltip,
+    Typography
 } from "@mui/material";
 import { useStyles } from "./styles";
 import moment from "moment";
@@ -33,6 +33,7 @@ import { useFeedback } from "../../hooks/addFeedback";
 import FeedIcon from '@mui/icons-material/Feed';
 import DialogLaveEvent from "../DialogLeaveEvent";
 import LogoutIcon from '@mui/icons-material/Logout';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -128,7 +129,7 @@ const EventsList: React.FC = () => {
 
     return (
         <>
-            <Grid container sx={{  minHeight: '60vh' }}>
+            <Grid container sx={{ minHeight: '60vh' }}>
                 {loadingCard ?
                     <CustomSkeleton />
                     : (
@@ -142,7 +143,7 @@ const EventsList: React.FC = () => {
                                                 classes.cardAdmin :
                                                 classes.card}
                                     >
-                                        <Typography textAlign='center' variant="h5" gutterBottom>
+                                        <Typography textAlign='center' variant="h5" gutterBottom color='#07142B'>
                                             {event.title}
                                         </Typography>
                                         <Box className={classes.ribbon} bgcolor={event.isAdmin ? '#C90FFA' : '#110FFA'} margin={0} py={1}>
@@ -151,16 +152,22 @@ const EventsList: React.FC = () => {
                                             </Typography>
                                         </Box>
                                         <CardContent>
-                                            {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    { }
-                                </Typography> */}
+                                            {event.isAdmin ?
+                                                <Box mb={2}>
+                                                    <Alert icon={false} sx={{backgroundColor:'rgba(201,15,250,0.5)',color:'#F4F2EE'}}><strong>Proprietário</strong></Alert>
+                                                </Box>
+                                                :
+                                                <Box mb={2}>
+                                                    <Alert icon={false} sx={{backgroundColor:'rgba(17,15,250,0.5)',color:'#F4F2EE'}}><strong>Participante</strong></Alert>
+                                                </Box>
+                                            }
                                             {event.isPublic ?
                                                 <Box sx={{ display: 'flex', alignItems: 'center' }} my={1}>
-                                                    <PublicIcon /><Typography sx={{ display: 'inline', marginLeft: 2 }}>Público</Typography>
+                                                    <PublicIcon /><Typography sx={{ display: 'inline', marginLeft: 2 }} color='#07142B'>Público</Typography>
                                                 </Box>
                                                 :
                                                 <Box sx={{ display: 'flex', alignItems: 'center' }} my={1}>
-                                                    <PublicOffIcon /><Typography sx={{ display: 'inline', marginLeft: 2 }}>Privado</Typography>
+                                                    <PublicOffIcon /><Typography sx={{ display: 'inline', marginLeft: 2 }} color='#07142B'>Privado</Typography>
                                                 </Box>
                                             }
                                             <Typography variant="body2">

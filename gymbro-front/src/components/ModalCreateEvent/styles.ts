@@ -68,7 +68,6 @@ const useStyles = makeStyles({
         marginTop: '1.1rem !important',
         transition: 'all .2s ease-in-out !important',
         '&:hover': {
-            animation: 'pulse 1s',
             transform: 'scale(1.02)',
             boxShadow: "0 6px 12px 0 #C90FFA"
         },

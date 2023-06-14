@@ -4,11 +4,13 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import { Icon, LatLngExpression } from 'leaflet';
 import { useCallback, useEffect, useState, } from 'react';
-import { EventsDTO, getEvents } from '../../services/events.service';
+import { EventUnique, EventsDTO, getEvents } from '../../services/events.service';
 import PopUpEvents from '../PopUpEvents';
 import { useBackdrop } from '../../hooks/backdrop';
 import { useFeedback } from '../../hooks/addFeedback';
 import iconGym from '../../../assets/location2.png'
+import iconGymParticipant from '../../../assets/academia.png'
+import iconGymNoParticipant from '../../../assets/academia1.png'
 import { Box } from '@mui/material';
 
 const MapEvents = () => {
@@ -54,6 +56,17 @@ const MapEvents = () => {
         iconSize: [45, 45]
     });
 
+    const customMarkerIconParticipant = new Icon({
+        iconUrl: iconGymParticipant,
+        iconSize: [45, 45]
+    });
+
+
+    const customMarkerIconNoParticipant = new Icon({
+        iconUrl: iconGymNoParticipant,
+        iconSize: [45, 45]
+    });
+
     return (
         <Box sx={{marginBottom:'0px'}}>
             <MapContainer
@@ -72,7 +85,7 @@ const MapEvents = () => {
                 >
 
                     {
-                        markers?.events && markers.events!.map((marker: any) => (
+                        markers?.events && markers.events!.map((marker: EventUnique) => (
                             <Marker position={marker.geocode} key={marker.id} icon={customMarkerIcon}>
                                 <Popup>
                                     <PopUpEvents title={marker.title} date={marker.eventDate} id={marker.id} deleteEventInPop={deleteEventInPop} />
