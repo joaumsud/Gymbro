@@ -30,7 +30,6 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
     const [alertOpen, setAlertOpen] = useState(false)
     const [alertType, setAlertType] = useState('')
     const [alertMessage, setAlertMessage] = useState('')
-    const [openModalDetails, setOpenModalDetails] = useState<boolean>(false)
     const [openModalToken, setOpenModalToken] = useState<boolean>(false)
     const [resSignUnp, setResSignUp] = useState<User>()
     const { handleBackdrop } = useBackdrop()
@@ -51,15 +50,6 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
                 handleClose()
                 handleOpenModalToken()
                 setResSignUp(res.data.user)
-                // handleOpenModalDetails()
-                // setAlertOpen(true)
-                // setAlertType('success')
-                // setAlertMessage('Usuário adicionado com sucesso!')
-
-                // const interval = setInterval(() => {
-                //     setAlertOpen(false)
-                //     clearInterval(interval)
-                // }, 10000)
                 addFedback({
                     description: `${res.data.message}: ${res.data.user.email}`,
                     typeMessage: 'success'
@@ -78,14 +68,6 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
             })
     };
 
-    const handleOpenModalDetails = () => {
-        setOpenModalDetails(true)
-    }
-
-    const handleCloseModalDetails = () => {
-        setOpenModalDetails(false)
-    }
-
     const handleOpenModalToken = () => {
         setOpenModalToken(true)
     }
@@ -96,28 +78,6 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
 
     return (
         <>
-            <Modal
-                open={openModalDetails}
-                onClose={handleCloseModalDetails}
-            >
-                <Box className={styles.modalDetails}>
-                     
-                        <Alert severity={alertType === 'success' ? "success" : 'error'} style={{
-                            position: 'absolute',
-                            top: '10px',
-                        }}>
-                            {alertMessage}
-                        </Alert>
-                    
-                    {/* <Typography>
-                        E-mail: {resSignUnp?.email}
-                        <br/>
-                        <br/>
-                        Bem-vindo ao GymBroz, <strong>{ `${resSignUnp?.firstName} ${resSignUnp?.lastName}` }</strong>, entre e se divirta!<SportsGymnasticsIcon/>
-                    </Typography> */}
-                    
-                </Box>
-            </Modal>
             <ConfirmEmail
                 openModalToken={openModalToken}
                 handleCloseModalToken={handleCloseModalToken}
