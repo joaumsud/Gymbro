@@ -32,4 +32,18 @@ export const useStyles = makeStyles(() => ({
             // backgroundColor: '#6A19E3 !important'
         }
     },
+    modalStyle: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '400px',
+        border: '1px solid rgba(255, 255, 255, 0.9)',
+        borderRadius: '5px',
+        boxShadow: '24',
+        padding: '80px 20px',
+        display: 'flex',
+        justifyContent:'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    },
 }));

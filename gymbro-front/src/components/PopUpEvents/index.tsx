@@ -18,7 +18,6 @@ import {
 import { forwardRef, useEffect, useState } from "react";
 import {
   deleteEvent,
-  getEventParticipants,
   getEventsById,
   joinEvent,
 } from "../../services/events.service";
@@ -34,11 +33,10 @@ import { TransitionProps } from "@mui/material/transitions";
 import { useStyles } from "./styles";
 import InputIcon from "@mui/icons-material/Input";
 import { useFeedback } from "../../hooks/addFeedback";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import DialogLaveEvent from "../DialogLeaveEvent";
 import FeedIcon from "@mui/icons-material/Feed";
 import LogoutIcon from "@mui/icons-material/Logout";
-import MoreIcon from "@mui/icons-material/Add";
+import EventParticipants from "../EventParticipants";
 
 export interface Address {
   road: string;
@@ -78,6 +76,8 @@ const style = {
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  maxHeight: '90%',
+  overflowY:'scroll',
 };
 
 const Transition = forwardRef(function Transition(
@@ -104,12 +104,6 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({
   const [idEvent, setIdEvent] = useState<number>(1);
   const [loadingCard, setLoadingCard] = useState(false);
   const [openLeaveDialog, setOpenLeaveDialog] = useState(false);
-
-  // Estados relacionados a listagem de usuários participantes do evento
-  const [openParticipantsList, setOpenParticipantsList] = useState(false);
-  const [eventParticipants, setEventParticipants] = useState<User[]>([]);
-  const [eventAdmin, setEventAdmin] = useState<User>();
-  const [errorOnList, setErrorOnList] = useState(false);
 
   const { handleBackdrop } = useBackdrop();
   const { addFedback } = useFeedback();
@@ -153,9 +147,6 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({
     handleBackdrop(true);
     setLoadingCard(true);
 
-    setEventParticipants([]);
-    setEventAdmin(undefined);
-
     getEventsById(id)
       .then((res) => {
         setEventById(res?.data!);
@@ -168,15 +159,6 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({
         handleBackdrop(false);
       })
       .finally(() => setLoadingCard(false));
-
-    // get lista de participantes do evento
-    getEventParticipants(id)
-      .then((res) => {
-        setErrorOnList(false);
-        setEventParticipants(res?.data.participants);
-        setEventAdmin(res?.data.admin);
-      })
-      .catch(() => setErrorOnList(true));
   };
 
   const deleteEventById = (eventId: number) => {
@@ -274,6 +256,7 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        
       >
         <Box sx={style}>
           {loadingCard ? (
@@ -316,9 +299,15 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({
                 )}
               </Typography>
               <Typography sx={{ mt: 2 }}>Local: {address}</Typography>
+              {/* Listagem de participantes */}
+              
+              {
+                <EventParticipants
+                  idEvent={id}
+                />
+              }
               {eventById?.isAdmin ? (
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                  {/* <Button sx={{ backgroundColor: '#F00E3D', color: 'white', '&:hover': { backgroundColor: '#F00E3D' } }}>Editar Evento</Button> */}
                   <Tooltip
                     title="Deletar"
                     placement="top"
@@ -356,7 +345,6 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({
                 </Box>
               ) : (
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                  {/* <Button sx={{ backgroundColor: '#6A19E3', color: 'white', '&:hover': { backgroundColor: '#C90FFA' } }}>Entrar</Button> */}
                   {!eventById?.isParticipant ? (
                     <>
                       <Tooltip
@@ -404,60 +392,6 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({
                     </>
                   )}
                 </Box>
-              )}
-
-              {/* Listagem de participantes */}
-              {!errorOnList ? (
-                <div>
-                  <Typography variant="h6">Administrador</Typography>
-                  <Typography>
-                    {eventAdmin?.firstName + " " + eventAdmin?.lastName}
-                  </Typography>
-
-                  <Typography variant="h6" marginTop={1}>
-                    Participantes
-                  </Typography>
-                  {eventParticipants.length === 0 ? (
-                    <Typography>Ainda não há participantes</Typography>
-                  ) : (
-                    eventParticipants
-                      .slice(0, 2)
-                      ?.map((participant) => (
-                        <Typography key={participant.id}>
-                          {participant.firstName + " " + participant.lastName}
-                        </Typography>
-                      ))
-                  )}
-                  {eventParticipants.length > 2 && (
-                    <IconButton onClick={() => setOpenParticipantsList(true)}>
-                      <MoreIcon />
-                    </IconButton>
-                  )}
-
-                  {/* Modal para listar todos participantes */}
-                  <Modal
-                    open={openParticipantsList}
-                    onClose={() => setOpenParticipantsList(false)}
-                  >
-                    <Box sx={style}>
-                      <Typography variant="h6">Administrador</Typography>
-                      <Typography>
-                        {eventAdmin?.firstName + " " + eventAdmin?.lastName}
-                      </Typography>
-
-                      <Typography variant="h6" marginTop={1}>
-                        Participantes
-                      </Typography>
-                      {eventParticipants?.map((participant) => (
-                        <Typography key={participant.id}>
-                          {participant.firstName + " " + participant.lastName}
-                        </Typography>
-                      ))}
-                    </Box>
-                  </Modal>
-                </div>
-              ) : (
-                <Typography>Erro ao carregar lista de participantes</Typography>
               )}
             </>
           )}
