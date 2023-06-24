@@ -3,14 +3,14 @@ import {
     Button,
     Modal,
     Alert,
-    Typography,
 } from "@mui/material";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { ResponseRegisterDTO, postRegister } from '../../services/register.service'
+import {  User, postRegister } from '../../services/register.service'
 import styles from './SignUp.module.scss'
 import { useState } from "react";
 import { useBackdrop } from "../../hooks/backdrop";
-import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
+import { useFeedback } from "../../hooks/addFeedback";
+import ConfirmEmail from "../ConfirmEmail";
 
 export interface RegisterDTO {
     handleClose: () => void;
@@ -31,8 +31,10 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
     const [alertType, setAlertType] = useState('')
     const [alertMessage, setAlertMessage] = useState('')
     const [openModalDetails, setOpenModalDetails] = useState<boolean>(false)
-    const [resSignUnp, setResSignUp] = useState<ResponseRegisterDTO>()
+    const [openModalToken, setOpenModalToken] = useState<boolean>(false)
+    const [resSignUnp, setResSignUp] = useState<User>()
     const { handleBackdrop } = useBackdrop()
+    const { addFedback } = useFeedback()
 
     const onSubmit: SubmitHandler<FieldValues> = ({ email, password, firstName, lastName }) => {
         handleBackdrop(true)
@@ -47,17 +49,21 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
 
                 reset()
                 handleClose()
-                handleOpenModalDetails()
-                setResSignUp(res.data)
+                handleOpenModalToken()
+                setResSignUp(res.data.user)
+                // handleOpenModalDetails()
+                // setAlertOpen(true)
+                // setAlertType('success')
+                // setAlertMessage('Usuário adicionado com sucesso!')
 
-                setAlertOpen(true)
-                setAlertType('success')
-                setAlertMessage('Usuário adicionado com sucesso!')
-
-                const interval = setInterval(() => {
-                    setAlertOpen(false)
-                    clearInterval(interval)
-                }, 10000)
+                // const interval = setInterval(() => {
+                //     setAlertOpen(false)
+                //     clearInterval(interval)
+                // }, 10000)
+                addFedback({
+                    description: `${res.data.message}: ${res.data.user.email}`,
+                    typeMessage: 'success'
+                })
             })
             .catch(error => {
                 handleBackdrop(false)
@@ -80,6 +86,14 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
         setOpenModalDetails(false)
     }
 
+    const handleOpenModalToken = () => {
+        setOpenModalToken(true)
+    }
+
+    const handleCloseModalToken = () => {
+        setOpenModalToken(false)
+    }
+
     return (
         <>
             <Modal
@@ -95,16 +109,20 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
                             {alertMessage}
                         </Alert>
                     
-                    <Typography>
+                    {/* <Typography>
                         E-mail: {resSignUnp?.email}
                         <br/>
                         <br/>
                         Bem-vindo ao GymBroz, <strong>{ `${resSignUnp?.firstName} ${resSignUnp?.lastName}` }</strong>, entre e se divirta!<SportsGymnasticsIcon/>
-                    </Typography>
+                    </Typography> */}
                     
                 </Box>
             </Modal>
-
+            <ConfirmEmail
+                openModalToken={openModalToken}
+                handleCloseModalToken={handleCloseModalToken}
+                user={resSignUnp ?? resSignUnp}
+            />
             <Modal
                 open={open}
                 onClose={handleClose}

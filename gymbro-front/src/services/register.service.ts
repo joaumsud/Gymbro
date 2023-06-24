@@ -10,13 +10,20 @@ export interface RegisterDTO {
 }
 
 export interface ResponseRegisterDTO {
+    user: User
+    message: string
+}
+
+export interface User {
     id: number
     email: string
     firstName: string
     lastName: string
-    profilePictureUrl: string | null
-    profilePicturePath: string | null
+    profilePictureUrl: any
+    profilePicturePath: any
     isAdmin: boolean
+    isActive: boolean
+    isEmailConfirmed: boolean
 }
 
 export const postRegister = async ({
@@ -26,5 +33,10 @@ export const postRegister = async ({
     lastName
 }: RegisterDTO): Promise<AxiosResponse<ResponseRegisterDTO>> => {
     const response = await Api.post(`/auth/signup`, { email, password, firstName, lastName })
+    return response;
+}
+
+export const confirmEmail = async (confirmEmailToken: string): Promise<AxiosResponse> => {
+    const response = await Api.post(`/auth/confirm_email/${confirmEmailToken}`)
     return response;
 }

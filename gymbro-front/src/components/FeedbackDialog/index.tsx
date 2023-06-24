@@ -68,7 +68,7 @@ const FeedbackDialog: React.FC<DialogFeedback> = (props: DialogFeedback) => {
                         alignItems: 'center',
                     }}
                 >
-                    <Typography variant="subtitle1" color='#F4F2EE' fontSize={20}>
+                    <Typography variant="subtitle1" color='#F4F2EE' fontSize={20} textAlign={'center'}>
                         {message.description}
                     </Typography>
                     <Button onClick={handleClose}

@@ -20,6 +20,7 @@ export interface CreateEventDTO{
   hasLimit: boolean;
   limitCount?: number;
   geocode: [number, number];
+  address:string;
 }
 
 

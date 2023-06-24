@@ -19,6 +19,7 @@ export interface EventUnique {
     geocode: [number, number];
     adminId: number;
     isAdmin: boolean;
+    address: string;
 }
 
 
@@ -35,6 +36,7 @@ export const postEvents = async ({
     hasLimit,
     limitCount,
     geocode,
+    address
 }: CreateEventDTO): Promise<AxiosResponse<Events>> => {
     const response = await Api.post(`/events/`, {
         title,
@@ -44,6 +46,7 @@ export const postEvents = async ({
         hasLimit,
         limitCount,
         geocode,
+        address
     })
     return response
 }

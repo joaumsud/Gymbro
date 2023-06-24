@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, forwardRef } from "react";
+import { useCallback, useEffect, useState, forwardRef, createContext, useContext } from "react";
 import { EventUnique, EventsDTO, deleteEvent, getEventsByUser } from "../../services/events.service";
 import {
     Alert,
@@ -33,7 +33,11 @@ import { useFeedback } from "../../hooks/addFeedback";
 import FeedIcon from '@mui/icons-material/Feed';
 import DialogLaveEvent from "../DialogLeaveEvent";
 import LogoutIcon from '@mui/icons-material/Logout';
-import GroupsIcon from '@mui/icons-material/Groups';
+import EditEvents from "../EditEvents";
+
+export interface RefreshDTO {
+    getEvents: () => void
+}
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -55,6 +59,7 @@ const EventsList: React.FC = () => {
     const [loadingCard, setLoadingCard] = useState(false);
     const [idEvent, setIdEvent] = useState<number>(1)
     const [openLeaveDialog, setOpenLeaveDialog] = useState(false)
+    const [openEdit, setOpenEdit] = useState<boolean>(false)
 
     const { handleBackdrop } = useBackdrop()
     const { addFedback } = useFeedback()
@@ -74,6 +79,14 @@ const EventsList: React.FC = () => {
     const handleCloseLeaveDialog = () => {
         setOpenLeaveDialog(false);
     };
+
+    const handleOpenEdit = () => {
+        setOpenEdit(true)
+    }
+
+    const handleCloseEdit = () => {
+        setOpenEdit(false)
+    }
 
     const getEvents = useCallback(() => {
         handleBackdrop(true)
@@ -154,11 +167,11 @@ const EventsList: React.FC = () => {
                                         <CardContent>
                                             {event.isAdmin ?
                                                 <Box mb={2}>
-                                                    <Alert icon={false} sx={{backgroundColor:'rgba(201,15,250,0.5)',color:'#F4F2EE'}}><strong>Proprietário</strong></Alert>
+                                                    <Alert icon={false} sx={{ backgroundColor: 'rgba(201,15,250,0.5)', color: '#F4F2EE' }}><strong>Proprietário</strong></Alert>
                                                 </Box>
                                                 :
                                                 <Box mb={2}>
-                                                    <Alert icon={false} sx={{backgroundColor:'rgba(17,15,250,0.5)',color:'#F4F2EE'}}><strong>Participante</strong></Alert>
+                                                    <Alert icon={false} sx={{ backgroundColor: 'rgba(17,15,250,0.5)', color: '#F4F2EE' }}><strong>Participante</strong></Alert>
                                                 </Box>
                                             }
                                             {event.isPublic ?
@@ -170,11 +183,15 @@ const EventsList: React.FC = () => {
                                                     <PublicOffIcon /><Typography sx={{ display: 'inline', marginLeft: 2 }} color='#07142B'>Privado</Typography>
                                                 </Box>
                                             }
+                                            <Typography variant="body1" mt={1} mb={1}>
+                                                {event.address}
+                                            </Typography>
                                             <Typography variant="body2">
                                                 {event.description.length > 39
                                                     ? `${event.description.slice(0, 40)} ...`
                                                     : `${event.description.slice(0, 40)}`}
                                             </Typography>
+
                                         </CardContent>
                                         {event.isAdmin ?
                                             (<CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -208,6 +225,7 @@ const EventsList: React.FC = () => {
                                                         aria-label="edit"
                                                         size="large"
                                                         className={classes.btnEdit}
+                                                        onClick={handleOpenEdit}
                                                     >
                                                         <EditIcon fontSize="inherit" />
                                                     </IconButton>
@@ -243,7 +261,7 @@ const EventsList: React.FC = () => {
                                                     TransitionProps={{ timeout: 400 }}
                                                 >
                                                     <IconButton
-                                                        aria-label="edit"
+                                                        aria-label="details"
                                                         size="large"
                                                         className={classes.btnEdit}
                                                     >
@@ -306,6 +324,10 @@ const EventsList: React.FC = () => {
                 handleClose={handleCloseLeaveDialog}
                 refreshEvents={getEvents}
                 changePage={setCurrentPage}
+            />
+            <EditEvents
+                openEdit={openEdit}
+                handleCloseEdit={handleCloseEdit}
             />
         </>
     )

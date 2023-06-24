@@ -29,6 +29,8 @@ import moment from "moment";
 import { postEvents } from "../../services/events.service";
 import { useBackdrop } from "../../hooks/backdrop";
 import { useFeedback } from "../../hooks/addFeedback";
+import { Address } from "../PopUpEvents";
+import axios from "axios";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -56,6 +58,19 @@ const ModalCreateEvent: React.FC = () => {
         resolver: yupResolver(validationSchema)
     });
 
+    async function reverseGeocode(latitude: number, longitude: number): Promise<string> {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
+
+        try {
+            const response = await axios.get(url);
+            const address: Address = response.data.address;
+            return `${address.road}, ${address.suburb}, ${address.city} - ${address.state} , ${address.country}`;
+        } catch (error) {
+            console.error(error);
+            return '';
+        }
+    }
+
     const LocationMarker = ({ control }: any) => {
         const [markerLocation, setMarkerLocation] = useState(null);
 
@@ -76,30 +91,42 @@ const ModalCreateEvent: React.FC = () => {
 
     const onSubmit = (data: any) => {
         handleBackdrop(true)
-        const object = {
-            title: data.title,
-            description: data.description,
-            eventDate: `${moment(data.date.toString()).format('YYYY-MM-DD')}T${moment(data.time.toString()).format("HH:mm:ss")}Z`,
-            isPublic: data.isPublic,
-            hasLimit: data.hasLimit,
-            limitCount: data.limitCount,
-            geocode: data.location,
-        }
-        console.log(object)
-        postEvents(object)
+        let logradouro;
+        reverseGeocode(data.location[0], data.location[1])
             .then(res => {
-                handleBackdrop(false)
-                addFedback({
-                    description: `Evento criado com sucesso`,
-                    typeMessage: 'success'
-                })
+                logradouro = res
+                const object = {
+                    title: data.title,
+                    description: data.description,
+                    eventDate: `${moment(data.date.toString()).format('YYYY-MM-DD')}T${moment(data.time.toString()).format("HH:mm:ss")}Z`,
+                    isPublic: data.isPublic,
+                    hasLimit: data.hasLimit,
+                    limitCount: data.limitCount,
+                    geocode: data.location,
+                    address: logradouro
+                }
+                console.log(object)
+                postEvents(object)
+                    .then(res => {
+                        handleBackdrop(false)
+                        addFedback({
+                            description: `Evento criado com sucesso`,
+                            typeMessage: 'success'
+                        })
+                        handleClose()
+                        window.location.reload()
+                        reset()
+                    })
+                    .catch(err => {
+                        handleBackdrop(false)
+                        addFedback({
+                            description: `${err.data.message}`,
+                            typeMessage: 'error'
+                        })
+                    })
             })
             .catch(err => {
-                handleBackdrop(false)
-                addFedback({
-                    description: `${err.data.message}`,
-                    typeMessage: 'error'
-                })
+                console.log(err)
             })
     }
 

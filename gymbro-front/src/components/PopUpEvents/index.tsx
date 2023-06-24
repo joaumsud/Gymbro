@@ -33,8 +33,9 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import DialogLaveEvent from "../DialogLeaveEvent";
 import FeedIcon from '@mui/icons-material/Feed';
 import LogoutIcon from '@mui/icons-material/Logout';
+import EditEvents from "../EditEvents";
 
-interface Address {
+export interface Address {
     road: string;
     suburb: string;
     city: string;
@@ -81,6 +82,7 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id, deleteEventInP
     const [idEvent, setIdEvent] = useState<number>(1)
     const [loadingCard, setLoadingCard] = useState(false);
     const [openLeaveDialog, setOpenLeaveDialog] = useState(false)
+    const [openEdit, setOpenEdit] = useState<boolean>(false)
 
     const { handleBackdrop } = useBackdrop();
     const { addFedback } = useFeedback()
@@ -105,6 +107,14 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id, deleteEventInP
         setOpenLeaveDialog(false);
     };
 
+
+    const handleOpenEdit = () => {
+        setOpenEdit(true)
+    }
+
+    const handleCloseEdit = () => {
+        setOpenEdit(false)
+    }
     async function reverseGeocode(latitude: number, longitude: number): Promise<string> {
         const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
 
@@ -292,6 +302,7 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id, deleteEventInP
                                                     aria-label="edit"
                                                     size="large"
                                                     className={classes.btnEdit}
+                                                    onClick={handleOpenEdit}
                                                 >
                                                     <EditIcon fontSize="inherit" />
                                                 </IconButton>
@@ -388,6 +399,10 @@ const PopUpEvents: React.FC<PopUpEventsDTO> = ({ title, date, id, deleteEventInP
                 open={openLeaveDialog}
                 handleClose={handleCloseLeaveDialog}
                 closeModalEvent={handleClose}
+            />
+            <EditEvents
+                openEdit={openEdit}
+                handleCloseEdit={handleCloseEdit}
             />
         </>
     )
