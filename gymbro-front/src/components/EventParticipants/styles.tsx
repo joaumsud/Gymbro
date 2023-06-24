@@ -42,5 +42,17 @@ export const useStyles = makeStyles(() => ({
     },
     divStyle: {
         margin: '15px 0px'
-    }
+    },
+    btnList: {
+        width: '130px !important',
+        padding: '2px 15px !important',
+        fontSize: '12px !important',
+        backgroundColor: '#6A19E3 !important',
+        borderColor: '#F00E3D !important',
+        color: '#F4F2EE !important',
+        marginTop: '0.3rem !important',
+        '&:hover': {
+            // backgroundColor: '#6A19E3 !important'
+        }
+    },
 }));

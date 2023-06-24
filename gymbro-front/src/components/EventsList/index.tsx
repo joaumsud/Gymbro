@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, forwardRef, createContext, useContext } from "react";
+import { useCallback, useEffect, useState, forwardRef } from "react";
 import { EventUnique, EventsDTO, deleteEvent, getEventsByUser } from "../../services/events.service";
 import {
     Alert,
@@ -34,6 +34,7 @@ import FeedIcon from '@mui/icons-material/Feed';
 import DialogLaveEvent from "../DialogLeaveEvent";
 import LogoutIcon from '@mui/icons-material/Logout';
 import EditEvents from "../EditEvents";
+import EventDetails from "../EventDetails";
 
 export interface RefreshDTO {
     getEvents: () => void
@@ -60,6 +61,8 @@ const EventsList: React.FC = () => {
     const [idEvent, setIdEvent] = useState<number>(1)
     const [openLeaveDialog, setOpenLeaveDialog] = useState(false)
     const [openEdit, setOpenEdit] = useState<boolean>(false)
+    const [openEventDetails, setOpenEventDetails] = useState(false);
+    const [uniqueEvent, setUniqueEvent] = useState<EventUnique>()
 
     const { handleBackdrop } = useBackdrop()
     const { addFedback } = useFeedback()
@@ -86,6 +89,14 @@ const EventsList: React.FC = () => {
 
     const handleCloseEdit = () => {
         setOpenEdit(false)
+    }
+
+    const handleOpenEventDetails = () => {
+        setOpenEventDetails(true)
+    }
+
+    const handleCloseEventDetails = () => {
+        setOpenEventDetails(false)
     }
 
     const getEvents = useCallback(() => {
@@ -225,15 +236,34 @@ const EventsList: React.FC = () => {
                                                         aria-label="edit"
                                                         size="large"
                                                         className={classes.btnEdit}
-                                                        onClick={handleOpenEdit}
+                                                        // onClick={handleOpenEdit}
                                                     >
                                                         <EditIcon fontSize="inherit" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                
+                                                <Tooltip
+                                                    title="Detalhes"
+                                                    placement="top"
+                                                    arrow
+                                                    TransitionComponent={Fade}
+                                                    TransitionProps={{ timeout: 400 }}
+                                                >
+                                                    <IconButton
+                                                        aria-label="details"
+                                                        size="large"
+                                                        className={classes.btnEdit}
+                                                        onClick={() => {
+                                                            handleOpenEventDetails()
+                                                            setUniqueEvent(event)
+                                                        }}
+                                                    >
+                                                        <FeedIcon fontSize="inherit" />
                                                     </IconButton>
                                                 </Tooltip>
 
                                             </CardActions>)
                                             : (<CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                                {/* <Button className={classes.btnView} size="small">Ver mais</Button> */}
                                                 <Tooltip
                                                     title="Sair do Evento"
                                                     placement="top"
@@ -264,6 +294,10 @@ const EventsList: React.FC = () => {
                                                         aria-label="details"
                                                         size="large"
                                                         className={classes.btnEdit}
+                                                        onClick={() => {
+                                                            handleOpenEventDetails()
+                                                            setUniqueEvent(event)
+                                                        }}
                                                     >
                                                         <FeedIcon fontSize="inherit" />
                                                     </IconButton>
@@ -272,6 +306,7 @@ const EventsList: React.FC = () => {
                                         }
 
                                     </Card>
+
                                 </Grid>
                             ))
                                 : (
@@ -328,6 +363,11 @@ const EventsList: React.FC = () => {
             <EditEvents
                 openEdit={openEdit}
                 handleCloseEdit={handleCloseEdit}
+            />
+            <EventDetails
+                openEventDetails={openEventDetails}
+                handleCloseEventDetails={handleCloseEventDetails}
+                event={uniqueEvent ? uniqueEvent : {} as EventUnique}
             />
         </>
     )

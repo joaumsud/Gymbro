@@ -1,6 +1,4 @@
-import { Box, Divider, IconButton, Modal, Skeleton, Typography } from "@mui/material"
-// import style from "../../pages/PerfilUser/style"
-import MoreIcon from "@mui/icons-material/Add";
+import { Box, Button, Divider, Modal, Skeleton, Typography } from "@mui/material"
 import GroupIcon from '@mui/icons-material/Group';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import { useCallback, useEffect, useState } from "react";
@@ -82,9 +80,7 @@ const EventParticipants: React.FC<EventParticipantsProps> = ({ idEvent }) => {
                                     ))
                             )}
                             {eventParticipants.length > 2 && (
-                                <IconButton onClick={() => setOpenParticipantsList(true)}>
-                                    <MoreIcon />
-                                </IconButton>
+                                <Button onClick={() => setOpenParticipantsList(true)} className={classes.btnList}>ver mais...</Button>
                             )}
 
                             {/* Modal para listar todos participantes */}
