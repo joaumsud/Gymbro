@@ -80,7 +80,7 @@ const ModalCreateEvent: React.FC = () => {
             setMarkerLocation(location);
             setValue('location', location);
         };
-        //está pegando qualquer click no formulário
+        
         useMapEvents({
             click: handleMapClick,
         });

@@ -89,7 +89,7 @@ const Dash = () => {
                 </Grid>
                 <Grid item lg={11} md={11} sm={12} xs={12} sx={{ position: 'relative', height: '100% !important' }}>
                     <MapEvents />
-                    <SideBarFilters />
+                    {/* <SideBarFilters /> */}
                 </Grid>
             </Grid>
         </>
