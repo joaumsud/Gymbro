@@ -10,6 +10,7 @@ import Cookies from 'js-cookie';
 import { useUserAuth } from '../../hooks/userProvider';
 import { useBackdrop } from '../../hooks/backdrop';
 import Modal from '../ForgotPassword';
+import ConfirmEmail from '../ConfirmEmail';
 
 const FormLogin = () => {
     const history = useHistory()
@@ -17,6 +18,7 @@ const FormLogin = () => {
     const [errorMessage, setErrorMessage] = useState('')
     const [alertOpen, setAlertOpen] = useState(false)
     const [open, setOpen] = useState(false)
+    const [openConfirmEmail, setOpenConfirmEmail] = useState<boolean>(false)
     const { addUserAuth } = useUserAuth()
     const { handleBackdrop } = useBackdrop()
 
@@ -26,6 +28,14 @@ const FormLogin = () => {
 
     const handleClose = () => {
         setOpen(false)
+    }
+
+    const handleOpenConfirmEmail = () => {
+        setOpenConfirmEmail(true)
+    }
+
+    const handleCloseConfirmEmail = () => {
+        setOpenConfirmEmail(false)
     }
 
     const onSubmit: SubmitHandler<InputsLoginDTO> = ({ email, password }) => {
@@ -44,8 +54,8 @@ const FormLogin = () => {
                     user.isAdmin,
                     user.isActive
                 )
-                Cookies.set('acessToken', acessToken,{ secure: true, sameSite: 'strict' });
-                Cookies.set('refreshToken', refreshToken,{ secure: true, sameSite: 'strict' })
+                Cookies.set('acessToken', acessToken, { secure: true, sameSite: 'strict' });
+                Cookies.set('refreshToken', refreshToken, { secure: true, sameSite: 'strict' })
                 history.push('/dash')
                 window.location.reload()
             })
@@ -77,10 +87,10 @@ const FormLogin = () => {
                         </Alert>
                     )}
 
-                    <input placeholder="E-mail" {...register("email", { required: true })}/>
+                    <input placeholder="E-mail" {...register("email", { required: true })} />
                     {errors.email && <span style={{ marginBottom: '5px' }}>Campo e-mail é obrigatório</span>}
 
-                    <input placeholder="Senha" type="password" {...register("password", { required: true, minLength: 8 })} autoComplete="new-password"/>
+                    <input placeholder="Senha" type="password" {...register("password", { required: true, minLength: 8 })} autoComplete="new-password" />
                     {errors.password && errors.password.type === 'required' && <span>Campo senha é obrigatório.</span>}
 
                     <Button type="submit" className={styles.btnLogin}>
@@ -91,7 +101,13 @@ const FormLogin = () => {
                 >
                     Esqueci a senha
                 </Link>
+                <Link onClick={handleOpenConfirmEmail}
+                    sx={{ mt: '5px' }}
+                >
+                    Confirmar e-mail
+                </Link>
                 <Modal open={open} onClose={handleClose} />
+                <ConfirmEmail openModalToken={openConfirmEmail} handleCloseModalToken={handleCloseConfirmEmail} />
             </Box>
         </>
     );

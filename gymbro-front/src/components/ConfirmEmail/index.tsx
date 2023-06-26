@@ -102,12 +102,26 @@ const ConfirmEmail: React.FC<ConfirmEmailProps> = ({ openModalToken, handleClose
                         }}>
                         Usuário criado com sucesso
                     </Alert>
-                    <Typography>
-                        E-mail: {user?.email}
-                        <br />
-                        <br />
-                        Bem-vindo ao GymBroz, <strong>{`${user?.firstName} ${user?.lastName}`}</strong>, entre e se divirta!<SportsGymnasticsIcon />
-                    </Typography>
+
+                    {
+                        user ?
+                            (
+                                <Typography>
+                                    E-mail: {user?.email}
+                                    <br />
+                                    <br />
+                                    Bem-vindo ao GymBroz, <strong>{`${user?.firstName} ${user?.lastName}`}</strong>, entre e se divirta!<SportsGymnasticsIcon />
+                                </Typography>
+                            )
+                            : (
+                                <>
+                                    <Typography>
+                                        Bem-vindo ao GymBroz, entre e se divirta!<SportsGymnasticsIcon />
+                                    </Typography>
+                                </>
+                            )
+                    }
+
                 </Box>
             </Modal>
         </>
