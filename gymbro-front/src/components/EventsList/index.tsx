@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, forwardRef } from "react";
+import { useCallback, useEffect, useState, forwardRef, createContext, useContext } from "react";
 import { EventUnique, EventsDTO, deleteEvent, getEventsByUser } from "../../services/events.service";
 import {
     Alert,
@@ -40,6 +40,10 @@ export interface RefreshDTO {
     getEvents: () => void
 }
 
+interface RefreshListDTO {
+    getEvents: () => void;
+}
+
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
         children: React.ReactElement<any, any>;
@@ -49,6 +53,11 @@ const Transition = forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
+// export const RefreshListEventsContext = createContext<RefreshListDTO>({
+//     getEvents: () => { }
+// })
+
+// export const useRefresh = () => useContext(RefreshListEventsContext)
 
 const EventsList: React.FC = () => {
     const classes = useStyles();
@@ -236,12 +245,12 @@ const EventsList: React.FC = () => {
                                                         aria-label="edit"
                                                         size="large"
                                                         className={classes.btnEdit}
-                                                        // onClick={handleOpenEdit}
+                                                    // onClick={handleOpenEdit}
                                                     >
                                                         <EditIcon fontSize="inherit" />
                                                     </IconButton>
                                                 </Tooltip>
-                                                
+
                                                 <Tooltip
                                                     title="Detalhes"
                                                     placement="top"

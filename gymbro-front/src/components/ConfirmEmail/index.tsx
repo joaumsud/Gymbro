@@ -46,6 +46,7 @@ const ConfirmEmail: React.FC<ConfirmEmailProps> = ({ openModalToken, handleClose
                 handleOpenModalDetails()
                 handleCloseModalToken()
                 console.log(res)
+                setToken('')
             })
             .catch(err => {
                 handleBackdrop(false)
@@ -59,7 +60,10 @@ const ConfirmEmail: React.FC<ConfirmEmailProps> = ({ openModalToken, handleClose
         <>
             <Modal
                 open={openModalToken}
-                onClose={handleCloseModalToken}
+                onClose={()=>{
+                    handleCloseModalToken()
+                    setToken('')
+                }}
             >
                 <Box
                     className={classes.modalToken}
