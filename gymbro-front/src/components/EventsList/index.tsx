@@ -187,7 +187,7 @@ const EventsList: React.FC = () => {
                                         <CardContent>
                                             {event.isAdmin ?
                                                 <Box mb={2}>
-                                                    <Alert icon={false} sx={{ backgroundColor: 'rgba(201,15,250,0.5)', color: '#F4F2EE' }}><strong>Proprietário</strong></Alert>
+                                                    <Alert icon={false} sx={{ backgroundColor: 'rgba(201,15,250,0.5)', color: '#F4F2EE' }}><strong>Administrador</strong></Alert>
                                                 </Box>
                                                 :
                                                 <Box mb={2}>

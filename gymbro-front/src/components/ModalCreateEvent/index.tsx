@@ -101,7 +101,7 @@ const ModalCreateEvent: React.FC = () => {
                     eventDate: `${moment(data.date.toString()).format('YYYY-MM-DD')}T${moment(data.time.toString()).format("HH:mm:ss")}Z`,
                     isPublic: data.isPublic,
                     hasLimit: data.hasLimit,
-                    limitCount: data.limitCount,
+                    limitCount: +data.limitCount,
                     geocode: data.location,
                     address: logradouro
                 }
