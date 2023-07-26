@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
-import Navbar from '../../components/NavbarHome';
-import FormLogin from '../../components/FormLogin';
+import Navbar from '../../components/organisms/NavbarHome';
+import FormLogin from '../../components/organisms/CardLogin';
 import styles from './index.module.scss';
 import logoHome from '../../img/logoGymbro.png'
 import { Box, Grid, Typography } from '@mui/material';
+import ImgHome from '../../components/atoms/ImgHome';
+import MainHome from '../../components/organisms/MainHome';
 
 const HomePage = () => {
     const history = useHistory()
@@ -31,25 +33,7 @@ const HomePage = () => {
         <>
             <div className={styles.container}>
                 <Navbar />
-                <main className={styles.main}>
-                    <Grid container>
-                        {windowSize[0] >= 1207 &&
-                            <Grid item lg={6}>
-                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <img src={logoHome} />
-                                </Box>
-                            </Grid>
-                        }
-                        <Grid item lg={6} sm={12} xs={12}>
-                            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                                <FormLogin />
-                            </Box>
-                        </Grid>
-                    </Grid>
-                </main>
-                <footer className={styles.footer}>
-                    <Typography>GymBroz Todos os direitos resevados.</Typography>
-                </footer>
+                <MainHome />
             </div>
         </>
     )
