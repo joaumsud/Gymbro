@@ -1,19 +1,24 @@
 import './style.css'
 import "leaflet/dist/leaflet.css";
-import { Divider, Grid, TextField, Typography } from "@mui/material";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { Icon } from 'leaflet';
-import { Events } from '../../models/Events';
-import { useCallback, useEffect, useState } from 'react';
-import { getEvents } from '../../services/events.service';
+import MarkerClusterGroup from 'react-leaflet-cluster'
+import { Icon, LatLngExpression } from 'leaflet';
+import { useCallback, useEffect, useState, } from 'react';
+import { EventUnique, EventsDTO, getEvents } from '../../services/events.service';
 import PopUpEvents from '../PopUpEvents';
 import { useBackdrop } from '../../hooks/backdrop';
 import { useFeedback } from '../../hooks/addFeedback';
+import iconGym from '../../../assets/location2.png'
+import iconGymParticipant from '../../../assets/academia.png'
+import iconGymNoParticipant from '../../../assets/academia1.png'
+import { Box } from '@mui/material';
 
 const MapEvents = () => {
-    const [markers, setMarkers] = useState<Events[]>([])
+    const [markers, setMarkers] = useState<EventsDTO>()
     const { handleBackdrop } = useBackdrop()
     const { addFedback } = useFeedback()
+
+    // const [centerLocation, setCenterLocation] = useState<LatLngExpression>();
 
     const eventsList = useCallback(() => {
         handleBackdrop(true)
@@ -21,18 +26,13 @@ const MapEvents = () => {
             .then(res => {
                 setMarkers(res.data)
                 handleBackdrop(false)
-                // addFedback({
-                //     description: 'ok',
-                //     typeMessage: 'success'
-                // })
             })
             .catch(err => {
-                console.log(err)
-                handleBackdrop(false)
                 addFedback({
-                    description: 'Erro ao carregar dados dos Eventos',
+                    description: 'Erro ao exibir os eventos',
                     typeMessage: 'error'
                 })
+                handleBackdrop(false)
             })
     }, [])
 
@@ -40,42 +40,63 @@ const MapEvents = () => {
         eventsList()
     }, [])
 
+    const deleteEventInPop = () => {
+        eventsList()
+    }
 
-    const customIcon = new Icon({
-        iconUrl: 'https:// cdn-icons-png.flaticon.com/512/5591/5591266.png',
-        iconSize: [38, 38]
-    })
+    // navigator.geolocation.getCurrentPosition(location => {
+    //     setCenterLocation([location.coords.latitude, location.coords.longitude])
+    // },
+    //     error => {
+    //         console.log(error);
+    //     });
+
+    const customMarkerIcon = new Icon({
+        iconUrl: iconGym,
+        iconSize: [45, 45]
+    });
+
+    const customMarkerIconParticipant = new Icon({
+        iconUrl: iconGymParticipant,
+        iconSize: [45, 45]
+    });
+
+
+    const customMarkerIconNoParticipant = new Icon({
+        iconUrl: iconGymNoParticipant,
+        iconSize: [45, 45]
+    });
 
     return (
-        <>
-            <Grid container className='container-inputs'>
+        <Box sx={{marginBottom:'0px'}}>
+            <MapContainer
+                center={[-22.7999744, -45.2001792]}
+                zoom={13}
+                scrollWheelZoom={true}
+            >
+                <TileLayer
+                    url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <MarkerClusterGroup
+                    chunkedLoading
+                    maxClusterRadius={150}
+                    spiderfyOnMaxZoom={true}
+                    showCoverageOnHover={true}
+                >
 
-                {/* <Grid item xs={12} className='inputs'>
-                    <TextField className='text-inputs' type="text" placeholder="Localização" />
-                </Grid>
-                <Grid item xs={12} className='inputs'>
-                    <TextField className='text-inputs' type="text" placeholder="Tipo de Evento" />
-                </Grid> */}
-            </Grid>
-            <Typography variant='h4' align="center">GymBroz</Typography>
-            <Grid className='container-map'>
-                <MapContainer center={[-22.812028708655735, -45.19140005961926]} zoom={13}>
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
                     {
-                        markers!.map(marker => (
-                            <Marker position={marker.geocode} key={marker.id}  >
+                        markers?.events && markers.events!.map((marker: EventUnique) => (
+                            <Marker position={marker.geocode} key={marker.id} icon={customMarkerIcon}>
                                 <Popup>
-                                    <PopUpEvents title={marker.title} date={marker.eventDate} id={marker.id} />
+                                    <PopUpEvents title={marker.title} date={marker.eventDate} id={marker.id} deleteEventInPop={deleteEventInPop} />
                                 </Popup>
                             </Marker>
                         ))
                     }
-                </MapContainer>
-            </Grid>
-        </>
+                </MarkerClusterGroup>
+
+            </MapContainer>
+        </Box>
     );
 }
 

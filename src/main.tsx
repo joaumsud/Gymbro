@@ -7,12 +7,12 @@ import theme from './theme'
 import UserProvider from './hooks/userProvider'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
- 
-    <ThemeProvider theme={theme}>
-      <UserProvider>
-      <div className='index.css'>
+
+  <ThemeProvider theme={theme}>
+    <UserProvider>
+      <div className='index.css' >
         <App />
       </div>
-      </UserProvider>
-    </ThemeProvider>
+    </UserProvider>
+  </ThemeProvider>
 )

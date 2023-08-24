@@ -4,7 +4,7 @@ import FeedbackDialog from '../components/FeedbackDialog';
 
 export interface DialogContentFeed {
     description?: string;
-    typeMessage?: string;
+    typeMessage?: 'error' | 'success';
     okButtonAction?: () => void
 }
 
@@ -31,7 +31,7 @@ export const FeedbackProvider = ({ children }: any) => {
     )
 }
 
-
+export default { FeedbackProvider }
 
 
 

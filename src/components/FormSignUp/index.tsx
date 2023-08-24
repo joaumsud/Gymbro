@@ -5,10 +5,12 @@ import {
     Alert,
 } from "@mui/material";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { postRegister } from '../../services/register.service'
+import {  User, postRegister } from '../../services/register.service'
 import styles from './SignUp.module.scss'
 import { useState } from "react";
 import { useBackdrop } from "../../hooks/backdrop";
+import { useFeedback } from "../../hooks/addFeedback";
+import ConfirmEmail from "../ConfirmEmail";
 
 export interface RegisterDTO {
     handleClose: () => void;
@@ -24,11 +26,14 @@ export interface InputsDTO {
 }
 
 const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, watch, getValues, reset } = useForm();
     const [alertOpen, setAlertOpen] = useState(false)
     const [alertType, setAlertType] = useState('')
     const [alertMessage, setAlertMessage] = useState('')
-    const {handleBackdrop} = useBackdrop()
+    const [openModalToken, setOpenModalToken] = useState<boolean>(false)
+    const [resSignUnp, setResSignUp] = useState<User>()
+    const { handleBackdrop } = useBackdrop()
+    const { addFedback } = useFeedback()
 
     const onSubmit: SubmitHandler<FieldValues> = ({ email, password, firstName, lastName }) => {
         handleBackdrop(true)
@@ -40,14 +45,15 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
         })
             .then(res => {
                 handleBackdrop(false)
-                setAlertOpen(true)
-                setAlertType('success')
-                setAlertMessage('Usuário adicionado com sucesso!')
 
-                const interval = setInterval(() => {
-                    setAlertOpen(false)
-                    clearInterval(interval)
-                }, 10000)
+                reset()
+                handleClose()
+                handleOpenModalToken()
+                setResSignUp(res.data.user)
+                addFedback({
+                    description: `${res.data.message}: ${res.data.user.email}`,
+                    typeMessage: 'success'
+                })
             })
             .catch(error => {
                 handleBackdrop(false)
@@ -62,8 +68,21 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
             })
     };
 
+    const handleOpenModalToken = () => {
+        setOpenModalToken(true)
+    }
+
+    const handleCloseModalToken = () => {
+        setOpenModalToken(false)
+    }
+
     return (
         <>
+            <ConfirmEmail
+                openModalToken={openModalToken}
+                handleCloseModalToken={handleCloseModalToken}
+                user={resSignUnp ?? resSignUnp}
+            />
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -79,29 +98,60 @@ const SignUpForm = ({ handleClose, open }: RegisterDTO) => {
                             {alertMessage}
                         </Alert>
                     )}
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={handleSubmit(onSubmit)} autoComplete="new-password">
+                        {errors.email && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>Campo email é obrigatório.</span>}
+
+
                         <input
                             placeholder="Email"
+                            autoComplete="off"
                             {...register("email", { required: true })} />
-                        {errors.email && <span style={{marginBottom:'5px'}}>Campo email é obrigatório.</span>}
+
+                        {errors.password && errors.password.type === 'required'
+                            && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>Campo senha é obrigatório.</span>}
+                        {errors.password && errors.password.type === 'minLength'
+                            && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>A senha deve conter no mínimo 8 caracteres</span>}
+                        {errors.repetPassword && errors.repetPassword.type === 'pattern'
+                            && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>A senha deve conter pelo <br />menos uma letra, um <br />número e um caracter especial</span>}
 
                         <input
-                            placeholder="Password"
+                            placeholder="Senha"
                             type="password"
-                            autoComplete="current-password"
-                            {...register("password", { required: true, minLength: 8 })} />
-                        {errors.password && errors.password.type === 'required' && <span style={{marginBottom:'5px'}}>Campo senha é obrigatório.</span>}
-                        {errors.password && errors.password.type === 'minLength' && <span style={{marginBottom:'5px'}}>A senha deve conter no mínimo 8 caracteres</span>}
+                            autoComplete="new-password"
+                            {...register("password", {
+                                required: true, minLength: 8, pattern: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W_]).+$/
+                            })} />
 
+
+                        {errors.repetPassword && errors.repetPassword.type === 'required'
+                            && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>Campo repita a senha é obrigatório.</span>}
+                        {errors.repetPassword && errors.repetPassword.type === 'minLength'
+                            && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>A senha deve conter no mínimo 8 caracteres</span>}
+                        {errors.repetPassword && errors.repetPassword.type === 'pattern'
+                            && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>A senha deve conter pelo <br />menos uma letra, um <br />número e um caracter especial</span>}
+                        {watch("repetPassword") !== watch("password") &&
+                            getValues("repetPassword") ? (
+                            <span style={{ marginBottom: '5px', color: '#F00E3D' }}>As senhas são diferentes</span>
+                        ) : null}
+                        <input
+                            placeholder="Repita a Senha"
+                            type="password"
+                            autoComplete="off"
+                            {...register("repetPassword", {
+                                required: true, minLength: 8, pattern: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W_]).+$/
+                            })} />
+
+
+                        {errors.firstName && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>Campo nome é obrigatório.</span>}
                         <input
                             placeholder="Nome"
                             {...register("firstName", { required: true })} />
-                        {errors.firstName && <span style={{marginBottom:'5px'}}>Campo nome é obrigatório.</span>}
 
+                        {errors.lastName && <span style={{ marginBottom: '5px', color: '#F00E3D' }}>Campo sobrenome é obrigatório.</span>}
                         <input
                             placeholder="Sobrenome"
                             {...register("lastName", { required: true })} />
-                        {errors.lastName && <span style={{marginBottom:'5px'}}>Campo sobrenome é obrigatório.</span>}
+
 
                         <Button className={styles.btnSignUp} type='submit' variant='contained'>
                             Cadastrar

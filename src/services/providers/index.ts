@@ -2,12 +2,12 @@ import axios from 'axios'
 import Cookies from 'js-cookie';
 
 const Api = axios.create({
-    baseURL: "https://gymbro-apy.onrender.com/api/v1"
+    baseURL: "https://gymbro-apy.onrender.com/api/v1",
 })
 
 Api.interceptors.request.use((config) => {
     const token = Cookies.get('refreshToken') || '';
-    const isAuthenticationRequest = config.url === `/auth/login` || config.url === '/auth/signup' || config.url === `/auth/forgot_password` || config.url === `/auth/reset_password/{resetPasswordToken}`
+    const isAuthenticationRequest = config.url === `/auth/login` || config.url === '/auth/signup' || config.url === `/auth/forgot_password` || config.url === `/auth/reset_password/{resetPasswordToken}` || config.url === `/auth/confirm_email/{confirmEmailToken}`
 
     if (!isAuthenticationRequest && token) {
         config.headers.Authorization = `Bearer ${token}`
